@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { UrlConstants } from "../../global/UrlConstants";
 
 export interface SimpleDialogProps {
   open: boolean;
@@ -41,7 +42,7 @@ export default function SimpleDialog(props: SimpleDialogProps) {
   const handeSubmitButton = (e: any) => {
     e.preventDefault();
     axios
-      .patch("https://backendapi.axisinfoline.com/admin/updateTicket", ticketData)
+      .patch(`${UrlConstants.baseUrl}/admin/updateTicket`, ticketData)
       .then(function (response) {
         toast.success("Successfully Updated!", {
           position: "top-right",
@@ -74,12 +75,12 @@ export default function SimpleDialog(props: SimpleDialogProps) {
     <Dialog
       onClose={handleClose}
       open={open}
-    // style={{
-    //   // color: "black",
-    //   paddingTop: "0.3rem",
-    //   paddingLeft: "2rem",
-    //   textAlign: "left",
-    // }}
+      // style={{
+      //   // color: "black",
+      //   paddingTop: "0.3rem",
+      //   paddingLeft: "2rem",
+      //   textAlign: "left",
+      // }}
     >
       <DialogTitle>
         {"Ticket No: "}

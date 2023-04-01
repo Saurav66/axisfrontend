@@ -12,6 +12,7 @@ import {
 } from "@material-ui/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { UrlConstants } from "../../../global/UrlConstants";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -60,7 +61,7 @@ export default function AddressComponent(props: any) {
 
   const getCircles = async () => {
     const response = await axios
-      .get(`https://backendapi.axisinfoline.com/getAllCircles`)
+      .get(`${UrlConstants.baseUrl}/getAllCircles`)
       .then((response: any) => {
         return response.data;
       })
@@ -73,7 +74,7 @@ export default function AddressComponent(props: any) {
 
   const getDivisions = async () => {
     const response = await axios
-      .get(`https://backendapi.axisinfoline.com/getAllDivisions`)
+      .get(`${UrlConstants.baseUrl}/getAllDivisions`)
       .then((response: any) => {
         return response.data;
       })
@@ -94,7 +95,7 @@ export default function AddressComponent(props: any) {
     if (event.target.name === "circle") {
       const response = await axios
         .get(
-          `https://backendapi.axisinfoline.com/getAllDivisionByCircle/${event.target.value}`
+          `${UrlConstants.baseUrl}/getAllDivisionByCircle/${event.target.value}`
         )
         .then((response: any) => {
           return response.data;

@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { UrlConstants } from "../../../global/UrlConstants";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -50,7 +51,7 @@ export default function AddEmployee(props: any) {
     console.log(employeeData);
     if (edit) {
       axios
-        .patch("https://backendapi.axisinfoline.com/updateEmployee", employeeData)
+        .patch(`${UrlConstants.baseUrl}/updateEmployee`, employeeData)
         .then(function (response) {
           console.log(response);
           console.log("sucessfully Updated");
@@ -81,7 +82,7 @@ export default function AddEmployee(props: any) {
         });
     } else {
       axios
-        .post("https://backendapi.axisinfoline.com/addEmployee", employeeData)
+        .post(`${UrlConstants.baseUrl}/addEmployee`, employeeData)
         .then(function (response) {
           console.log(response);
           console.log("sucessfully added");

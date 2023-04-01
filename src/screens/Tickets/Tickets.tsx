@@ -27,6 +27,7 @@ import ReAssignComponent from "./ReAssignComponent";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { UrlConstants } from "../../global/UrlConstants";
 
 // const rawRows = [...ticketData];
 
@@ -238,7 +239,7 @@ export default function Tickets() {
     );
     if (confirmBox === true) {
       axios
-        .delete(`https://backendapi.axisinfoline.com/deleteTicket/${serialNo}`)
+        .delete(`${UrlConstants.baseUrl}/deleteTicket/${serialNo}`)
         .then(function (response) {
           toast.success("Successfully Deleted!", {
             position: "top-right",

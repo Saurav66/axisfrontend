@@ -16,6 +16,7 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { UrlConstants } from "../../../global/UrlConstants";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -155,7 +156,7 @@ export default function AddTicket(props: any) {
     e.preventDefault();
     if (handleValidation()) {
       axios
-        .post("https://backendapi.axisinfoline.com/createTicket", ticketData)
+        .post(`${UrlConstants.baseUrl}/createTicket`, ticketData)
         .then(function (response) {
           setComplaintNo(response.data);
           toast.success("Successfully Updated!", {

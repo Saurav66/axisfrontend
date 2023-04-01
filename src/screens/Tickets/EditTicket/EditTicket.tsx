@@ -14,6 +14,7 @@ import {
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { UrlConstants } from "../../../global/UrlConstants";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -91,7 +92,7 @@ export default function EditTicket(props: any) {
     e.preventDefault();
     console.log(data);
     axios
-      .patch("https://backendapi.axisinfoline.com/admin/updateTicket", data)
+      .patch(`${UrlConstants.baseUrl}/admin/updateTicket`, data)
       .then(function (response) {
         toast.success("Successfully Updated!", {
           position: "top-right",

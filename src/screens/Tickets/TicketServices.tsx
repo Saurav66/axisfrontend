@@ -1,8 +1,9 @@
 import axios from "axios";
+import { UrlConstants } from "../../global/UrlConstants";
 
 export const getAdminTicketByStatus = async (status: any) => {
   const response = await axios
-    .get(`https://backendapi.axisinfoline.com/getTickets/admin/${status}`)
+    .get(`${UrlConstants.baseUrl}/getTickets/admin/${status}`)
     .then((response: any) => {
       return response.data;
     })
@@ -14,7 +15,7 @@ export const getAdminTicketByStatus = async (status: any) => {
 
 export const getEngTicketByStatus = async (phone: any, status: any) => {
   const response = await axios
-    .get(`https://backendapi.axisinfoline.com/getTickets/${phone}/${status}`)
+    .get(`${UrlConstants.baseUrl}/getTickets/${phone}/${status}`)
     .then((response: any) => {
       return response.data;
     })
