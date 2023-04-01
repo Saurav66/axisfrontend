@@ -20,8 +20,12 @@ export default function Employees() {
   const [selectedEmployee, setSelectedEmployeeId] = useState();
 
   useEffect(() => {
-    document.title = "Engineers";
-    getEngineers();
+    if (localStorage.getItem("role") === "Admin") {
+      document.title = "Engineers";
+      getEngineers();
+    } else {
+      window.location.replace("https://axisinfoline.com");
+    }
   }, [tabValue]);
 
   const getEngineers = async () => {

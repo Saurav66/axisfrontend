@@ -6,10 +6,37 @@ import Employees from "../Employee/Employees";
 import EmployeeTicket from "../Tickets/EmployeeTicket";
 import LocationList from "../Location/LocationList";
 import AddEmployee from "../Employee/AddEmployee/AddEmployee";
+import { useEffect } from "react";
+import axios from "axios";
+import { UrlConstants } from "../../global/UrlConstants";
 
-//authenticated api will give response. ifauthenticated then only redirect to following urls/routes.
+//authenticated api will give response. if authenticated then only redirect to following urls/routes.
 
 export default function Layout() {
+  const getPerson = async (id: string) => {
+    const response = await axios
+      .get(`${UrlConstants.baseUrl}/employee/${id}`)
+      .then(function (response) {
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+        console.log("error came");
+      });
+    return response;
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("id")) {
+      const loggedInPerson = getPerson(localStorage.getItem("id") ?? "");
+      if (!loggedInPerson) {
+        window.location.replace("https://axisinfoline.com");
+      }
+    } else {
+      window.location.replace("https://axisinfoline.com");
+    }
+  }, []);
+
   const Pages = () => {
     return (
       <Switch>
