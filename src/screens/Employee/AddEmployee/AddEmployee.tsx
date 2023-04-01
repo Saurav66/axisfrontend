@@ -1,7 +1,7 @@
 import { Box, Button, Grid, Paper, Typography } from "@mui/material";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -17,10 +17,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     input: {
       minWidth: 290,
-      minHeight: 20,
+      minHeight: 27,
     },
     select: {
-      width: 295,
+      width: 290,
       height: 27,
     },
     mainBox: {
@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function AddEmployee(props: any) {
   const classes = useStyles();
   const history = useHistory();
+  const [circleOptions, setCircleOptions] = useState([]);
   const [edit, setEdit] = useState(props.history.location.state?.data);
   const [employeeData, setEmployeeData] = useState({
     id: edit?.id ?? "",
@@ -46,48 +47,26 @@ export default function AddEmployee(props: any) {
     status: edit?.status ?? "Active",
   });
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    if (edit) {
-      axios
-        .patch(`${UrlConstants.baseUrl}/updateEmployee`, employeeData)
-        .then(function (response) {
-          toast.success("Successfully Updated!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-          setTimeout(() => history.push("/employees"), 700);
-        })
-        .catch(function (error) {
-          toast.error("Error while updating!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        });
-    } else {
-      axios
-        .post(`${UrlConstants.baseUrl}/addEmployee`, employeeData)
-        .then(function (response) {
-          console.log(response);
-          console.log("sucessfully added");
-        })
-        .catch(function (error) {
-          console.log(error);
-          console.log("error came");
-        });
-      toast.success("Successfully saved!", {
+  useEffect(() => {
+    document.title = edit ? `Update Employee` : `Add Employee`;
+    if (circleOptions.length === 0) {
+      getCircles();
+    }
+  }, []);
+
+  const getCircles = async () => {
+    const response = await axios
+      .get(`${UrlConstants.baseUrl}/getAllCircles`)
+      .then((response: any) => {
+        return response.data;
+      })
+      .catch((error) => {});
+    setCircleOptions(response);
+  };
+
+  const handleValidation = () => {
+    if (!employeeData.name) {
+      toast.error("Please Enter your name!", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -97,7 +76,104 @@ export default function AddEmployee(props: any) {
         progress: undefined,
         theme: "light",
       });
-      history.push("/employees");
+      return false;
+    }
+    if (!employeeData.phone) {
+      toast.error("Please Enter Phone Number!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return false;
+    }
+    if (!employeeData.circle) {
+      toast.error("Please Enter Circle!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return false;
+    }
+    if (!employeeData.password) {
+      toast.error("Please Enter Password!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    if (handleValidation()) {
+      if (edit) {
+        axios
+          .patch(`${UrlConstants.baseUrl}/updateEmployee`, employeeData)
+          .then(function (response) {
+            toast.success("Successfully Updated!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+            setTimeout(() => history.push("/employees"), 700);
+          })
+          .catch(function (error) {
+            toast.error("Error while updating!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+          });
+      } else {
+        axios
+          .post(`${UrlConstants.baseUrl}/addEmployee`, employeeData)
+          .then(function (response) {
+            console.log(response);
+            console.log("sucessfully added");
+            toast.success("Successfully saved!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+            history.push("/employees");
+          })
+          .catch(function (error) {
+            console.log(error);
+            console.log("error came");
+          });
+      }
     }
   };
 
@@ -131,7 +207,7 @@ export default function AddEmployee(props: any) {
           >
             {edit ? `Update Engineer` : `Add Engineer`}
           </Typography>
-          <Typography className={classes.Typography}>Name</Typography>
+          <Typography className={classes.Typography}>* Name</Typography>
           <Grid item xs>
             <Box>
               <input
@@ -144,7 +220,9 @@ export default function AddEmployee(props: any) {
             </Box>
           </Grid>
           <Grid className={classes.input} item xs>
-            <Typography className={classes.Typography}>Phone</Typography>
+            <Typography className={classes.Typography}>
+              * Phone Number
+            </Typography>
             <Box>
               <input
                 className={classes.input}
@@ -156,22 +234,27 @@ export default function AddEmployee(props: any) {
               />
             </Box>
           </Grid>
-          <Grid className={classes.input} item xs>
-            <Typography className={classes.Typography}>Circle</Typography>
-            <Box>
-              <input
-                className={classes.input}
-                autoComplete="new-password"
-                name="circle"
-                value={employeeData.circle}
-                type="tel"
-                onChange={handleInputChange}
-              />
-            </Box>
+          <Grid item xs>
+            <Typography className={classes.Typography}>* Circle</Typography>
+            <select
+              className={classes.select}
+              name="circle"
+              value={employeeData.circle}
+              onChange={handleInputChange}
+            >
+              <option value={edit ? employeeData.circle : `pleaseSelect`}>
+                {edit ? employeeData.circle : `Please Select`}
+              </option>
+              {circleOptions.map((x, y) => (
+                <option key={y} value={x}>
+                  {x}
+                </option>
+              ))}
+            </select>
           </Grid>
           {!edit && (
             <Grid className={classes.input} item xs>
-              <Typography className={classes.Typography}>Password</Typography>
+              <Typography className={classes.Typography}>* Password</Typography>
               <Box>
                 <input
                   className={classes.input}

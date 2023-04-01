@@ -9,6 +9,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Typography } from "@material-ui/core";
 import ResetPassword from "./ResetPassword";
+import DeleteIcon from "@mui/icons-material/Delete";
+import axios from "axios";
+import { UrlConstants } from "../../global/UrlConstants";
 
 // const rows = [...employeesData];
 
@@ -77,7 +80,7 @@ export default function Employees() {
         ),
       },
       {
-        header: "Action",
+        header: "Reset Password",
         width: 100,
         Cell: (cell: GridRenderCellParams) => (
           <strong>
@@ -96,6 +99,23 @@ export default function Employees() {
           </strong>
         ),
       },
+      {
+        header: "Delete",
+        width: 100,
+        Cell: (cell: GridRenderCellParams) => (
+          <strong>
+            <IconButton
+              style={{ marginLeft: 2 }}
+              tabIndex={cell.hasFocus ? 0 : -1}
+              onClick={() => {
+                deleteRow(cell.row.original);
+              }}
+            >
+              <DeleteIcon fontSize="small" />
+            </IconButton>
+          </strong>
+        ),
+      },
     ],
     []
   );
@@ -107,6 +127,39 @@ export default function Employees() {
   const resetPasswordRow = (row: any) => {
     setOpen(true);
     setSelectedEmployeeId(row);
+  };
+
+  const deleteRow = (row: any) => {
+    const confirmBox = window.confirm(
+      `Do you want to delete Employee: ${row.name} [ ${row.phone} ]`
+    );
+    if (confirmBox === true) {
+      const secondConfirmBox = window.confirm(
+        `You can't recover this Ticket. Do you really want to delete Employee: ${row.name} [ ${row.phone} ]`
+      );
+      if (secondConfirmBox === true) {
+        const secondConfirmBox = window.confirm(
+          `Final Confirmation to delete Employee: ${row.name} [ ${row.phone} ]`
+        );
+        if (secondConfirmBox === true) {
+          axios
+            .delete(`${UrlConstants.baseUrl}/deleteEmployee/${row.id}`)
+            .then(function (response) {
+              toast.success("Successfully Deleted!", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+              window.location.reload();
+            });
+        }
+      }
+    }
   };
 
   const handleClose = () => {
