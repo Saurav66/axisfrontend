@@ -1,12 +1,9 @@
 import {
   Box,
   createStyles,
-  FormControl,
-  FormControlLabel,
   Grid,
   makeStyles,
-  Radio,
-  RadioGroup,
+  TextField,
   Theme,
   Typography,
 } from "@material-ui/core";
@@ -16,6 +13,14 @@ import { UrlConstants } from "../../../global/UrlConstants";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    TypographyHeading: {
+      color: "black",
+      paddingTop: "1.2rem",
+      paddingBottom: "0.7rem",
+      paddingLeft: "2rem",
+      textAlign: "left",
+      // color: "red",
+    },
     Typography: {
       color: "black",
       paddingTop: "0.3rem",
@@ -65,10 +70,7 @@ export default function AddressComponent(props: any) {
       .then((response: any) => {
         return response.data;
       })
-      .catch((error) => {
-        console.error("There was an error!", error);
-      });
-    console.log("response4", response);
+      .catch((error) => {});
     setCircleOptions(response);
   };
 
@@ -78,16 +80,11 @@ export default function AddressComponent(props: any) {
       .then((response: any) => {
         return response.data;
       })
-      .catch((error) => {
-        console.error("There was an error!", error);
-      });
-    console.log("response4", response);
+      .catch((error) => {});
     setDivisionOptions(response);
   };
 
   const handleLocationChange = async (event: any) => {
-    console.log("event.target.value", event.target.value);
-    console.log("event.target.name", event.target.name);
     props.setTicketData({
       ...props.ticketData,
       [event.target.name]: event.target.value,
@@ -100,185 +97,91 @@ export default function AddressComponent(props: any) {
         .then((response: any) => {
           return response.data;
         })
-        .catch((error) => {
-          console.error("There was an error!", error);
-        });
+        .catch((error) => {});
       setCityOptions(response);
     }
   };
 
-  const handleAddressTypeChange = (e: any, value: string) => {
-    setSelectedRadioValue(value);
-    if (value === "location") {
-      props.ticketData.circle = "";
-      props.ticketData.division = "";
-      props.ticketData.substation = "";
-      props.ticketData.landmark = "";
-      props.ticketData.pinCode = "";
-    } else if (value === "circle") {
-      props.ticketData.circle = "";
-      props.ticketData.division = "";
-      props.ticketData.substation = "";
-      props.ticketData.landmark = "";
-      props.ticketData.pinCode = "";
-    } else if (value === "division") {
-      props.ticketData.circle = "";
-      props.ticketData.division = "";
-      props.ticketData.substation = "";
-      props.ticketData.landmark = "";
-      props.ticketData.pinCode = "";
-    }
-  };
-
-  const handleDropDownChange = (event: any) => {
-    props.setTicketData({
-      ...props.ticketData,
-      [event.target.name]: event.target.value,
-    });
-  };
-
   return (
     <>
-      <FormControl>
-        <RadioGroup
-          row
-          aria-labelledby="demo-row-radio-buttons-group-label"
-          name="address"
-          onChange={handleAddressTypeChange}
+      <Box sx={{ fontWeight: "bold" }}>
+        <Typography className={classes.TypographyHeading}>
+          Location Details:
+        </Typography>
+      </Box>
+      <Grid className={classes.input} item xs>
+        <Typography className={classes.Typography}>
+          Village/Substation
+        </Typography>
+        <Box>
+          <input
+            className={classes.input}
+            autoComplete="new-password"
+            id="substation"
+            name="substation"
+            onChange={handleLocationChange}
+          />
+        </Box>
+      </Grid>
+      <Grid className={classes.input} item xs>
+        <Typography className={classes.Typography}>Landmark</Typography>
+        <Box>
+          <input
+            className={classes.input}
+            autoComplete="new-password"
+            name="landmark"
+            onChange={handleLocationChange}
+          />
+        </Box>
+      </Grid>
+      <Grid item xs>
+        <Typography className={classes.Typography}>
+          * District/Circle
+        </Typography>
+        <select
+          className={classes.select}
+          id="circle"
+          name="circle"
+          value={props.ticketData.circle}
+          onChange={handleLocationChange}
         >
-          <FormControlLabel
-            value="location"
-            control={<Radio />}
-            label="Location"
+          <option value="pleaseSelect">Please Select</option>
+          {circleOptions.map((x, y) => (
+            <option key={y} value={x}>
+              {x}
+            </option>
+          ))}
+        </select>
+      </Grid>
+      <Grid item xs>
+        <Typography className={classes.Typography}>City/Division</Typography>
+        <select
+          className={classes.select}
+          id="division"
+          name="division"
+          value={props.ticketData.division}
+          onChange={handleLocationChange}
+        >
+          <option value="pleaseSelect">Please Select</option>
+          {cityOptions.map((x, y) => (
+            <option key={y} value={x}>
+              {x}
+            </option>
+          ))}
+        </select>
+      </Grid>
+      <Grid item xs>
+        <Typography className={classes.Typography}>Pincode</Typography>
+        <Box>
+          <input
+            className={classes.input}
+            autoComplete="off"
+            id="pinCode"
+            name="pinCode"
+            onChange={handleLocationChange}
           />
-          <FormControlLabel value="circle" control={<Radio />} label="Circle" />
-          <FormControlLabel
-            value="division"
-            control={<Radio />}
-            label="Division"
-          />
-        </RadioGroup>
-      </FormControl>
-      {selectedRadioValue === "location" && (
-        <>
-          <Grid className={classes.input} item xs>
-            <Typography className={classes.Typography}>
-              Village/Substation
-            </Typography>
-            <Box>
-              <input
-                className={classes.input}
-                autoComplete="new-password"
-                id="substation"
-                name="substation"
-                onChange={handleLocationChange}
-              />
-            </Box>
-          </Grid>
-          <Grid className={classes.input} item xs>
-            <Typography className={classes.Typography}>Landmark</Typography>
-            <Box>
-              <input
-                className={classes.input}
-                autoComplete="new-password"
-                name="landmark"
-                onChange={handleLocationChange}
-              />
-            </Box>
-          </Grid>
-          <Grid item xs>
-            <Typography className={classes.Typography}>
-              District/Circle
-            </Typography>
-            <select
-              className={classes.select}
-              id="circle"
-              name="circle"
-              value={props.ticketData.circle}
-              onChange={handleLocationChange}
-            >
-              <option value="pleaseSelect">Please Select</option>
-              {circleOptions.map((x, y) => (
-                <option key={y} value={x}>
-                  {x}
-                </option>
-              ))}
-            </select>
-          </Grid>
-          <Grid item xs>
-            <Typography className={classes.Typography}>
-              City/Division
-            </Typography>
-            <select
-              className={classes.select}
-              id="division"
-              name="division"
-              value={props.ticketData.division}
-              onChange={handleLocationChange}
-            >
-              <option value="pleaseSelect">Please Select</option>
-              {cityOptions.map((x, y) => (
-                <option key={y} value={x}>
-                  {x}
-                </option>
-              ))}
-            </select>
-          </Grid>
-          <Grid item xs>
-            <Typography className={classes.Typography}>Pincode</Typography>
-            <Box>
-              <input
-                className={classes.input}
-                autoComplete="off"
-                id="pinCode"
-                name="pinCode"
-                onChange={handleLocationChange}
-              />
-            </Box>
-          </Grid>
-        </>
-      )}
-      {selectedRadioValue === "circle" && (
-        <>
-          <Grid item xs>
-            <Typography className={classes.Typography}>Circle</Typography>
-            <select
-              className={classes.select}
-              id="circle"
-              name="circle"
-              value={props.ticketData.circle}
-              onChange={handleDropDownChange}
-            >
-              <option value="pleaseSelect">Please Select</option>
-              {circleOptions.map((x, y) => (
-                <option key={y} value={x}>
-                  {x}
-                </option>
-              ))}
-            </select>
-          </Grid>
-        </>
-      )}
-      {selectedRadioValue === "division" && (
-        <>
-          <Grid item xs>
-            <Typography className={classes.Typography}>Division</Typography>
-            <select
-              className={classes.select}
-              name="division"
-              value={props.ticketData.division}
-              onChange={handleDropDownChange}
-            >
-              <option value="pleaseSelect">Please Select</option>
-              {divisionOptions.map((x, y) => (
-                <option key={y} value={x}>
-                  {x}
-                </option>
-              ))}
-            </select>
-          </Grid>
-        </>
-      )}
+        </Box>
+      </Grid>
     </>
   );
 }

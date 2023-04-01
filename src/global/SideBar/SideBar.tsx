@@ -111,7 +111,7 @@ export default function SideBar() {
     localStorage.setItem("userName", "");
     localStorage.setItem("userPhoneNo", "");
     localStorage.setItem("id", "");
-    history.push("/");
+    history.push("https://axisinfoline.com/");
   };
 
   return (

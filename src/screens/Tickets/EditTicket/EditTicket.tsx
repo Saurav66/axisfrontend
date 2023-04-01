@@ -273,6 +273,18 @@ export default function EditTicket(props: any) {
               <TextField
                 disabled={role === "Engineer"}
                 className={classes.textField}
+                label="Machine Serial No"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                name="uxb1jsi364g4453780"
+                value={data.uxb1jsi364g4453780}
+                onChange={handleChange}
+                size="small"
+              />
+              <TextField
+                disabled={role === "Engineer"}
+                className={classes.textField}
                 label="Village/Town or Substation"
                 InputLabelProps={{
                   shrink: true,
@@ -356,17 +368,6 @@ export default function EditTicket(props: any) {
                 }}
                 name="defectiveItemName"
                 value={data.defectiveItemName}
-                onChange={handleChange}
-                size="small"
-              />
-              <TextField
-                className={classes.textField}
-                label="UXB1JSI364G4453780"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                name="uxb1jsi364g4453780"
-                value={data.uxb1jsi364g4453780}
                 onChange={handleChange}
                 size="small"
               />

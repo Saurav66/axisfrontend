@@ -153,6 +153,19 @@ export default function AddTicket(props: any) {
       });
       return false;
     }
+    if (!ticketData.circle) {
+      toast.error("Please Select Project Name!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return false;
+    }
     return true;
   };
 
@@ -419,7 +432,20 @@ export default function AddTicket(props: any) {
               ))}
             </select>
           </Grid>
-          <Grid item xs></Grid>
+          <Grid className={classes.input} item xs>
+            <Typography className={classes.Typography}>
+              Machine Serial No.
+            </Typography>
+            <Box>
+              <input
+                className={classes.input}
+                autoComplete="new-password"
+                name="uxb1jsi364g4453780"
+                type="tel"
+                onChange={handleInputChange}
+              />
+            </Box>
+          </Grid>
           <AddressComponent
             ticketData={ticketData}
             setTicketData={setTicketData}
