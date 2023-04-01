@@ -41,8 +41,6 @@ export default function Employees() {
         data.serialNo = data.id;
       });
     }
-    // console.log(response);
-    console.log(response);
     setRows(response ?? []);
   };
 

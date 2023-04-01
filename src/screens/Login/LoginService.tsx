@@ -9,7 +9,6 @@ export const authenticated = async (employee: any) => {
     })
     .catch(function (error) {
       console.log(error);
-      console.log("error came");
     });
   return response;
 };

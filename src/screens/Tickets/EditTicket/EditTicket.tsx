@@ -83,8 +83,6 @@ export default function EditTicket(props: any) {
   const [data, setData] = useState(props.history.location.state?.data);
 
   const handleChange = (event: any) => {
-    console.log(event.target.value);
-
     setData({ ...data, [event.target.name]: event.target.value });
   };
 

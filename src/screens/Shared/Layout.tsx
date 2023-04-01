@@ -21,7 +21,6 @@ export default function Layout() {
       })
       .catch(function (error) {
         console.log(error);
-        console.log("error came");
       });
     return response;
   };

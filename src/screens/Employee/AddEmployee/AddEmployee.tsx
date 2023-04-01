@@ -48,13 +48,10 @@ export default function AddEmployee(props: any) {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log(employeeData);
     if (edit) {
       axios
         .patch(`${UrlConstants.baseUrl}/updateEmployee`, employeeData)
         .then(function (response) {
-          console.log(response);
-          console.log("sucessfully Updated");
           toast.success("Successfully Updated!", {
             position: "top-right",
             autoClose: 5000,
@@ -68,7 +65,6 @@ export default function AddEmployee(props: any) {
           setTimeout(() => history.push("/employees"), 700);
         })
         .catch(function (error) {
-          console.log(error);
           toast.error("Error while updating!", {
             position: "top-right",
             autoClose: 5000,
@@ -106,8 +102,6 @@ export default function AddEmployee(props: any) {
   };
 
   const handleInputChange = (event: any) => {
-    console.log(event.target.name);
-    console.log(event.target.value);
     setEmployeeData({
       ...employeeData,
       [event.target.name]: event.target.value,

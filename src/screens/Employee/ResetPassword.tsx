@@ -20,7 +20,6 @@ export default function ResetPassword(props: SimpleDialogProps) {
   const [newPassword, setNewPassword] = useState();
 
   const handleInputChange = (event: any) => {
-    console.log(event.target.value);
     setNewPassword(event.target.value);
   };
 

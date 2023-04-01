@@ -50,7 +50,6 @@ export default function SignInSide() {
       password: data.get("password"),
     };
     authenticated(employee).then((response) => {
-      console.log(response);
       localStorage.setItem("role", response.role);
       localStorage.setItem("userName", response.name);
       localStorage.setItem("phone", response.phone);
