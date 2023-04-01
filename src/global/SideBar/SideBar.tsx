@@ -28,6 +28,7 @@ import { Redirect, useHistory } from "react-router-dom";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import GroupIcon from "@mui/icons-material/Group";
+import AnalyticsIcon from "@mui/icons-material/Analytics";
 
 const useStyles = makeStyles((theme) => ({
   menuSliderContainer: {
@@ -62,6 +63,11 @@ const listItems = [
     listIcon: <GroupIcon />,
     listText: "Employees",
     url: "/employees",
+  },
+  {
+    listIcon: <AnalyticsIcon />,
+    listText: "Survey",
+    url: "/survey",
   },
 ];
 

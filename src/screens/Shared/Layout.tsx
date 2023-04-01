@@ -9,6 +9,7 @@ import AddEmployee from "../Employee/AddEmployee/AddEmployee";
 import { useEffect } from "react";
 import axios from "axios";
 import { UrlConstants } from "../../global/UrlConstants";
+import Survey from "../Survey/Survey";
 
 //authenticated api will give response. if authenticated then only redirect to following urls/routes.
 
@@ -45,6 +46,7 @@ export default function Layout() {
         <Route exact path={"/employees"} component={Employees} />
         <Route exact path={"/addEmployee"} component={AddEmployee} />
         <Route exact path={"/locations"} component={LocationList} />
+        <Route exact path={"/survey"} component={Survey} />
       </Switch>
     );
   };

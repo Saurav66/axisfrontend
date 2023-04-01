@@ -88,7 +88,6 @@ export default function EditTicket(props: any) {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log(data);
     axios
       .patch(`${UrlConstants.baseUrl}/admin/updateTicket`, data)
       .then(function (response) {
