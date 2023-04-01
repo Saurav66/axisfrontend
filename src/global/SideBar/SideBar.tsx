@@ -60,14 +60,14 @@ const listItems = [
   //   url: "/locations",
   // },
   {
-    listIcon: <GroupIcon />,
-    listText: "Employees",
-    url: "/employees",
-  },
-  {
     listIcon: <AnalyticsIcon />,
     listText: "Survey",
     url: "/survey",
+  },
+  {
+    listIcon: <GroupIcon />,
+    listText: "Employees",
+    url: "/employees",
   },
 ];
 

@@ -11,14 +11,34 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Survey() {
-  const [rows, setRows] = useState([]);
+  let history = useHistory();
+  const [selectedCity, setSelectedCity] = useState("Saharanpur");
+  const [rows, setRows] = useState([
+    {
+      serial: "01",
+      city: "City",
+      circle: "EUDC SRE",
+      division: "EUDD-2",
+      subDivision: "EUDD-2",
+      endLocationAddress: "SITE CODE -349 EUDD-2 CLOCK TOWER SAHARANPUR",
+      itHardwareName: "Computer",
+      model: "DELL 3050",
+      serialNo: "2RT8Q2",
+      upsBatteryStatus: "BATTERY FAULTY",
+      windowsType: "WINDOWS-10",
+      domainJoiningStatus: "DOMAIN",
+      nameOfUtilityContactPerson: "AMIT KUMAR",
+      phoneNoOfUtilityContactPerson: "8273373345",
+    },
+  ]);
 
   const columns = useMemo(
     () => [
-      { accessorKey: "serial", header: "S.No.", width: 320 },
-      { accessorKey: "circle", header: "Circle", width: 320 },
-      { accessorKey: "division", header: "Division", width: 320 },
-      { accessorKey: "subDivision", header: "Sub Division", width: 420 },
+      { accessorKey: "serial", header: "S.No.", width: 25 },
+      { accessorKey: "city", header: "City.", width: 25 },
+      { accessorKey: "circle", header: "Circle", width: 25 },
+      { accessorKey: "division", header: "Division", width: 25 },
+      { accessorKey: "subDivision", header: "Sub Division", width: 25 },
       {
         accessorKey: "endLocationAddress",
         header: "End Location Address",
@@ -29,28 +49,28 @@ export default function Survey() {
         header: "IT Hardware Name(Computer/ 600 VA UPS/ 3 KVA UPS/PRINTERS)",
         width: 420,
       },
-      { accessorKey: "model", header: "Model", width: 420 },
-      { accessorKey: "Serial No", header: "Serial No", width: 420 },
+      { accessorKey: "model", header: "Model", width: 25 },
+      { accessorKey: "serialNo", header: "Serial No", width: 25 },
       {
         accessorKey: "upsBatteryStatus",
         header: "Ups Battery status",
-        width: 420,
+        width: 50,
       },
-      { accessorKey: "windowsType", header: "Windows Type", width: 420 },
+      { accessorKey: "windowsType", header: "Windows Type", width: 25 },
       {
         accessorKey: "domainJoiningStatus",
         header: "Domain Joining Status (Domain/Without Domain)",
-        width: 420,
+        width: 25,
       },
       {
-        accessorKey: "nameofUtilityContactPerson",
+        accessorKey: "nameOfUtilityContactPerson",
         header: "Name of Utility Contact Person",
-        width: 420,
+        width: 36,
       },
       {
         accessorKey: "phoneNoOfUtilityContactPerson",
         header: "Phone no of Utility Contact Person",
-        width: 420,
+        width: 25,
       },
       {
         accessorKey: "edit",
@@ -62,7 +82,7 @@ export default function Survey() {
               style={{ marginLeft: 2, color: "#0000FF" }}
               tabIndex={cell.hasFocus ? 0 : -1}
               onClick={() => {
-                // editRow(cell.row.original);
+                editRow(cell.row.original);
               }}
             >
               <EditIcon fontSize="small" />
@@ -92,6 +112,10 @@ export default function Survey() {
     []
   );
 
+  const editRow = (event: any) => {
+    history.push("/addEditSurvey", { data: event });
+  };
+
   useEffect(() => {
     if (localStorage.getItem("role") === "Admin") {
       document.title = "Survey";
@@ -100,6 +124,14 @@ export default function Survey() {
       window.location.replace("https://axisinfoline.com");
     }
   }, []);
+
+  const handleOnClick = () => {
+    history.push("/addEditSurvey", { selectedCity: selectedCity });
+  };
+
+  const handleCityChange = (e: any) => {
+    setSelectedCity(e.target.value);
+  };
 
   return (
     <div style={{ maxWidth: "100%" }}>
@@ -112,6 +144,41 @@ export default function Survey() {
           paddingRight: 20,
         }}
       >
+        <Grid
+          item
+          xs
+          style={{
+            marginTop: 20,
+            minWidth: 120,
+            padding: 5,
+          }}
+        >
+          <label
+            style={{
+              paddingRight: "1rem",
+              color: "black",
+            }}
+          >
+            Select City
+          </label>
+          <select
+            style={{
+              width: 295,
+              height: 27,
+            }}
+            name="city"
+            // value={props.ticketData.division}
+            onChange={handleCityChange}
+          >
+            <option value="Saharanpur">Saharanpur</option>
+            <option value="Muradabad">Muradabad</option>
+            {/* {cityOptions.map((x, y) => (
+              <option key={y} value={x}>
+                {x}
+              </option>
+            ))} */}
+          </select>
+        </Grid>
         <Button
           style={{
             color: "white",
@@ -123,7 +190,7 @@ export default function Survey() {
             padding: 5,
           }}
           variant="outlined"
-          //   onClick={handleOnClick}
+          onClick={handleOnClick}
         >
           Add Survey
         </Button>
