@@ -24,7 +24,7 @@ import {
   Home,
 } from "@material-ui/icons";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import GroupIcon from "@mui/icons-material/Group";
@@ -111,7 +111,8 @@ export default function SideBar() {
     localStorage.setItem("userName", "");
     localStorage.setItem("userPhoneNo", "");
     localStorage.setItem("id", "");
-    history.push("https://axisinfoline.com/");
+    window.location.replace("https://axisinfoline.com");
+    // history.push("s/");
   };
 
   return (
