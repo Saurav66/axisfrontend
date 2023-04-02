@@ -85,6 +85,7 @@ export default function Employees() {
         Cell: (cell: GridRenderCellParams) => (
           <strong>
             <Button
+              size="small"
               onClick={() => {
                 resetPasswordRow(cell.row.original);
               }}
@@ -105,6 +106,7 @@ export default function Employees() {
         Cell: (cell: GridRenderCellParams) => (
           <strong>
             <IconButton
+              size="small"
               style={{ marginLeft: 2 }}
               tabIndex={cell.hasFocus ? 0 : -1}
               onClick={() => {

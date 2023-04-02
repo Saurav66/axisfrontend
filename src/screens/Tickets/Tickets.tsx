@@ -115,6 +115,7 @@ export default function Tickets() {
         Cell: (cell: GridRenderCellParams) => (
           <strong>
             <IconButton
+              size="small"
               style={{ marginLeft: 2, color: "#0000FF" }}
               tabIndex={cell.hasFocus ? 0 : -1}
               onClick={() => {
@@ -197,6 +198,7 @@ export default function Tickets() {
         },
         Cell: (cell: GridRenderCellParams) => (
           <Chip
+            size="small"
             label="Re-assign"
             onClick={() => {
               handleReAssign(cell.row.original);
@@ -218,6 +220,7 @@ export default function Tickets() {
         Cell: (cell: GridRenderCellParams) => (
           <strong>
             <IconButton
+              size="small"
               style={{ marginLeft: 2, color: "#0000FF" }}
               tabIndex={cell.hasFocus ? 0 : -1}
               onClick={() => {
@@ -242,6 +245,7 @@ export default function Tickets() {
         Cell: (params: GridRenderCellParams) => (
           <strong>
             <IconButton
+              size="small"
               style={{ marginLeft: 2 }}
               tabIndex={params.hasFocus ? 0 : -1}
               onClick={() => {
