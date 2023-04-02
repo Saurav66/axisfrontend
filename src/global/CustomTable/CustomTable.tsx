@@ -86,7 +86,7 @@ const CustomTable = (props: any) => {
             sx: {
               // backgroundColor: "#111111",
               // color: "white",
-              backgroundColor: "#FFFFE0",
+              // backgroundColor: "#FFFFE0",
               fontWeight: "bold",
               fontSize: "15px",
             },
