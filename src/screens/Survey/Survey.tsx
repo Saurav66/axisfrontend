@@ -197,11 +197,11 @@ export default function Survey() {
           style={{
             color: "white",
             backgroundColor: "#f44336",
-            marginTop: 20,
+            marginTop: 5,
             // marginRight: 4,
             // marginBottom: 20,
             minWidth: 120,
-            padding: 5,
+            // padding: 5,
           }}
           variant="outlined"
           onClick={handleOnClick}
