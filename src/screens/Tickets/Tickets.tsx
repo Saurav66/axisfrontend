@@ -85,27 +85,27 @@ export default function Tickets() {
 
   const columnsForEmployee = useMemo(
     () => [
-      { accessorKey: "serialNo", header: "S/no.", size: 5 },
-      { accessorKey: "complaintNo", header: "Complaint No", size: 20 },
+      { accessorKey: "serialNo", header: "S/no.", size: 80 },
+      { accessorKey: "complaintNo", header: "Complaint No", size: 120 },
       {
         accessorKey: "complaintDatetime",
         header: "Complaint Date & Time",
-        size: 20,
+        size: 200,
       },
       {
         accessorKey: "complainantName",
         header: "Complainant Name",
-        size: 20,
+        size: 180,
       },
       {
         accessorKey: "complainantContactNo",
         header: "Complainant Contact No",
-        size: 30,
+        size: 200,
       },
       {
         accessorKey: "View/Edit",
         header: "View/Edit",
-        size: 20,
+        size: 120,
         muiTableHeadCellProps: {
           align: "center",
         },
