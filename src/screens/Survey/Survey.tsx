@@ -9,36 +9,57 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { UrlConstants } from "../../global/UrlConstants";
+import axios from "axios";
+import { async } from "q";
 
 export default function Survey() {
   let history = useHistory();
   const [selectedCity, setSelectedCity] = useState("Saharanpur");
-  const [rows, setRows] = useState([
-    {
-      serial: "01",
-      city: "City",
-      circle: "EUDC SRE",
-      division: "EUDD-2",
-      subDivision: "EUDD-2",
-      endLocationAddress: "SITE CODE -349 EUDD-2 CLOCK TOWER SAHARANPUR",
-      itHardwareName: "Computer",
-      model: "DELL 3050",
-      serialNo: "2RT8Q2",
-      upsBatteryStatus: "BATTERY FAULTY",
-      windowsType: "WINDOWS-10",
-      domainJoiningStatus: "DOMAIN",
-      nameOfUtilityContactPerson: "AMIT KUMAR",
-      phoneNoOfUtilityContactPerson: "8273373345",
-    },
-  ]);
+  const [cityOptions, setCityOptions] = useState([]);
+  const [rows, setRows] = useState([]);
+
+  const deleteRow = (row: any) => {
+    console.log("row", row);
+    const confirmBox = window.confirm(
+      `Do you want to delete Survey of ${row.city} [ ${row.nameOfUtilityContactPerson} - ${row.phoneNoOfUtilityContactPerson} ]`
+    );
+    if (confirmBox === true) {
+      const secondConfirmBox = window.confirm(
+        `You can't recover this Survey. Do you really want to delete Survey of ${row.city} [ ${row.nameOfUtilityContactPerson} - ${row.phoneNoOfUtilityContactPerson} ]`
+      );
+      if (secondConfirmBox === true) {
+        const secondConfirmBox = window.confirm(
+          `Final Confirmation to delete Survey of ${row.city} [ ${row.nameOfUtilityContactPerson} - ${row.phoneNoOfUtilityContactPerson} ]`
+        );
+        if (secondConfirmBox === true) {
+          axios
+            .delete(`${UrlConstants.baseUrl}/deleteSurvey/${row.id}`)
+            .then(function (response) {
+              toast.success("Successfully Deleted!", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+              window.location.reload();
+            });
+        }
+      }
+    }
+  };
 
   const columns = useMemo(
     () => [
-      { accessorKey: "serial", header: "S.No.", size: 80 },
-      { accessorKey: "city", header: "City.", size: 80 },
-      { accessorKey: "circle", header: "Circle", size: 120 },
-      { accessorKey: "division", header: "Division", size: 120 },
-      { accessorKey: "subDivision", header: "Sub Division", size: 150 },
+      { accessorKey: "id", header: "S.No.", size: 80 },
+      { accessorKey: "city", header: "City.", size: 120 },
+      { accessorKey: "circle", header: "Circle", size: 180 },
+      { accessorKey: "division", header: "Division", size: 180 },
+      { accessorKey: "subDivision", header: "Sub Division", size: 180 },
       {
         accessorKey: "endLocationAddress",
         header: "End Location Address",
@@ -63,12 +84,12 @@ export default function Survey() {
         size: 400,
       },
       {
-        accessorKey: "nameOfUtilityContactPerson",
+        accessorKey: "utilityContactPersonName",
         header: "Name of Utility Contact Person",
         size: 270,
       },
       {
-        accessorKey: "phoneNoOfUtilityContactPerson",
+        accessorKey: "utilityContactPersonContact",
         header: "Phone no of Utility Contact Person",
         size: 300,
       },
@@ -107,14 +128,14 @@ export default function Survey() {
         muiTableBodyCellProps: {
           align: "center",
         },
-        Cell: (params: GridRenderCellParams) => (
+        Cell: (cell: GridRenderCellParams) => (
           <strong>
             <IconButton
               size="small"
               style={{ marginLeft: 2 }}
-              tabIndex={params.hasFocus ? 0 : -1}
+              tabIndex={cell.hasFocus ? 0 : -1}
               onClick={() => {
-                // deleteRow(params.row.original.complaintNo);
+                deleteRow(cell.row.original);
               }}
             >
               <DeleteIcon fontSize="small" />
@@ -139,14 +160,45 @@ export default function Survey() {
     } else {
       window.location.replace("https://axisinfoline.com");
     }
+    if (cityOptions.length === 0) {
+      getSurveyCities();
+    }
   }, []);
+
+  const getSurveys = async (city: String) => {
+    const response = await axios
+      .get(`${UrlConstants.baseUrl}/getSurveyByCity/${city}`)
+      .then((response: any) => {
+        return response.data;
+      })
+      .catch((error) => {});
+    setRows(response);
+  };
+
+  const getSurveyCities = async () => {
+    const response = await axios
+      .get(`${UrlConstants.baseUrl}/getSurveyCities`)
+      .then((response: any) => {
+        return response.data;
+      })
+      .catch((error) => {});
+    setCityOptions(response);
+    getSurveys(response[0]);
+  };
 
   const handleOnClick = () => {
     history.push("/addEditSurvey", { selectedCity: selectedCity });
   };
 
-  const handleCityChange = (e: any) => {
-    setSelectedCity(e.target.value);
+  const handleCityChange = async (event: any) => {
+    setSelectedCity(event.target.value);
+    const response = await axios
+      .get(`${UrlConstants.baseUrl}/getSurveyByCity/${event.target.value}`)
+      .then((response: any) => {
+        return response.data;
+      })
+      .catch((error) => {});
+    setRows(response);
   };
 
   return (
@@ -186,13 +238,11 @@ export default function Survey() {
             // value={props.ticketData.division}
             onChange={handleCityChange}
           >
-            <option value="Saharanpur">Saharanpur</option>
-            <option value="Muradabad">Muradabad</option>
-            {/* {cityOptions.map((x, y) => (
+            {cityOptions.map((x, y) => (
               <option key={y} value={x}>
                 {x}
               </option>
-            ))} */}
+            ))}
           </select>
         </Grid>
         <Button

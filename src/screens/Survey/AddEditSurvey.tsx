@@ -40,10 +40,11 @@ export default function AddEditSurvey(props: any) {
   const [subDivisionOptions, setSubDivisionOptions] = useState([]);
   const [edit, setEdit] = useState(props.history.location.state?.data);
   const [surveyObj, setSurveyObj] = useState({
+    id: edit?.id ?? "",
     city: edit?.city ?? props.history.location.state?.selectedCity,
     circle: edit?.circle ?? "",
     division: edit?.division ?? "",
-    subDivision: edit?.subDivision ?? "",
+    subdivision: edit?.subdivision ?? "",
     endLocationAddress: edit?.endLocationAddress ?? "",
     itHardwareName: edit?.itHardwareName ?? "",
     model: edit?.model ?? "",
@@ -51,8 +52,8 @@ export default function AddEditSurvey(props: any) {
     upsBatteryStatus: edit?.upsBatteryStatus ?? "",
     windowsType: edit?.windowsType ?? "",
     domainJoiningStatus: edit?.domainJoiningStatus ?? "",
-    nameOfUtilityContactPerson: edit?.nameOfUtilityContactPerson ?? "",
-    phoneNoOfUtilityContactPerson: edit?.phoneNoOfUtilityContactPerson ?? "",
+    utilityContactPersonName: edit?.utilityContactPersonName ?? "",
+    utilityContactPersonContact: edit?.utilityContactPersonContact ?? "",
   });
 
   useEffect(() => {
@@ -72,69 +73,114 @@ export default function AddEditSurvey(props: any) {
     setCircleOptions(response);
   };
 
+  const handleValidation = () => {
+    if (!surveyObj.city) {
+      toast.error("Please Enter City!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return false;
+    }
+    if (!surveyObj.circle) {
+      toast.error("Please Enter Circle!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return false;
+    }
+    if (!surveyObj.utilityContactPersonName) {
+      toast.error("Please Enter Name Of Utility Contact Person!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = (e: any) => {
     console.log("surveyObj", surveyObj);
     e.preventDefault();
-    if (edit) {
-      axios
-        .patch(`${UrlConstants.baseUrl}/updateServey`, surveyObj)
-        .then(function (response) {
-          toast.success("Survey Updated!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
+    if (handleValidation()) {
+      if (edit) {
+        axios
+          .patch(`${UrlConstants.baseUrl}/updateSurvey`, surveyObj)
+          .then(function (response) {
+            toast.success("Survey Updated!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+            setTimeout(() => history.push("/survey"), 700);
+          })
+          .catch(function (error) {
+            toast.error("Error while updating!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
           });
-          setTimeout(() => history.push("/survey"), 700);
-        })
-        .catch(function (error) {
-          toast.error("Error while updating!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
+      } else {
+        axios
+          .post(`${UrlConstants.baseUrl}/addSurvey`, surveyObj)
+          .then(function (response) {
+            console.log(response);
+            console.log("Survey Added");
+            toast.success("Survey Added!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+            setTimeout(() => history.push("/survey"), 700);
+          })
+          .catch(function (error) {
+            console.log(error);
+            console.log("error came");
+            toast.error("Erro while adding Survey!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
           });
-        });
-    } else {
-      axios
-        .post(`${UrlConstants.baseUrl}/addServey`, surveyObj)
-        .then(function (response) {
-          console.log(response);
-          console.log("Survey Added");
-          toast.success("Survey Added!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-          history.push("/servey");
-        })
-        .catch(function (error) {
-          console.log(error);
-          console.log("error came");
-          toast.error("Erro while adding Survey!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        });
+      }
     }
   };
 
@@ -252,12 +298,12 @@ export default function AddEditSurvey(props: any) {
             <Typography className={classes.Typography}>Sub Division</Typography>
             <select
               className={classes.select}
-              name="subDivision"
-              value={surveyObj.subDivision}
+              name="subdivision"
+              value={surveyObj.subdivision}
               onChange={handleLocationChange}
             >
-              <option value={edit ? surveyObj.subDivision : `pleaseSelect`}>
-                {edit ? surveyObj.subDivision : `pleaseSelect`}
+              <option value={edit ? surveyObj.subdivision : `pleaseSelect`}>
+                {edit ? surveyObj.subdivision : `pleaseSelect`}
               </option>
               {subDivisionOptions.map((x, y) => (
                 <option key={y} value={x}>
@@ -358,8 +404,8 @@ export default function AddEditSurvey(props: any) {
             <Box>
               <input
                 className={classes.input}
-                name="nameOfUtilityContactPerson"
-                value={surveyObj.nameOfUtilityContactPerson}
+                name="utilityContactPersonName"
+                value={surveyObj.utilityContactPersonName}
                 onChange={handleInputChange}
               />
             </Box>
@@ -371,8 +417,8 @@ export default function AddEditSurvey(props: any) {
             <Box>
               <input
                 className={classes.input}
-                name="phoneNoOfUtilityContactPerson"
-                value={surveyObj.phoneNoOfUtilityContactPerson}
+                name="utilityContactPersonContact"
+                value={surveyObj.utilityContactPersonContact}
                 onChange={handleInputChange}
               />
             </Box>

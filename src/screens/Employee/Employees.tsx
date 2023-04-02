@@ -137,7 +137,7 @@ export default function Employees() {
     );
     if (confirmBox === true) {
       const secondConfirmBox = window.confirm(
-        `You can't recover this Ticket. Do you really want to delete Employee: ${row.name} [ ${row.phone} ]`
+        `You can't recover this Employee. Do you really want to delete Employee: ${row.name} [ ${row.phone} ]`
       );
       if (secondConfirmBox === true) {
         const secondConfirmBox = window.confirm(
