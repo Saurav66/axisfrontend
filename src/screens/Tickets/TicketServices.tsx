@@ -1,9 +1,15 @@
 import axios from "axios";
 import { UrlConstants } from "../../global/UrlConstants";
 
-export const getAdminTicketByStatus = async (status: any) => {
+export const getAdminTicketByStatusAndDateRange = async (
+  status: any,
+  fromDate: String,
+  toDate: String
+) => {
   const response = await axios
-    .get(`${UrlConstants.baseUrl}/getTickets/admin/${status}`)
+    .get(
+      `${UrlConstants.baseUrl}/getTickets/admin/${status}/${fromDate}/${toDate}`
+    )
     .then((response: any) => {
       return response.data;
     })
@@ -13,9 +19,16 @@ export const getAdminTicketByStatus = async (status: any) => {
   return response;
 };
 
-export const getEngTicketByStatus = async (phone: any, status: any) => {
+export const getEngTicketByStatusAndDateRange = async (
+  phone: any,
+  status: any,
+  fromDate: String,
+  toDate: String
+) => {
   const response = await axios
-    .get(`${UrlConstants.baseUrl}/getTickets/${phone}/${status}`)
+    .get(
+      `${UrlConstants.baseUrl}/getTickets/${phone}/${status}/${fromDate}/${toDate}`
+    )
     .then((response: any) => {
       return response.data;
     })

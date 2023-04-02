@@ -2,7 +2,7 @@ import { Box, createStyles, Grid, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
 import { useState } from "react";
 
-export default function CustomRangePicker() {
+export default function CustomRangePicker(props: any) {
   const [fromDate, setFromDate] = useState();
   const [toDate, setToDate] = useState();
 
@@ -13,8 +13,7 @@ export default function CustomRangePicker() {
   const handleToDateChange = (e: any) => {
     setToDate(e.target.value);
     if (fromDate) {
-      console.log("fromDate ", fromDate);
-      console.log("TODate ", e.target.value);
+      props.handleDateRangeChange([fromDate, e.target.value]);
     } else {
       //need to add validation to highlight -> Please fill fromDate
     }

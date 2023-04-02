@@ -20,7 +20,10 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import ticketData from "../../data/ticketData.json";
 import { Tab, Tabs, TextField } from "@mui/material";
-import { getAdminTicketByStatus, getEngTicketByStatus } from "./TicketServices";
+import {
+  getAdminTicketByStatusAndDateRange,
+  getEngTicketByStatusAndDateRange,
+} from "./TicketServices";
 import CustomRangePicker from "../../global/CustomRangePicker/CustomRangePicker";
 import { getEngineersByStatus } from "../Employee/EmployeeService";
 import ReAssignComponent from "./ReAssignComponent";
@@ -60,26 +63,42 @@ export default function Tickets() {
 
   useEffect(() => {
     document.title = "Tickets";
-    getTickets();
+    getTickets("1900-01-01", "9999-01-01");
   }, [tabValue]);
 
-  const getTickets = async () => {
+  const getTickets = async (fromDate: String, toDate: String) => {
     let response;
     if (tabValue === "OPEN") {
       if (isAdmin) {
-        response = await getAdminTicketByStatus("OPEN");
+        response = await getAdminTicketByStatusAndDateRange(
+          "OPEN",
+          fromDate,
+          toDate
+        );
       } else {
-        response = await getEngTicketByStatus(loggedInUserPhone, "OPEN");
+        response = await getEngTicketByStatusAndDateRange(
+          loggedInUserPhone,
+          "OPEN",
+          fromDate,
+          toDate
+        );
       }
     } else if (tabValue === "CLOSED") {
       if (isAdmin) {
-        response = await getAdminTicketByStatus("CLOSED");
+        response = await getAdminTicketByStatusAndDateRange(
+          "CLOSED",
+          fromDate,
+          toDate
+        );
       } else {
-        response = await getEngTicketByStatus(loggedInUserPhone, "CLOSED");
+        response = await getEngTicketByStatusAndDateRange(
+          loggedInUserPhone,
+          "CLOSED",
+          fromDate,
+          toDate
+        );
       }
     }
-
-    console.log(response);
     setRows(response ?? []);
   };
 
@@ -313,6 +332,10 @@ export default function Tickets() {
     setOPEN(false);
   };
 
+  const handleDateRangeChange = (date: any) => {
+    getTickets(date[0], date[1]);
+  };
+
   return (
     <>
       <Grid
@@ -373,9 +396,11 @@ export default function Tickets() {
                 // xs={6}
                 className={classes.firstGridItems}
               >
-                {/* <Grid item xl={3} className={classes.firstGridItems}>
-                  <CustomRangePicker />
-                </Grid> */}
+                <Grid item xl={3} className={classes.firstGridItems}>
+                  <CustomRangePicker
+                    handleDateRangeChange={handleDateRangeChange}
+                  />
+                </Grid>
                 <Button
                   className={classes.button}
                   variant="outlined"
