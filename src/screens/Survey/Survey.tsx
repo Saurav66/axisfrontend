@@ -11,7 +11,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UrlConstants } from "../../global/UrlConstants";
 import axios from "axios";
-import { async } from "q";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
 
 export default function Survey() {
   let history = useHistory();
@@ -182,6 +182,7 @@ export default function Survey() {
         return response.data;
       })
       .catch((error) => {});
+    setSelectedCity(response[0]);
     setCityOptions(response);
     getSurveys(response[0]);
   };
@@ -199,6 +200,20 @@ export default function Survey() {
       })
       .catch((error) => {});
     setRows(response);
+  };
+
+  const handlleExportSurvey = () => {
+    axios
+      .get(`${UrlConstants.baseUrl}/exportSurvey/${selectedCity}`)
+      .then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `${selectedCity} - Survey.xlsx`);
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -257,7 +272,47 @@ export default function Survey() {
         >
           Add Survey
         </Button>
+        {localStorage.getItem("role") === "Admin" && (
+          <>
+            <Grid
+              // item
+              // xl={6}
+              // lg={6}
+              // sm={6}
+              // xs={6}
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "flex-end",
+                marginTop: 20,
+              }}
+            >
+              <Button variant="outlined" startIcon={<FileUploadIcon />}>
+                Import
+              </Button>
+            </Grid>
+            <Grid
+              item
+              xl={1}
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "flex-end",
+                marginTop: 20,
+              }}
+            >
+              <Button
+                onClick={handlleExportSurvey}
+                variant="outlined"
+                startIcon={<FileUploadIcon />}
+              >
+                Export
+              </Button>
+            </Grid>
+          </>
+        )}
       </Stack>
+
       <Grid lg={12} sm={12} xs={12} item container spacing={2}>
         <Grid item lg={12} sm={12} xs={12}>
           <CustomTable data={rows} columns={columns} />
