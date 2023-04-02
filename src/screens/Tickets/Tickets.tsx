@@ -396,7 +396,11 @@ export default function Tickets() {
                 // xs={6}
                 className={classes.firstGridItems}
               >
-                <Grid item xl={3} className={classes.firstGridItems}>
+                <Grid
+                  item
+                  xl={3}
+                  className={classes.firstGridItems}
+                >
                   <CustomRangePicker
                     handleDateRangeChange={handleDateRangeChange}
                   />

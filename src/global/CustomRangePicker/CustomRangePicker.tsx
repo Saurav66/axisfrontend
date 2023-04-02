@@ -23,8 +23,8 @@ export default function CustomRangePicker(props: any) {
     <>
       <input
         style={{
-          paddingTop: "0.44rem",
-          paddingBottom: "0.42rem",
+          // paddingTop: "0.44rem",
+          // paddingBottom: "0.42rem",
           paddingLeft: "0.4rem",
           paddingRight: "0.1rem",
           marginLeft: "0.2rem",
@@ -36,8 +36,8 @@ export default function CustomRangePicker(props: any) {
       />
       <input
         style={{
-          paddingTop: "0.44rem",
-          paddingBottom: "0.42rem",
+          // paddingTop: "0.44rem",
+          // paddingBottom: "0.42rem",
           paddingLeft: "0.1rem",
           paddingRight: "0.1rem",
           marginLeft: "0.2rem",
