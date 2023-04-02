@@ -85,36 +85,33 @@ export default function Tickets() {
 
   const columnsForEmployee = useMemo(
     () => [
-      { accessorKey: "serialNo", header: "S/no.", size: 50 },
-      { accessorKey: "complaintNo", header: "Complaint No", size: 50 },
+      { accessorKey: "serialNo", header: "S/no.", size: 5 },
+      { accessorKey: "complaintNo", header: "Complaint No", size: 20 },
       {
         accessorKey: "complaintDatetime",
         header: "Complaint Date & Time",
-        size: 50,
-        Cell: (cell: GridRenderCellParams) => (
-          <TextField
-            variant="standard"
-            disabled={true}
-            type="datetime-local"
-            style={{ width: 200 }}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            name="complaintDatetime"
-            defaultValue={cell.row.original.complaintDatetime}
-            size="small"
-          />
-        ),
+        size: 20,
       },
       {
         accessorKey: "complainantName",
         header: "Complainant Name",
-        size: 50,
+        size: 20,
+      },
+      {
+        accessorKey: "complainantContactNo",
+        header: "Complainant Contact No",
+        size: 30,
       },
       {
         accessorKey: "View/Edit",
         header: "View/Edit",
-        size: 50,
+        size: 20,
+        muiTableHeadCellProps: {
+          align: "center",
+        },
+        muiTableBodyCellProps: {
+          align: "center",
+        },
         Cell: (cell: GridRenderCellParams) => (
           <strong>
             <IconButton
@@ -135,12 +132,29 @@ export default function Tickets() {
 
   const columnsForAdmin = useMemo(
     () => [
-      { accessorKey: "serialNo", header: "S/no.", size: 50 },
-      { accessorKey: "complaintNo", header: "Complaint No", size: 50 },
+      {
+        accessorKey: "serialNo",
+        header: "S/no.",
+        size: 80,
+      },
+      {
+        accessorKey: "complaintNo",
+        header: "Complaint No",
+        // minSize: 200,
+        // maxSize: 200,
+        size: 120,
+        muiTableHeadCellProps: {
+          align: "left",
+        },
+        muiTableBodyCellProps: {
+          align: "lect",
+        },
+      },
       {
         accessorKey: "complaintDatetime",
         header: "Complaint Date & Time",
-        size: 50,
+        size: 200,
+        enableSorting: false,
         Cell: (cell: GridRenderCellParams) => (
           <TextField
             variant="standard"
@@ -159,22 +173,28 @@ export default function Tickets() {
       {
         accessorKey: "complainantName",
         header: "Complainant Name",
-        size: 50,
+        size: 180,
       },
       {
         accessorKey: "engineerAssigned",
         header: "Engineer Assigned",
-        size: 50,
+        size: 180,
       },
       {
         accessorKey: "engineerContactNo",
-        header: "Eng. Contact Number",
-        size: 50,
+        header: "Engineer Contact Number",
+        size: 220,
       },
       {
         accessorKey: "Re-Assign",
         header: "Re-Assign",
-        size: 50,
+        size: 120,
+        muiTableHeadCellProps: {
+          align: "center",
+        },
+        muiTableBodyCellProps: {
+          align: "center",
+        },
         Cell: (cell: GridRenderCellParams) => (
           <Chip
             label="Re-assign"
@@ -188,7 +208,13 @@ export default function Tickets() {
       {
         accessorKey: "View/Edit",
         header: "View/Edit",
-        size: 50,
+        size: 120,
+        muiTableHeadCellProps: {
+          align: "center",
+        },
+        muiTableBodyCellProps: {
+          align: "center",
+        },
         Cell: (cell: GridRenderCellParams) => (
           <strong>
             <IconButton
@@ -206,7 +232,13 @@ export default function Tickets() {
       {
         accessorKey: "Delete",
         header: "Delete",
-        width: 60,
+        width: 120,
+        muiTableHeadCellProps: {
+          align: "center",
+        },
+        muiTableBodyCellProps: {
+          align: "center",
+        },
         Cell: (params: GridRenderCellParams) => (
           <strong>
             <IconButton

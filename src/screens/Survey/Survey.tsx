@@ -34,48 +34,54 @@ export default function Survey() {
 
   const columns = useMemo(
     () => [
-      { accessorKey: "serial", header: "S.No.", width: 25 },
-      { accessorKey: "city", header: "City.", width: 25 },
-      { accessorKey: "circle", header: "Circle", width: 25 },
-      { accessorKey: "division", header: "Division", width: 25 },
-      { accessorKey: "subDivision", header: "Sub Division", width: 25 },
+      { accessorKey: "serial", header: "S.No.", size: 80 },
+      { accessorKey: "city", header: "City.", size: 80 },
+      { accessorKey: "circle", header: "Circle", size: 120 },
+      { accessorKey: "division", header: "Division", size: 120 },
+      { accessorKey: "subDivision", header: "Sub Division", size: 150 },
       {
         accessorKey: "endLocationAddress",
         header: "End Location Address",
-        width: 420,
+        size: 420,
       },
       {
         accessorKey: "itHardwareName",
         header: "IT Hardware Name(Computer/ 600 VA UPS/ 3 KVA UPS/PRINTERS)",
-        width: 420,
+        size: 520,
       },
-      { accessorKey: "model", header: "Model", width: 25 },
-      { accessorKey: "serialNo", header: "Serial No", width: 25 },
+      { accessorKey: "model", header: "Model", size: 120 },
+      { accessorKey: "serialNo", header: "Serial No", size: 120 },
       {
         accessorKey: "upsBatteryStatus",
         header: "Ups Battery status",
-        width: 50,
+        size: 200,
       },
-      { accessorKey: "windowsType", header: "Windows Type", width: 25 },
+      { accessorKey: "windowsType", header: "Windows Type", size: 150 },
       {
         accessorKey: "domainJoiningStatus",
         header: "Domain Joining Status (Domain/Without Domain)",
-        width: 25,
+        size: 400,
       },
       {
         accessorKey: "nameOfUtilityContactPerson",
         header: "Name of Utility Contact Person",
-        width: 36,
+        size: 270,
       },
       {
         accessorKey: "phoneNoOfUtilityContactPerson",
         header: "Phone no of Utility Contact Person",
-        width: 25,
+        size: 300,
       },
       {
         accessorKey: "edit",
         header: "Edit",
-        width: 100,
+        size: 100,
+        muiTableHeadCellProps: {
+          align: "center",
+        },
+        muiTableBodyCellProps: {
+          align: "center",
+        },
         Cell: (cell: GridRenderCellParams) => (
           <strong>
             <IconButton
@@ -93,7 +99,13 @@ export default function Survey() {
       {
         accessorKey: "Delete",
         header: "Delete",
-        width: 60,
+        size: 100,
+        muiTableHeadCellProps: {
+          align: "center",
+        },
+        muiTableBodyCellProps: {
+          align: "center",
+        },
         Cell: (params: GridRenderCellParams) => (
           <strong>
             <IconButton
