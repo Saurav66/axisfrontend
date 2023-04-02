@@ -52,6 +52,8 @@ const CustomTable = (props: any) => {
     <div style={{ height: 500 }}>
       <ThemeProvider theme={tableTheme}>
         <MaterialReactTable
+          enableHiding={false}
+          enableSorting={false}
           enableColumnActions={false}
           enableColumnFilters={false}
           muiTableProps={{
