@@ -316,49 +316,26 @@ export default function Tickets() {
   return (
     <>
       <Grid
-        xl={12}
         lg={12}
-        md={12}
         sm={12}
         xs={12}
         item
         container
-        style={{
-          padding: "0.5rem",
-          display: "flex",
-          justifyContent: "flex-end",
-          alignItems: "flex-end",
-          // backgroundColor: "#94cc33",
-        }}
+        spacing={2}
+        style={{ marginTop: 2 }}
       >
-        <Grid item xl={3} className={classes.firstGridItems}>
-          <CustomRangePicker />
-        </Grid>
-        {isAdmin && (
-          <>
-            <Grid item xl={1} className={classes.firstGridItems}>
-              <Button
-                className={classes.button}
-                variant="outlined"
-                startIcon={<FileUploadIcon />}
-              >
-                Import
-              </Button>
-            </Grid>
-            <Grid item xl={1} className={classes.firstGridItems}>
-              <Button
-                className={classes.button}
-                variant="outlined"
-                startIcon={<FileUploadIcon />}
-              >
-                Export
-              </Button>
-            </Grid>
-          </>
-        )}
-      </Grid>
-      <Grid lg={12} sm={12} xs={12} item container spacing={2}>
-        <Grid item lg={12} sm={12} xs={12} className={classes.secondGridItems}>
+        <Grid
+          item
+          lg={6}
+          sm={6}
+          xs={6}
+          className={classes.secondGridItems}
+          style={
+            {
+              // backgroundColor: "red",
+            }
+          }
+        >
           <Tabs
             value={tabValue}
             onChange={handleTabChange}
@@ -369,6 +346,55 @@ export default function Tickets() {
             <Tab value="OPEN" label="OPEN" />
             <Tab value="CLOSED" label="CLOSED" />
           </Tabs>
+        </Grid>
+        <Grid
+          xl={6}
+          lg={6}
+          md={6}
+          sm={6}
+          xs={6}
+          item
+          container
+          style={{
+            padding: "0.5rem",
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "flex-end",
+            // backgroundColor: "#94cc33",
+          }}
+        >
+          {isAdmin && (
+            <>
+              <Grid
+                // item
+                // xl={6}
+                // lg={6}
+                // sm={6}
+                // xs={6}
+                className={classes.firstGridItems}
+              >
+                {/* <Grid item xl={3} className={classes.firstGridItems}>
+                  <CustomRangePicker />
+                </Grid> */}
+                <Button
+                  className={classes.button}
+                  variant="outlined"
+                  startIcon={<FileUploadIcon />}
+                >
+                  Import
+                </Button>
+              </Grid>
+              <Grid item xl={1} className={classes.firstGridItems}>
+                <Button
+                  className={classes.button}
+                  variant="outlined"
+                  startIcon={<FileUploadIcon />}
+                >
+                  Export
+                </Button>
+              </Grid>
+            </>
+          )}
         </Grid>
       </Grid>
       <Grid

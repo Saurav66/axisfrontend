@@ -170,33 +170,16 @@ export default function Employees() {
 
   return (
     <div style={{ maxWidth: "100%" }}>
-      <Stack
+      <Grid
+        lg={12}
+        sm={12}
+        xs={12}
+        item
+        container
         spacing={2}
-        direction="row"
-        style={{
-          float: "right",
-          color: "blue",
-          paddingRight: 20,
-        }}
+        style={{ marginTop: 2 }}
       >
-        <Button
-          style={{
-            color: "white",
-            backgroundColor: "#f44336",
-            marginTop: 20,
-            // marginRight: 4,
-            // marginBottom: 20,
-            minWidth: 120,
-            padding: 5,
-          }}
-          variant="outlined"
-          onClick={handleOnClick}
-        >
-          Add Employee
-        </Button>
-      </Stack>
-      <Grid lg={12} sm={12} xs={12} item container spacing={2}>
-        <Grid item lg={12} sm={12} xs={12}>
+        <Grid item lg={6} sm={6} xs={6}>
           <Tabs
             value={tabValue}
             onChange={handleTabChange}
@@ -207,6 +190,33 @@ export default function Employees() {
             <Tab value="Active" label="Active" />
             <Tab value="Inactive" label="Inactive" />
           </Tabs>
+        </Grid>
+        <Grid item lg={6} sm={6} xs={6}>
+          <Stack
+            spacing={2}
+            direction="row"
+            style={{
+              float: "right",
+              color: "blue",
+              paddingRight: 20,
+            }}
+          >
+            <Button
+              style={{
+                color: "white",
+                backgroundColor: "#f44336",
+                marginTop: 5,
+                // marginRight: 4,
+                // marginBottom: 20,
+                minWidth: 120,
+                // padding: 5,
+              }}
+              variant="outlined"
+              onClick={handleOnClick}
+            >
+              Add Employee
+            </Button>
+          </Stack>
         </Grid>
       </Grid>
       <Grid lg={12} sm={12} xs={12} item container spacing={2}>
