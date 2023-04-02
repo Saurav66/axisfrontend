@@ -131,9 +131,11 @@ export default function Survey() {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("role") === "Admin") {
+    if (
+      localStorage.getItem("role") === "Admin" ||
+      localStorage.getItem("role") === "Surveyor"
+    ) {
       document.title = "Survey";
-      //   getEngineers();
     } else {
       window.location.replace("https://axisinfoline.com");
     }
@@ -197,11 +199,8 @@ export default function Survey() {
           style={{
             color: "white",
             backgroundColor: "#f44336",
-            marginTop: 5,
-            // marginRight: 4,
-            // marginBottom: 20,
+            marginTop: 20,
             minWidth: 120,
-            // padding: 5,
           }}
           variant="outlined"
           onClick={handleOnClick}

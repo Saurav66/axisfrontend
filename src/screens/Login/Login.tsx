@@ -55,9 +55,15 @@ export default function SignInSide() {
       localStorage.setItem("phone", response.phone);
       localStorage.setItem("id", response.id);
       if (response) {
-        history.push({
-          pathname: "/tickets",
-        });
+        if (response.role === "Surveyor") {
+          history.push({
+            pathname: "/survey",
+          });
+        } else {
+          history.push({
+            pathname: "/tickets",
+          });
+        }
       } else {
         toast.error("Incorrect Phone Number or Password!", {
           position: "top-right",

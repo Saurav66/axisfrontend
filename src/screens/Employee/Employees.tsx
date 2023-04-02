@@ -24,7 +24,7 @@ export default function Employees() {
 
   useEffect(() => {
     if (localStorage.getItem("role") === "Admin") {
-      document.title = "Engineers";
+      document.title = "Employees";
       getEngineers();
     } else {
       window.location.replace("https://axisinfoline.com");
