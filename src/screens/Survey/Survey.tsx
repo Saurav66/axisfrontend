@@ -183,7 +183,7 @@ export default function Survey() {
       })
       .catch((error) => {});
     setSelectedCity(response[0]);
-    setCityOptions(response);
+    setCityOptions(response.concat("All"));
     getSurveys(response[0]);
   };
 
@@ -258,7 +258,6 @@ export default function Survey() {
                 {x}
               </option>
             ))}
-            {/* <option value="All">All</option> */}
           </select>
         </Grid>
         <Button

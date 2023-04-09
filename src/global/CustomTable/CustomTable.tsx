@@ -1,7 +1,8 @@
-import makeStyles from "@mui/material/styles/makeStyles";
 import React, { useMemo } from "react";
-import MaterialReactTable from "material-react-table";
+import MaterialReactTable, { MRT_Row } from "material-react-table";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material";
+import { Box, Button } from "@material-ui/core";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 
 const CustomTable = (props: any) => {
   const globalTheme = useTheme();
@@ -48,16 +49,16 @@ const CustomTable = (props: any) => {
     [globalTheme]
   );
 
+  // const handleExportRows = (rows: MRT_Row<Person>[]) => {
+  const handleExportRows = (rows: any[]) => {
+    console.log(rows);
+    // csvExporter.generateCsv(rows.map((row) => row.original));
+  };
+
   return (
     <div style={{ height: 500 }}>
       <ThemeProvider theme={tableTheme}>
         <MaterialReactTable
-          // renderTopToolbarCustomActions={() => <label>Customer's Table</label>}
-          muiTopToolbarProps={{
-            sx: {
-              // backgroundColor: "#D3D3D3",
-            },
-          }}
           enableHiding={false}
           enableSorting={false}
           enableColumnActions={false}
@@ -78,19 +79,36 @@ const CustomTable = (props: any) => {
           enableRowSelection={false}
           columns={props.columns}
           data={props.data}
-          //passing the static object variant if no dynamic logic is needed
           muiSelectCheckboxProps={{
             color: "secondary", //makes all checkboxes use the secondary color
           }}
           muiTableHeadCellProps={{
             sx: {
-              // backgroundColor: "#111111",
-              // color: "white",
-              // backgroundColor: "#FFFFE0",
               fontWeight: "bold",
               fontSize: "15px",
             },
           }}
+          renderTopToolbarCustomActions={({ table }) => (
+            <Box
+              sx={{
+                display: "flex",
+                p: "0.5rem",
+                flexWrap: "wrap",
+              }}
+            >
+              <Button
+                disabled={table.getPrePaginationRowModel().rows.length === 0}
+                //export all rows, including from the next page, (still respects filtering and sorting)
+                onClick={() =>
+                  handleExportRows(table.getPrePaginationRowModel().rows)
+                }
+                startIcon={<FileDownloadIcon />}
+                variant="contained"
+              >
+                Export All Rows
+              </Button>
+            </Box>
+          )}
         />
       </ThemeProvider>
     </div>
