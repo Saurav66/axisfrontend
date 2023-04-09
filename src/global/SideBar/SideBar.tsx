@@ -61,12 +61,12 @@ const listItems = [
   // },
   {
     listIcon: <AnalyticsIcon />,
-    listText: "Survey",
+    listText: "Survey List",
     url: "/survey",
   },
   {
     listIcon: <GroupIcon />,
-    listText: "Employees",
+    listText: "Service Engineer",
     url: "/employees",
   },
 ];

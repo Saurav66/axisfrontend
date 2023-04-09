@@ -1,4 +1,4 @@
-import { TextField, Typography } from "@mui/material";
+import { FormLabel, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
@@ -7,8 +7,11 @@ import Grid from "@material-ui/core/Grid";
 import {
   Button,
   FormControl,
+  FormControlLabel,
   InputLabel,
   MenuItem,
+  Radio,
+  RadioGroup,
   Select,
 } from "@material-ui/core";
 import axios from "axios";
@@ -184,6 +187,19 @@ export default function EditTicket(props: any) {
             }}
             name="engineerContactNo"
             value={data.engineerContactNo}
+            onChange={handleChange}
+            size="small"
+          />
+          <TextField
+            disabled
+            type="datetime-local"
+            className={classes.dateField}
+            label="Engineer Assigned On"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            name="engineerAssignedDateTime"
+            defaultValue={data.engineerAssignedDateTime}
             onChange={handleChange}
             size="small"
           />
@@ -527,24 +543,33 @@ export default function EditTicket(props: any) {
               onChange={handleChange}
               size="small"
             />
-            <FormControl
-              variant="outlined"
-              size="small"
-              className={classes.textField}
-            >
-              <InputLabel id="demo-simple-select-helper-label">
-                Status
-              </InputLabel>
-              <Select
-                className={classes.select}
+
+            <FormControl>
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
                 name="status"
-                value={data.status}
-                label="Status"
+                className={classes.textField}
+                style={{ marginLeft: "2rem" }}
+                defaultValue={data.status}
                 onChange={handleChange}
               >
-                <MenuItem value="Open">Open</MenuItem>
-                <MenuItem value="Closed">Closed</MenuItem>
-              </Select>
+                <FormControlLabel
+                  value="Status"
+                  control={<b />}
+                  label="Status"
+                />
+                <FormControlLabel
+                  value="OPEN"
+                  control={<Radio />}
+                  label="OPEN"
+                />
+                <FormControlLabel
+                  value="CLOSED"
+                  control={<Radio />}
+                  label="CLOSED"
+                />
+              </RadioGroup>
             </FormControl>
           </Paper>
         </Grid>

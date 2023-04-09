@@ -258,6 +258,7 @@ export default function Survey() {
                 {x}
               </option>
             ))}
+            {/* <option value="All">All</option> */}
           </select>
         </Grid>
         <Button

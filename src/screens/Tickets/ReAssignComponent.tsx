@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UrlConstants } from "../../global/UrlConstants";
+import moment from "moment";
 
 export interface SimpleDialogProps {
   open: boolean;
@@ -36,6 +37,7 @@ export default function SimpleDialog(props: SimpleDialogProps) {
       ...props.selectedTicket,
       engineerAssigned: name,
       engineerContactNo: phone,
+      engineerAssignedDateTime: moment().format("YYYY-MM-DDTHH:mm"),
     });
   };
 

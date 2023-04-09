@@ -61,7 +61,7 @@ const CustomTable = (props: any) => {
           enableHiding={false}
           enableSorting={false}
           enableColumnActions={false}
-          enableColumnFilters={false}
+          // enableColumnFilters={false}
           muiTableProps={{
             sx: {
               tableLayout: "fixed",
