@@ -385,42 +385,6 @@ export default function EditTicket(props: any) {
                 size="small"
               />
               <TextField
-                label="Complaint Attempts I Date And Time"
-                type="datetime-local"
-                name="complaintAttemptsFirstDateAndTime"
-                defaultValue={data.complaintAttemptsFirstDateAndTime}
-                className={classes.dateField}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                onChange={handleChange}
-                size="small"
-              />
-              <TextField
-                className={classes.dateField}
-                type="datetime-local"
-                label="complaint Attempts II Date And Time"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                name="complaintAttemptsSecondDateAndTime"
-                defaultValue={data.complaintAttemptsSecondDateAndTime}
-                onChange={handleChange}
-                size="small"
-              />
-              <TextField
-                type="datetime-local"
-                className={classes.dateField}
-                label="complaint Attempts III Date And Time"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                name="complaintAttemptsThirdDateAndTime"
-                defaultValue={data.complaintAttemptsThirdDateAndTime}
-                onChange={handleChange}
-                size="small"
-              />
-              <TextField
                 className={classes.textField}
                 label="Old Serial No. MB/HDD/TFT"
                 InputLabelProps={{
@@ -454,47 +418,14 @@ export default function EditTicket(props: any) {
                 size="small"
               />
               <TextField
-                className={classes.textField}
-                label="Complaint Attend Hours"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                name="complaintAttendHours"
-                value={data.complaintAttendHours}
-                onChange={handleChange}
-                size="small"
-              />
-              <TextField
-                className={classes.textField}
-                label="Complaint Completion In Hours"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                name="complaintCompletionInHour"
-                value={data.complaintCompletionInHour}
-                onChange={handleChange}
-                size="small"
-              />
-              <TextField
                 className={classes.dateField}
                 type="datetime-local"
-                label="Complaint Completion Date And Time"
+                label="Complaint Closed On"
                 InputLabelProps={{
                   shrink: true,
                 }}
                 name="complaintCompletionDatetime"
                 value={data.complaintCompletionDatetime}
-                onChange={handleChange}
-                size="small"
-              />
-              <TextField
-                className={classes.textField}
-                label="Complaint Completion In Days"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                name="complaintCompletionInDays"
-                value={data.complaintCompletionInDays}
                 onChange={handleChange}
                 size="small"
               />
