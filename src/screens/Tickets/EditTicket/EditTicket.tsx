@@ -1,4 +1,4 @@
-import { FormLabel, TextField, Typography } from "@mui/material";
+import { Box, FormLabel, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
@@ -6,6 +6,7 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import {
   Button,
+  Divider,
   FormControl,
   FormControlLabel,
   InputLabel,
@@ -18,6 +19,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UrlConstants } from "../../../global/UrlConstants";
+import moment from "moment";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -84,6 +86,14 @@ export default function EditTicket(props: any) {
   const history = useHistory();
   const role = localStorage.getItem("role");
   const [data, setData] = useState(props.history.location.state?.data);
+
+  console.log(
+    data.complaintCompletionDatetime &&
+      moment(data.engineerAssignedDateTime).diff(
+        moment(data.complaintCompletionDatetime),
+        "hours"
+      )
+  );
 
   const handleChange = (event: any) => {
     setData({ ...data, [event.target.name]: event.target.value });
@@ -429,29 +439,54 @@ export default function EditTicket(props: any) {
                 onChange={handleChange}
                 size="small"
               />
-              {/* <Grid className={classes.input} item xs> */}
-              {/* <Box>
-                <input
-                  className={classes.AddTicketInput}
-                  autoComplete="new-password"
-                  name="complainantContactNo"
-                  type="tel"
-                />
-                <Button
-                  style={{
-                    color: "white",
-                    backgroundColor: "#f44336",
-                    marginTop: 20,
-                    marginRight: 12,
-                    marginBottom: 28,
-                    minWidth: 120,
+              <Box style={{ paddingTop: "2rem" }}>
+                <TextField
+                  disabled
+                  className={classes.textField}
+                  label="Admin Response Time ( In Hours )"
+                  InputLabelProps={{
+                    shrink: true,
                   }}
-                  type="submit"
-                >
-                  Add Comment
-                </Button>
-                <label>View comments</label>
-              </Box> */}
+                  // name="responseTime"
+                  value={moment(data.engineerAssignedDateTime).diff(
+                    moment(data.complaintDatetime),
+                    "hours"
+                  )}
+                  size="small"
+                />
+                <TextField
+                  disabled
+                  className={classes.textField}
+                  label="Engineer Response Time ( In Hours )"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  value={
+                    data.complaintCompletionDatetime &&
+                    moment(data.complaintCompletionDatetime).diff(
+                      moment(data.engineerAssignedDateTime),
+                      "hours"
+                    )
+                  }
+                  size="small"
+                />
+                <TextField
+                  disabled
+                  className={classes.textField}
+                  label="Total Response Time ( In Hours )"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  value={
+                    data.complaintCompletionDatetime &&
+                    moment(data.complaintCompletionDatetime).diff(
+                      moment(data.complaintDatetime),
+                      "hours"
+                    )
+                  }
+                  size="small"
+                />
+              </Box>
             </Paper>
           </Grid>
         </Grid>
