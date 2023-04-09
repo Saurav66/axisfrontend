@@ -88,27 +88,27 @@ const CustomTable = (props: any) => {
               fontSize: "15px",
             },
           }}
-          renderTopToolbarCustomActions={({ table }) => (
-            <Box
-              sx={{
-                display: "flex",
-                p: "0.5rem",
-                flexWrap: "wrap",
-              }}
-            >
-              <Button
-                disabled={table.getPrePaginationRowModel().rows.length === 0}
-                //export all rows, including from the next page, (still respects filtering and sorting)
-                onClick={() =>
-                  handleExportRows(table.getPrePaginationRowModel().rows)
-                }
-                startIcon={<FileDownloadIcon />}
-                variant="contained"
-              >
-                Export All Rows
-              </Button>
-            </Box>
-          )}
+          // renderTopToolbarCustomActions={({ table }) => (
+          //   <Box
+          //     sx={{
+          //       display: "flex",
+          //       p: "0.5rem",
+          //       flexWrap: "wrap",
+          //     }}
+          //   >
+          //     <Button
+          //       disabled={table.getPrePaginationRowModel().rows.length === 0}
+          //       //export all rows, including from the next page, (still respects filtering and sorting)
+          //       onClick={() =>
+          //         handleExportRows(table.getPrePaginationRowModel().rows)
+          //       }
+          //       startIcon={<FileDownloadIcon />}
+          //       variant="contained"
+          //     >
+          //       Export All Rows
+          //     </Button>
+          //   </Box>
+          // )}
         />
       </ThemeProvider>
     </div>
