@@ -23,7 +23,10 @@ export default function Employees() {
   const [selectedEmployee, setSelectedEmployeeId] = useState();
 
   useEffect(() => {
-    if (localStorage.getItem("role") === "Admin") {
+    if (
+      localStorage.getItem("role") === "Admin" ||
+      localStorage.getItem("role") === "superAdmin"
+    ) {
       document.title = "Employees";
       getEngineers();
     } else {

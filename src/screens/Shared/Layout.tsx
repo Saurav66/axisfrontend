@@ -11,6 +11,7 @@ import axios from "axios";
 import { UrlConstants } from "../../global/UrlConstants";
 import Survey from "../Survey/Survey";
 import AddEditSurvey from "../Survey/AddEditSurvey";
+import AdminDashboard from "../Dashboard/AdminDashboard";
 
 //authenticated api will give response. if authenticated then only redirect to following urls/routes.
 
@@ -49,6 +50,7 @@ export default function Layout() {
         <Route exact path={"/locations"} component={LocationList} />
         <Route exact path={"/survey"} component={Survey} />
         <Route exact path={"/addEditSurvey"} component={AddEditSurvey} />
+        <Route exact path={"/adminDashboard"} component={AdminDashboard} />
       </Switch>
     );
   };

@@ -54,6 +54,7 @@ export default function Tickets() {
   const classes = useStyles();
   const history = useHistory();
   const isAdmin = localStorage.getItem("role") === "Admin";
+  const isSuperAdmin = localStorage.getItem("role") === "superAdmin";
   const loggedInUserPhone = localStorage.getItem("phone");
   const [rows, setRows] = useState([]);
   const [tabValue, setTabValue] = useState("OPEN");
@@ -69,7 +70,7 @@ export default function Tickets() {
   const getTickets = async (fromDate: String, toDate: String) => {
     let response;
     if (tabValue === "OPEN") {
-      if (isAdmin) {
+      if (isAdmin || isSuperAdmin) {
         response = await getAdminTicketByStatusAndDateRange(
           "OPEN",
           fromDate,
@@ -396,11 +397,7 @@ export default function Tickets() {
                 // xs={6}
                 className={classes.firstGridItems}
               >
-                <Grid
-                  item
-                  xl={3}
-                  className={classes.firstGridItems}
-                >
+                <Grid item xl={3} className={classes.firstGridItems}>
                   <CustomRangePicker
                     handleDateRangeChange={handleDateRangeChange}
                   />

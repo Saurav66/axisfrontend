@@ -154,6 +154,7 @@ export default function Survey() {
   useEffect(() => {
     if (
       localStorage.getItem("role") === "Admin" ||
+      localStorage.getItem("role") === "superAdmin" ||
       localStorage.getItem("role") === "Surveyor"
     ) {
       document.title = "Survey";

@@ -142,7 +142,7 @@ export default function SideBar() {
           }}
         >
           <Toolbar>
-            {role === "Admin" && (
+            {(role === "Admin" || role === "superAdmin") && (
               <IconButton onClick={toggleSlider}>
                 <Menu style={{ fill: "#FFFFFF" }} />
               </IconButton>
