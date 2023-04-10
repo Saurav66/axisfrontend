@@ -220,7 +220,9 @@ export default function EditTicket(props: any) {
               <Typography variant="h5">COMPLAIMENT DETAILS</Typography>
               <hr />
               <TextField
-                disabled={role === "Engineer" || role === "Admin"}
+                disabled={
+                  role === "Engineer" || role === "Admin" || role === "AEIT"
+                }
                 className={classes.textField}
                 label="Complainant Name"
                 InputLabelProps={{
@@ -232,7 +234,9 @@ export default function EditTicket(props: any) {
                 size="small"
               />
               <TextField
-                disabled={role === "Engineer" || role === "Admin"}
+                disabled={
+                  role === "Engineer" || role === "Admin" || role === "AEIT"
+                }
                 className={classes.textField}
                 label="Contact No"
                 InputLabelProps={{
@@ -245,7 +249,9 @@ export default function EditTicket(props: any) {
                 size="small"
               />
               <TextField
-                disabled={role === "Engineer" || role === "Admin"}
+                disabled={
+                  role === "Engineer" || role === "Admin" || role === "AEIT"
+                }
                 className={classes.textField}
                 label="Project Name"
                 InputLabelProps={{
@@ -257,7 +263,9 @@ export default function EditTicket(props: any) {
                 size="small"
               />
               <TextField
-                disabled={role === "Engineer" || role === "Admin"}
+                disabled={
+                  role === "Engineer" || role === "Admin" || role === "AEIT"
+                }
                 className={classes.textField}
                 label="Product"
                 InputLabelProps={{
@@ -270,7 +278,9 @@ export default function EditTicket(props: any) {
                 size="small"
               />
               <TextField
-                disabled={role === "Engineer" || role === "Admin"}
+                disabled={
+                  role === "Engineer" || role === "Admin" || role === "AEIT"
+                }
                 className={classes.textField}
                 label="Machine Make"
                 InputLabelProps={{
@@ -282,7 +292,9 @@ export default function EditTicket(props: any) {
                 size="small"
               />
               <TextField
-                disabled={role === "Engineer" || role === "Admin"}
+                disabled={
+                  role === "Engineer" || role === "Admin" || role === "AEIT"
+                }
                 className={classes.textField}
                 label="Problem Type"
                 InputLabelProps={{
@@ -294,7 +306,9 @@ export default function EditTicket(props: any) {
                 size="small"
               />
               <TextField
-                disabled={role === "Engineer" || role === "Admin"}
+                disabled={
+                  role === "Engineer" || role === "Admin" || role === "AEIT"
+                }
                 className={classes.textField}
                 label="Machine Serial No"
                 InputLabelProps={{
@@ -306,7 +320,9 @@ export default function EditTicket(props: any) {
                 size="small"
               />
               <TextField
-                disabled={role === "Engineer" || role === "Admin"}
+                disabled={
+                  role === "Engineer" || role === "Admin" || role === "AEIT"
+                }
                 className={classes.textField}
                 label="Village/Town or Substation"
                 InputLabelProps={{
@@ -318,7 +334,9 @@ export default function EditTicket(props: any) {
                 size="small"
               />
               <TextField
-                disabled={role === "Engineer" || role === "Admin"}
+                disabled={
+                  role === "Engineer" || role === "Admin" || role === "AEIT"
+                }
                 className={classes.textField}
                 label="Landmark"
                 InputLabelProps={{
@@ -330,7 +348,9 @@ export default function EditTicket(props: any) {
                 size="small"
               />
               <TextField
-                disabled={role === "Engineer" || role === "Admin"}
+                disabled={
+                  role === "Engineer" || role === "Admin" || role === "AEIT"
+                }
                 className={classes.textField}
                 label="Circle"
                 InputLabelProps={{
@@ -342,7 +362,9 @@ export default function EditTicket(props: any) {
                 size="small"
               />
               <TextField
-                disabled={role === "Engineer" || role === "Admin"}
+                disabled={
+                  role === "Engineer" || role === "Admin" || role === "AEIT"
+                }
                 className={classes.textField}
                 label="Division"
                 InputLabelProps={{
@@ -354,7 +376,9 @@ export default function EditTicket(props: any) {
                 size="small"
               />
               <TextField
-                disabled={role === "Engineer" || role === "Admin"}
+                disabled={
+                  role === "Engineer" || role === "Admin" || role === "AEIT"
+                }
                 className={classes.textField}
                 label="Pincode"
                 InputLabelProps={{
@@ -366,7 +390,9 @@ export default function EditTicket(props: any) {
                 size="small"
               />
               <TextField
-                disabled={role === "Engineer" || role === "Admin"}
+                disabled={
+                  role === "Engineer" || role === "Admin" || role === "AEIT"
+                }
                 className={classes.textField}
                 label="Complainant Designation"
                 InputLabelProps={{
@@ -384,7 +410,7 @@ export default function EditTicket(props: any) {
               <Typography variant="h5">DETAILS FILLED BY ENGINNER</Typography>
               <hr />
               <TextField
-                disabled={role === "Admin"}
+                disabled={role === "Admin" || role === "AEIT"}
                 className={classes.textField}
                 label="Defective Item Name"
                 InputLabelProps={{
@@ -396,7 +422,7 @@ export default function EditTicket(props: any) {
                 size="small"
               />
               <TextField
-                disabled={role === "Admin"}
+                disabled={role === "Admin" || role === "AEIT"}
                 className={classes.textField}
                 label="Old Serial No. MB/HDD/TFT"
                 InputLabelProps={{
@@ -408,7 +434,7 @@ export default function EditTicket(props: any) {
                 size="small"
               />
               <TextField
-                disabled={role === "Admin"}
+                disabled={role === "Admin" || role === "AEIT"}
                 className={classes.textField}
                 label="New Serial No. MB/HDD/TFT"
                 InputLabelProps={{
@@ -420,7 +446,7 @@ export default function EditTicket(props: any) {
                 size="small"
               />
               <TextField
-                disabled={role === "Admin"}
+                disabled={role === "Admin" || role === "AEIT"}
                 className={classes.textField}
                 label="Action Taken And Spare Useds"
                 InputLabelProps={{
@@ -432,7 +458,7 @@ export default function EditTicket(props: any) {
                 size="small"
               />
               <TextField
-                disabled={role === "Admin"}
+                disabled={role === "Admin" || role === "AEIT"}
                 className={classes.dateField}
                 type="datetime-local"
                 label="Complaint Closed On"
@@ -453,10 +479,13 @@ export default function EditTicket(props: any) {
                     shrink: true,
                   }}
                   // name="responseTime"
-                  value={moment(data.engineerAssignedDateTime).diff(
-                    moment(data.complaintDatetime),
-                    "hours"
-                  )}
+                  value={
+                    data.engineerAssignedDateTime &&
+                    moment(data.engineerAssignedDateTime).diff(
+                      moment(data.complaintDatetime),
+                      "hours"
+                    )
+                  }
                   size="small"
                 />
                 <TextField
@@ -504,6 +533,7 @@ export default function EditTicket(props: any) {
             }}
           >
             <TextField
+              disabled={role === "AEIT"}
               className={classes.textField}
               label="Remarks"
               InputLabelProps={{
@@ -534,11 +564,13 @@ export default function EditTicket(props: any) {
                   value="OPEN"
                   control={<Radio />}
                   label="OPEN"
+                  disabled={role === "AEIT"}
                 />
                 <FormControlLabel
                   value="CLOSED"
                   control={<Radio />}
                   label="CLOSED"
+                  disabled={role === "AEIT"}
                 />
               </RadioGroup>
             </FormControl>

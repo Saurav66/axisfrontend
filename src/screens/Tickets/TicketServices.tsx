@@ -19,6 +19,26 @@ export const getAdminTicketByStatusAndDateRange = async (
   return response;
 };
 
+export const getAEITTicketByCircleStatusAndDateRange = async (
+  status: any,
+  circle: any,
+  fromDate: String,
+  toDate: String
+) => {
+  const response = await axios
+    .post(
+      `${UrlConstants.baseUrl}/getTickets/AEIT/${status}/${fromDate}/${toDate}`,
+      { text: circle }
+    )
+    .then((response: any) => {
+      return response.data;
+    })
+    .catch((error: any) => {
+      console.error("There was an error!", error);
+    });
+  return response;
+};
+
 export const getEngTicketByStatusAndDateRange = async (
   phone: any,
   status: any,

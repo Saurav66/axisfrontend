@@ -15,6 +15,8 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 
 export default function Survey() {
   let history = useHistory();
+  const isAEIT = localStorage.getItem("role") === "AEIT";
+  const loggedInUserCircle = localStorage.getItem("circle");
   const [selectedCity, setSelectedCity] = useState("Saharanpur");
   const [cityOptions, setCityOptions] = useState([]);
   const [rows, setRows] = useState([]);
@@ -155,7 +157,8 @@ export default function Survey() {
     if (
       localStorage.getItem("role") === "Admin" ||
       localStorage.getItem("role") === "superAdmin" ||
-      localStorage.getItem("role") === "Surveyor"
+      localStorage.getItem("role") === "Surveyor" ||
+      isAEIT
     ) {
       document.title = "Survey";
     } else {
@@ -168,7 +171,11 @@ export default function Survey() {
 
   const getSurveys = async (city: String) => {
     const response = await axios
-      .get(`${UrlConstants.baseUrl}/getSurveyByCity/${city}`)
+      .get(
+        isAEIT
+          ? `${UrlConstants.baseUrl}/getSurveyByCircle/${loggedInUserCircle}`
+          : `${UrlConstants.baseUrl}/getSurveyByCity/${city}`
+      )
       .then((response: any) => {
         return response.data;
       })
@@ -228,51 +235,56 @@ export default function Survey() {
           paddingRight: 20,
         }}
       >
-        <Grid
-          item
-          xs
-          style={{
-            marginTop: 20,
-            minWidth: 120,
-            padding: 5,
-          }}
-        >
-          <label
-            style={{
-              paddingRight: "1rem",
-              color: "black",
-            }}
-          >
-            Select City
-          </label>
-          <select
-            style={{
-              width: 295,
-              height: 27,
-            }}
-            name="city"
-            // value={props.ticketData.division}
-            onChange={handleCityChange}
-          >
-            {cityOptions.map((x, y) => (
-              <option key={y} value={x}>
-                {x}
-              </option>
-            ))}
-          </select>
-        </Grid>
-        <Button
-          style={{
-            color: "white",
-            backgroundColor: "#f44336",
-            marginTop: 20,
-            minWidth: 120,
-          }}
-          variant="outlined"
-          onClick={handleOnClick}
-        >
-          Add Survey
-        </Button>
+        {!isAEIT && (
+          <>
+            <Grid
+              item
+              xs
+              style={{
+                marginTop: 20,
+                minWidth: 120,
+                padding: 5,
+              }}
+            >
+              <label
+                style={{
+                  paddingRight: "1rem",
+                  color: "black",
+                }}
+              >
+                Select City
+              </label>
+              <select
+                style={{
+                  width: 295,
+                  height: 27,
+                }}
+                name="city"
+                // value={props.ticketData.division}
+                onChange={handleCityChange}
+              >
+                {cityOptions.map((x, y) => (
+                  <option key={y} value={x}>
+                    {x}
+                  </option>
+                ))}
+              </select>
+            </Grid>
+            <Button
+              style={{
+                color: "white",
+                backgroundColor: "#f44336",
+                marginTop: 20,
+                minWidth: 120,
+              }}
+              variant="outlined"
+              onClick={handleOnClick}
+            >
+              Add Survey
+            </Button>
+          </>
+        )}
+
         {localStorage.getItem("role") === "Admin" && (
           <>
             <Grid

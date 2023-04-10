@@ -22,6 +22,7 @@ import ticketData from "../../data/ticketData.json";
 import { Tab, Tabs, TextField } from "@mui/material";
 import {
   getAdminTicketByStatusAndDateRange,
+  getAEITTicketByCircleStatusAndDateRange,
   getEngTicketByStatusAndDateRange,
 } from "./TicketServices";
 import CustomRangePicker from "../../global/CustomRangePicker/CustomRangePicker";
@@ -55,6 +56,8 @@ export default function Tickets() {
   const history = useHistory();
   const isAdmin = localStorage.getItem("role") === "Admin";
   const isSuperAdmin = localStorage.getItem("role") === "superAdmin";
+  const isAEIT = localStorage.getItem("role") === "AEIT";
+  const userCircle = localStorage.getItem("circle");
   const loggedInUserPhone = localStorage.getItem("phone");
   const [rows, setRows] = useState([]);
   const [tabValue, setTabValue] = useState("OPEN");
@@ -76,6 +79,13 @@ export default function Tickets() {
           fromDate,
           toDate
         );
+      } else if (isAEIT) {
+        response = await getAEITTicketByCircleStatusAndDateRange(
+          "OPEN",
+          userCircle,
+          fromDate,
+          toDate
+        );
       } else {
         response = await getEngTicketByStatusAndDateRange(
           loggedInUserPhone,
@@ -88,6 +98,13 @@ export default function Tickets() {
       if (isAdmin) {
         response = await getAdminTicketByStatusAndDateRange(
           "CLOSED",
+          fromDate,
+          toDate
+        );
+      } else if (isAEIT) {
+        response = await getAEITTicketByCircleStatusAndDateRange(
+          "CLOSED",
+          userCircle,
           fromDate,
           toDate
         );

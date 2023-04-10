@@ -71,6 +71,19 @@ const listItems = [
   },
 ];
 
+const listItemsForAEIT = [
+  {
+    listIcon: <AssignmentIcon />,
+    listText: "Tickets",
+    url: "/tickets",
+  },
+  {
+    listIcon: <AnalyticsIcon />,
+    listText: "Survey List",
+    url: "/survey",
+  },
+];
+
 export default function SideBar() {
   const classes = useStyles();
   let history = useHistory();
@@ -95,19 +108,33 @@ export default function SideBar() {
       />
       <Divider />
       <List>
-        {listItems.map((listItem, index) => (
-          <ListItem
-            onClick={() => redirectToComponent(listItem.url)}
-            className={classes.listItem}
-            button
-            key={index}
-          >
-            <ListItemIcon className={classes.listItem}>
-              {listItem.listIcon}
-            </ListItemIcon>
-            <ListItemText primary={listItem.listText} />
-          </ListItem>
-        ))}
+        {role === "AEIT"
+          ? listItemsForAEIT.map((listItem, index) => (
+              <ListItem
+                onClick={() => redirectToComponent(listItem.url)}
+                className={classes.listItem}
+                button
+                key={index}
+              >
+                <ListItemIcon className={classes.listItem}>
+                  {listItem.listIcon}
+                </ListItemIcon>
+                <ListItemText primary={listItem.listText} />
+              </ListItem>
+            ))
+          : listItems.map((listItem, index) => (
+              <ListItem
+                onClick={() => redirectToComponent(listItem.url)}
+                className={classes.listItem}
+                button
+                key={index}
+              >
+                <ListItemIcon className={classes.listItem}>
+                  {listItem.listIcon}
+                </ListItemIcon>
+                <ListItemText primary={listItem.listText} />
+              </ListItem>
+            ))}
       </List>
     </Box>
   );
@@ -142,7 +169,7 @@ export default function SideBar() {
           }}
         >
           <Toolbar>
-            {(role === "Admin" || role === "superAdmin") && (
+            {(role === "Admin" || role === "superAdmin" || role === "AEIT") && (
               <IconButton onClick={toggleSlider}>
                 <Menu style={{ fill: "#FFFFFF" }} />
               </IconButton>

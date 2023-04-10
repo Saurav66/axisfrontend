@@ -53,6 +53,7 @@ export default function SignInSide() {
       localStorage.setItem("role", response.role);
       localStorage.setItem("userName", response.name);
       localStorage.setItem("phone", response.phone);
+      localStorage.setItem("circle", response.circle);
       localStorage.setItem("id", response.id);
       if (response) {
         if (response.role === "Surveyor") {
