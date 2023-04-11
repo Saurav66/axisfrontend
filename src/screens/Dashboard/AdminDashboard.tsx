@@ -2,8 +2,11 @@ import { Card, Tooltip } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { Box, Grid } from "@mui/material";
 // import { BarChart, Bar, CartesianGrid, XAxis, YAxis } from "recharts";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CustomCard from "../../global/CustomCard/CustomCard";
+import axios from "axios";
+import { UrlConstants } from "../../global/UrlConstants";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -19,7 +22,39 @@ const data = [
 ];
 
 export default function AdminDashboard() {
+  let history = useHistory();
   const classes = useStyles();
+  const [ticketCount, setTicketCount] = useState({
+    OPEN: 0,
+    CLOSED: 0,
+    currentMonthCreatedTicket: 0,
+    currentMonthClosedTicket: 0,
+    activeEngineers: 0,
+    totalSurvey: 0,
+    totalCircles: 0,
+  });
+
+  useEffect(() => {
+    if (
+      localStorage.getItem("role") === "Admin" ||
+      localStorage.getItem("role") === "superAdmin"
+    ) {
+      document.title = "Survey";
+      getTicketCounts();
+    } else {
+      window.location.replace("https://axisinfoline.com");
+    }
+  }, []);
+
+  const getTicketCounts = async () => {
+    const response = await axios
+      .get(`${UrlConstants.baseUrl}/getDashboard/count/admin`)
+      .then((response: any) => {
+        return response.data;
+      })
+      .catch((error) => {});
+    setTicketCount(response);
+  };
 
   const handleOnClick = () => {};
 
@@ -29,28 +64,28 @@ export default function AdminDashboard() {
         <Grid item xs>
           <CustomCard
             title="Total Tickets"
-            count={500}
-            onClick={handleOnClick}
+            count={ticketCount.OPEN + (ticketCount.CLOSED ?? 0)}
+            onClick={() => console.log("hello")}
           ></CustomCard>
         </Grid>
         <Grid item xs>
           <CustomCard
             title="Total Survey"
-            count={2000}
+            count={ticketCount.totalSurvey}
             onClick={handleOnClick}
           ></CustomCard>
         </Grid>
         <Grid item xs>
           <CustomCard
             title="Total Circle"
-            count={3000}
+            count={ticketCount.totalCircles}
             onClick={handleOnClick}
           ></CustomCard>
         </Grid>
         <Grid item xs>
           <CustomCard
-            title="Engineer"
-            count={200}
+            title="Active Engineer"
+            count={ticketCount.activeEngineers}
             onClick={handleOnClick}
           ></CustomCard>
         </Grid>
@@ -58,22 +93,29 @@ export default function AdminDashboard() {
       <Grid container spacing={2} style={{ padding: "2rem" }}>
         <Grid item xs>
           <CustomCard
-            title="Ticket"
-            count={200}
+            title="Open Tickets"
+            count={ticketCount.OPEN}
+            onClick={handleOnClick}
+          ></CustomCard>
+        </Grid>
+        <Grid item xs>
+          <CustomCard
+            title="Closed Tickets"
+            count={ticketCount.CLOSED ?? 0}
             onClick={handleOnClick}
           ></CustomCard>
         </Grid>
         <Grid item xs>
           <CustomCard
             title="Ticket Closed this Month"
-            count={200}
+            count={ticketCount.currentMonthClosedTicket}
             onClick={handleOnClick}
           ></CustomCard>
         </Grid>
         <Grid item xs>
           <CustomCard
             title="Ticket Created this Month"
-            count={200}
+            count={ticketCount.currentMonthCreatedTicket}
             onClick={handleOnClick}
           ></CustomCard>
         </Grid>
