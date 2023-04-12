@@ -6,6 +6,7 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import {
   Button,
+  CircularProgress,
   Divider,
   FormControl,
   FormControlLabel,
@@ -20,9 +21,21 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UrlConstants } from "../../../global/UrlConstants";
 import moment from "moment";
+import { DropzoneArea } from "material-ui-dropzone";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    myDropZone: {
+      position: "relative",
+      width: "100%",
+      height: "30%",
+      minHeight: "100px",
+      backgroundColor: "#F0F0F0",
+      border: "dashed",
+      borderColor: "#C8C8C8",
+      cursor: "pointer",
+      boxSizing: "border-box",
+    },
     Typography: {
       color: "black",
       paddingTop: "0.3rem",
@@ -133,6 +146,52 @@ export default function EditTicket(props: any) {
   const handleCancel = (e: any) => {
     e.preventDefault();
     history.goBack();
+  };
+
+  const onFileDropped = (files: any) => {
+    //code
+    console.log(data.complaintNo);
+    console.log(files[0]);
+    if (files[0]?.name) {
+      axios
+        .post(
+          `${UrlConstants.baseUrl}/document`,
+          {
+            userId: data.complaintNo,
+            documentFile: files[0],
+          },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
+        .then(function (response) {
+          console.log(response);
+          toast.success("Successfully Updated!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        })
+        .catch(function (error) {
+          toast.error("Error while Uploading Document!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        });
+    }
   };
 
   return (
@@ -519,6 +578,16 @@ export default function EditTicket(props: any) {
                     )
                   }
                   size="small"
+                />
+              </Box>
+              <Box>
+                <DropzoneArea
+                  filesLimit={1}
+                  dropzoneClass={classes.myDropZone}
+                  acceptedFiles={["image/*"]}
+                  dropzoneText={"Drag and drop an image here or click"}
+                  // onChange={(files) => console.log("Files:", files)}
+                  onChange={(files) => onFileDropped(files)}
                 />
               </Box>
             </Paper>

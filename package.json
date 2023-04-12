@@ -25,6 +25,7 @@
     "export-xlsx": "^0.1.4",
     "json-loader": "^0.5.7",
     "material-react-table": "^1.8.5",
+    "material-ui-dropzone": "^3.5.0",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
