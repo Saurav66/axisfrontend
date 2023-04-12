@@ -148,49 +148,86 @@ export default function EditTicket(props: any) {
     history.goBack();
   };
 
+  const handleViewDocument = () => {
+    window.open(`${UrlConstants.baseUrl}/document/view/${data.docPath}`);
+  };
+
+  const handleDownloadDocument = (e: any) => {
+    axios({
+      url: `${UrlConstants.baseUrl}/document/download/${data.docPath}`, //your url
+      method: "GET",
+      responseType: "blob", // important
+    }).then((response) => {
+      // create file link in browser's memory
+      const href = URL.createObjectURL(response.data);
+
+      // create "a" HTML element with href to file & click
+      const link = document.createElement("a");
+      link.href = href;
+      link.setAttribute("download", data.docPath); //or any other extension
+      document.body.appendChild(link);
+      link.click();
+
+      // clean up "a" element & remove ObjectURL
+      document.body.removeChild(link);
+      URL.revokeObjectURL(href);
+    });
+  };
+
   const onFileDropped = (files: any) => {
-    //code
-    console.log(data.complaintNo);
-    console.log(files[0]);
-    if (files[0]?.name) {
-      axios
-        .post(
-          `${UrlConstants.baseUrl}/document`,
-          {
-            userId: data.complaintNo,
-            documentFile: files[0],
-          },
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
+    if (role === "Engineer") {
+      if (files[0]?.name) {
+        axios
+          .post(
+            `${UrlConstants.baseUrl}/document`,
+            {
+              userId: data.complaintNo,
+              documentFile: files[0],
             },
-          }
-        )
-        .then(function (response) {
-          console.log(response);
-          toast.success("Successfully Updated!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          )
+          .then(function (response) {
+            console.log(response);
+            setData({ ...data, docPath: response.data.data.name });
+            toast.success("Successfully Updated!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+          })
+          .catch(function (error) {
+            toast.error("Error while Uploading Document!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
           });
-        })
-        .catch(function (error) {
-          toast.error("Error while Uploading Document!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        });
+      }
+    } else {
+      toast.error("You don't have rights to add/replace image!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
@@ -529,7 +566,7 @@ export default function EditTicket(props: any) {
                 onChange={handleChange}
                 size="small"
               />
-              <Box style={{ paddingTop: "2rem" }}>
+              <Box>
                 <TextField
                   disabled
                   className={classes.textField}
@@ -584,12 +621,48 @@ export default function EditTicket(props: any) {
                 <DropzoneArea
                   filesLimit={1}
                   dropzoneClass={classes.myDropZone}
+                  showFileNamesInPreview={true}
                   acceptedFiles={["image/*"]}
-                  dropzoneText={"Drag and drop an image here or click"}
+                  dropzoneText={
+                    data?.docPath
+                      ? "Replace Image"
+                      : "Drag and drop an image here or click"
+                  }
                   // onChange={(files) => console.log("Files:", files)}
                   onChange={(files) => onFileDropped(files)}
-                />
+                ></DropzoneArea>
               </Box>
+              {data?.docPath && (
+                <Box>
+                  <Typography>{data.docPath}</Typography>
+                  <Button
+                    style={{
+                      color: "white",
+                      backgroundColor: "#013220",
+                      marginTop: 20,
+                      marginLeft: 4,
+                      marginBottom: 20,
+                      minWidth: 120,
+                    }}
+                    onClick={handleViewDocument}
+                  >
+                    View
+                  </Button>
+                  <Button
+                    style={{
+                      color: "white",
+                      backgroundColor: "#013220",
+                      marginTop: 20,
+                      marginLeft: 4,
+                      marginBottom: 20,
+                      minWidth: 120,
+                    }}
+                    onClick={handleDownloadDocument}
+                  >
+                    Download
+                  </Button>
+                </Box>
+              )}
             </Paper>
           </Grid>
         </Grid>
@@ -675,6 +748,7 @@ export default function EditTicket(props: any) {
           Save
         </Button>
       </Paper>
+
       <ToastContainer />
     </>
   );
