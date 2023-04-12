@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function Tickets() {
+export default function Tickets(props: any) {
   const classes = useStyles();
   const history = useHistory();
   const isAdmin = localStorage.getItem("role") === "Admin";
@@ -60,7 +60,9 @@ export default function Tickets() {
   const userCircle = localStorage.getItem("circle");
   const loggedInUserPhone = localStorage.getItem("phone");
   const [rows, setRows] = useState([]);
-  const [tabValue, setTabValue] = useState("OPEN");
+  const [tabValue, setTabValue] = useState(
+    props.history.location.state?.tabValue ?? "OPEN"
+  );
   const [OPEN, setOPEN] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState();
   const [engineersList, setengineersList] = useState([]);

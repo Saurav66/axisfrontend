@@ -16,7 +16,7 @@ export default function CustomCard(props: CustomProps) {
   return (
     <>
       <Card
-        //   onClick={() => props.onClick && props.onClick()}
+        onClick={() => props.onClick && props.onClick()}
         sx={{
           width: props.cardWidth ? props.cardWidth : "auto",
           height: props.cardHeight ? props.cardHeight : "auto",

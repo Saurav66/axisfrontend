@@ -65,14 +65,14 @@ export default function AdminDashboard() {
           <CustomCard
             title="Total Tickets"
             count={ticketCount.OPEN + (ticketCount.CLOSED ?? 0)}
-            onClick={() => console.log("hello")}
+            onClick={() => history.push("/tickets")}
           ></CustomCard>
         </Grid>
         <Grid item xs>
           <CustomCard
             title="Total Survey"
             count={ticketCount.totalSurvey}
-            onClick={handleOnClick}
+            onClick={() => history.push("/survey")}
           ></CustomCard>
         </Grid>
         <Grid item xs>
@@ -86,7 +86,7 @@ export default function AdminDashboard() {
           <CustomCard
             title="Active Engineer"
             count={ticketCount.activeEngineers}
-            onClick={handleOnClick}
+            onClick={() => history.push("/employees")}
           ></CustomCard>
         </Grid>
       </Grid>
@@ -95,28 +95,28 @@ export default function AdminDashboard() {
           <CustomCard
             title="Open Tickets"
             count={ticketCount.OPEN}
-            onClick={handleOnClick}
+            onClick={() => history.push("/tickets")}
           ></CustomCard>
         </Grid>
         <Grid item xs>
           <CustomCard
             title="Closed Tickets"
             count={ticketCount.CLOSED ?? 0}
-            onClick={handleOnClick}
+            onClick={() => history.push("/tickets", { tabValue: "CLOSED" })}
           ></CustomCard>
         </Grid>
         <Grid item xs>
           <CustomCard
             title="Ticket Closed this Month"
             count={ticketCount.currentMonthClosedTicket}
-            onClick={handleOnClick}
+            onClick={() => history.push("/tickets", { tabValue: "CLOSED" })}
           ></CustomCard>
         </Grid>
         <Grid item xs>
           <CustomCard
             title="Ticket Created this Month"
             count={ticketCount.currentMonthCreatedTicket}
-            onClick={handleOnClick}
+            onClick={() => history.push("/tickets")}
           ></CustomCard>
         </Grid>
       </Grid>
