@@ -175,59 +175,46 @@ export default function EditTicket(props: any) {
   };
 
   const onFileDropped = (files: any) => {
-    if (role === "Engineer") {
-      if (files[0]?.name) {
-        axios
-          .post(
-            `${UrlConstants.baseUrl}/document`,
-            {
-              userId: data.complaintNo,
-              documentFile: files[0],
+    if (files[0]?.name) {
+      axios
+        .post(
+          `${UrlConstants.baseUrl}/document`,
+          {
+            userId: data.complaintNo,
+            documentFile: files[0],
+          },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
             },
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            }
-          )
-          .then(function (response) {
-            console.log(response);
-            setData({ ...data, docPath: response.data.data.name });
-            toast.success("Successfully Updated!", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-          })
-          .catch(function (error) {
-            toast.error("Error while Uploading Document!", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
+          }
+        )
+        .then(function (response) {
+          console.log(response);
+          setData({ ...data, docPath: response.data.data.name });
+          toast.success("Successfully Updated!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
           });
-      }
-    } else {
-      toast.error("You don't have rights to add/replace image!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+        })
+        .catch(function (error) {
+          toast.error("Error while Uploading Document!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        });
     }
   };
 
@@ -617,21 +604,23 @@ export default function EditTicket(props: any) {
                   size="small"
                 />
               </Box>
-              <Box>
-                <DropzoneArea
-                  filesLimit={1}
-                  dropzoneClass={classes.myDropZone}
-                  showFileNamesInPreview={true}
-                  acceptedFiles={["image/*"]}
-                  dropzoneText={
-                    data?.docPath
-                      ? "Replace Image"
-                      : "Drag and drop an image here or click"
-                  }
-                  // onChange={(files) => console.log("Files:", files)}
-                  onChange={(files) => onFileDropped(files)}
-                ></DropzoneArea>
-              </Box>
+              {role === "Engineer" && (
+                <Box>
+                  <DropzoneArea
+                    filesLimit={1}
+                    dropzoneClass={classes.myDropZone}
+                    showFileNamesInPreview={true}
+                    acceptedFiles={["image/*"]}
+                    dropzoneText={
+                      data?.docPath
+                        ? "Replace Image"
+                        : "Drag and drop an image here or click"
+                    }
+                    // onChange={(files) => console.log("Files:", files)}
+                    onChange={(files) => onFileDropped(files)}
+                  ></DropzoneArea>
+                </Box>
+              )}
               {data?.docPath && (
                 <Box>
                   <Typography>{data.docPath}</Typography>
@@ -646,7 +635,7 @@ export default function EditTicket(props: any) {
                     }}
                     onClick={handleViewDocument}
                   >
-                    View
+                    View Image
                   </Button>
                   <Button
                     style={{
@@ -659,7 +648,7 @@ export default function EditTicket(props: any) {
                     }}
                     onClick={handleDownloadDocument}
                   >
-                    Download
+                    Download Image
                   </Button>
                 </Box>
               )}
