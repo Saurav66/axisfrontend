@@ -1,12 +1,20 @@
-import { Card, Tooltip } from "@material-ui/core";
+import { Card } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 // import { BarChart, Bar, CartesianGrid, XAxis, YAxis } from "recharts";
 import React, { useEffect, useState } from "react";
 import CustomCard from "../../global/CustomCard/CustomCard";
 import axios from "axios";
 import { UrlConstants } from "../../global/UrlConstants";
 import { useHistory } from "react-router-dom";
+import {
+  PieChart,
+  Pie,
+  Sector,
+  Cell,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -17,9 +25,52 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const data = [
-  { name: "pu", students: 400 },
-  { name: "pv", students: 700 },
+  { name: "Group A", value: 400 },
+  { name: "Group B", value: 300 },
+  { name: "Group C", value: 300 },
+  { name: "Group D", value: 200 },
 ];
+
+const COLORS = ["#FFBB28", "#FF8042"];
+
+const RADIAN = Math.PI / 180;
+const renderCustomizedLabel = ({
+  cx,
+  cy,
+  midAngle,
+  innerRadius,
+  outerRadius,
+  percent,
+  index,
+  name,
+  value,
+}: any) => {
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+  return (
+    <text
+      x={x}
+      y={y}
+      fill="#e03a3c"
+      textAnchor={x > cx ? "start" : "end"}
+      dominantBaseline="central"
+    >
+      {/* {`${(percent * 100).toFixed(0)}%`} */}
+      {`${name}: ${value?.toFixed(0) ?? 0}`}
+    </text>
+  );
+};
+
+// const renderCustomizedLabel = ({ x, y, name }: any) => {
+//   console.log("name", name);
+//   return (
+//     <text x={x} y={y} fill="black" textAnchor="end" dominantBaseline="central">
+//       {name}
+//     </text>
+//   );
+// };
 
 export default function AdminDashboard() {
   let history = useHistory();
@@ -39,7 +90,7 @@ export default function AdminDashboard() {
       localStorage.getItem("role") === "Admin" ||
       localStorage.getItem("role") === "superAdmin"
     ) {
-      document.title = "Survey";
+      document.title = "Dashboard";
       getTicketCounts();
     } else {
       window.location.replace("https://axisinfoline.com");
@@ -90,24 +141,38 @@ export default function AdminDashboard() {
           ></CustomCard>
         </Grid>
       </Grid>
-      <Grid container spacing={2} style={{ padding: "2rem" }}>
+      <Grid container spacing={2} style={{ padding: "2rem", height: "17vw" }}>
         <Grid item xs>
-          <CustomCard
-            title="Open Tickets"
-            count={ticketCount.OPEN}
-            onClick={() => history.push("/tickets")}
-          ></CustomCard>
-        </Grid>
-        <Grid item xs>
-          <CustomCard
-            title="Closed Tickets"
-            count={ticketCount.CLOSED ?? 0}
-            onClick={() => history.push("/tickets", { tabValue: "CLOSED" })}
-          ></CustomCard>
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart width={400} height={400}>
+              <Pie
+                // data={data}
+                data={[
+                  { name: "Open", value: ticketCount.OPEN },
+                  { name: "Closed", value: ticketCount.CLOSED },
+                ]}
+                cx="50%"
+                cy="50%"
+                labelLine={false}
+                label={renderCustomizedLabel}
+                outerRadius={80}
+                fill="#8884d8"
+                dataKey="value"
+              >
+                {data.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
         </Grid>
         <Grid item xs>
           <CustomCard
             title="Ticket Closed this Month"
+            cardWidth="30vw"
             count={ticketCount.currentMonthClosedTicket}
             onClick={() => history.push("/tickets", { tabValue: "CLOSED" })}
           ></CustomCard>
@@ -115,11 +180,13 @@ export default function AdminDashboard() {
         <Grid item xs>
           <CustomCard
             title="Ticket Created this Month"
+            cardWidth="30vw"
             count={ticketCount.currentMonthCreatedTicket}
             onClick={() => history.push("/tickets")}
           ></CustomCard>
         </Grid>
       </Grid>
+      <Grid container spacing={2} style={{ padding: "2rem" }}></Grid>
     </>
   );
 }

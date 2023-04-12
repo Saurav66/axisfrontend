@@ -56,7 +56,11 @@ export default function SignInSide() {
       localStorage.setItem("circle", response.circle);
       localStorage.setItem("id", response.id);
       if (response) {
-        if (response.role === "Surveyor") {
+        if (response.role === "Admin" || response.role === "superAdmin") {
+          history.push({
+            pathname: "/adminDashboard",
+          });
+        } else if (response.role === "Surveyor") {
           history.push({
             pathname: "/survey",
           });

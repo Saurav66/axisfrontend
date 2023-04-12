@@ -21,7 +21,7 @@ export default function CustomCard(props: CustomProps) {
           width: props.cardWidth ? props.cardWidth : "auto",
           height: props.cardHeight ? props.cardHeight : "auto",
           backgroundColor: props.cardColor ? props.cardColor : "#FFFFFF",
-          // color: props?.color ? props?.color : "#FFFFFF",
+          color: props?.color ? props?.color : "#e03a3c",
           flexDirection: "column",
           padding: 1,
           //   ...centerItemFlex,
