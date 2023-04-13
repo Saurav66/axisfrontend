@@ -1,6 +1,14 @@
 import React from "react";
 
-import { Button, Grid, IconButton, Stack, Tab, Tabs } from "@mui/material";
+import {
+  Button,
+  Grid,
+  IconButton,
+  Stack,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import { useHistory } from "react-router-dom";
 import CustomTable from "../../global/CustomTable/CustomTable";
 import { useEffect, useMemo, useState } from "react";
@@ -94,6 +102,30 @@ export default function Survey() {
         accessorKey: "utilityContactPersonContact",
         header: "Phone no of Utility Contact Person",
         size: 300,
+      },
+      {
+        accessorKey: "approved",
+        header: "Approval",
+        size: 120,
+        Cell: (cell: GridRenderCellParams) => (
+          <>
+            {cell.row.original.approved ? (
+              <Typography style={{ color: "#009900" }}>Approved</Typography>
+            ) : (
+              <Typography style={{ color: "#f44336" }}>Pending</Typography>
+            )}
+            {/* <IconButton
+              size="small"
+              style={{ marginLeft: 2, color: "#0000FF" }}
+              tabIndex={cell.hasFocus ? 0 : -1}
+              onClick={() => {
+                editRow(cell.row.original);
+              }}
+            >
+              <EditIcon fontSize="small" />
+            </IconButton> */}
+          </>
+        ),
       },
       {
         accessorKey: "edit",
