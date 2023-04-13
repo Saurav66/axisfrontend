@@ -1,4 +1,4 @@
-import { Card, Typography } from "@mui/material";
+import { Card, Icon, Typography } from "@mui/material";
 import React from "react";
 
 interface CustomProps {
@@ -6,7 +6,7 @@ interface CustomProps {
   cardWidth?: string;
   cardHeight?: string;
   color?: string;
-  icon?: string;
+  icon?: any;
   title: string;
   count: number;
   onClick?: Function;
@@ -18,10 +18,11 @@ export default function CustomCard(props: CustomProps) {
       <Card
         onClick={() => props.onClick && props.onClick()}
         sx={{
+          paddingTop: "2rem",
           width: props.cardWidth ? props.cardWidth : "auto",
           height: props.cardHeight ? props.cardHeight : "auto",
           backgroundColor: props.cardColor ? props.cardColor : "#FFFFFF",
-          color: props?.color ? props?.color : "#e03a3c",
+          color: props?.color ? props?.color : "#141414",
           flexDirection: "column",
           padding: 1,
           //   ...centerItemFlex,
@@ -32,9 +33,10 @@ export default function CustomCard(props: CustomProps) {
           },
         }}
       >
+        {/* <Icon>{props?.icon}</Icon> */}
         {/* <img src={props?.icon} alt={props.title} width={50} height={50} /> */}
         <Typography variant="h4">{props.title}</Typography>
-        <Typography variant="h4">{props.count}</Typography>
+        <Typography variant="h4" style={{ paddingTop: "1rem" }}>{props.count}</Typography>
       </Card>
     </>
   );

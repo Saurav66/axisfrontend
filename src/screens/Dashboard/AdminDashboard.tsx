@@ -15,6 +15,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -53,7 +54,7 @@ const renderCustomizedLabel = ({
     <text
       x={x}
       y={y}
-      fill="#e03a3c"
+      fill="#030303"
       textAnchor={x > cx ? "start" : "end"}
       dominantBaseline="central"
     >
@@ -103,11 +104,11 @@ export default function AdminDashboard() {
       .then((response: any) => {
         return response.data;
       })
-      .catch((error) => {});
+      .catch((error) => { });
     setTicketCount(response);
   };
 
-  const handleOnClick = () => {};
+  const handleOnClick = () => { };
 
   return (
     <>
@@ -115,6 +116,8 @@ export default function AdminDashboard() {
         <Grid item xs>
           <CustomCard
             title="Total Tickets"
+            // icon={ConfirmationNumberIcon}
+            cardColor="#fcffde"
             count={ticketCount.OPEN + (ticketCount.CLOSED ?? 0)}
             onClick={() => history.push("/tickets")}
           ></CustomCard>
@@ -122,6 +125,7 @@ export default function AdminDashboard() {
         <Grid item xs>
           <CustomCard
             title="Total Survey"
+            cardColor="#fcffde"
             count={ticketCount.totalSurvey}
             onClick={() => history.push("/survey")}
           ></CustomCard>
@@ -129,6 +133,7 @@ export default function AdminDashboard() {
         <Grid item xs>
           <CustomCard
             title="Total Circle"
+            cardColor="#fcffde"
             count={ticketCount.totalCircles}
             onClick={handleOnClick}
           ></CustomCard>
@@ -136,43 +141,59 @@ export default function AdminDashboard() {
         <Grid item xs>
           <CustomCard
             title="Active Engineer"
+            cardColor="#e8ffde"
             count={ticketCount.activeEngineers}
             onClick={() => history.push("/employees")}
           ></CustomCard>
         </Grid>
       </Grid>
-      <Grid container spacing={2} style={{ padding: "2rem", height: "17vw" }}>
+      <Grid container spacing={2} style={{ height: "17vw" }}>
         <Grid item xs>
           <ResponsiveContainer width="100%" height="100%">
-            <PieChart width={400} height={400}>
-              <Pie
-                // data={data}
-                data={[
-                  { name: "Open", value: ticketCount.OPEN },
-                  { name: "Closed", value: ticketCount.CLOSED },
-                ]}
-                cx="50%"
-                cy="50%"
-                labelLine={false}
-                label={renderCustomizedLabel}
-                outerRadius={80}
-                fill="#8884d8"
-                dataKey="value"
-              >
-                {data.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Pie>
-            </PieChart>
+            <Card
+              // onClick={() => props.onClick && props.onClick()}
+              style={{
+                // width: "auto",
+                // height: "auto",
+                // backgroundColor: "#FFFFFF",
+                // color: "#141414",
+                // flexDirection: "column",
+                // padding: 1,
+                // //   ...centerItemFlex,
+                // cursor: "pointer",
+              }}
+            >
+              <PieChart width={600} height={400}>
+                <Pie
+                  // data={data}
+                  data={[
+                    { name: "Open", value: ticketCount.OPEN },
+                    { name: "Closed", value: ticketCount.CLOSED },
+                  ]}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  label={renderCustomizedLabel}
+                  outerRadius={130}
+                  fill="#8884d8"
+                  dataKey="value"
+                >
+                  {data.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  ))}
+                </Pie>
+              </PieChart>
+            </Card>
           </ResponsiveContainer>
         </Grid>
-        <Grid item xs>
+        <Grid item xs >
           <CustomCard
             title="Ticket Closed this Month"
             cardWidth="30vw"
+            cardColor="#e8ffde"
             count={ticketCount.currentMonthClosedTicket}
             onClick={() => history.push("/tickets", { tabValue: "CLOSED" })}
           ></CustomCard>
@@ -180,6 +201,8 @@ export default function AdminDashboard() {
         <Grid item xs>
           <CustomCard
             title="Ticket Created this Month"
+            color="#141414"
+            cardColor="#ffeade"
             cardWidth="30vw"
             count={ticketCount.currentMonthCreatedTicket}
             onClick={() => history.push("/tickets")}

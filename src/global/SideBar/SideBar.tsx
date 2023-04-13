@@ -29,6 +29,7 @@ import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import GroupIcon from "@mui/icons-material/Group";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 const useStyles = makeStyles((theme) => ({
   menuSliderContainer: {
@@ -49,6 +50,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const listItems = [
+  {
+    listIcon: <DashboardIcon />,
+    listText: "DashBoard",
+    url: "/adminDashboard",
+  },
   {
     listIcon: <AssignmentIcon />,
     listText: "Tickets",
