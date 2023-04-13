@@ -54,9 +54,11 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function Tickets(props: any) {
   const classes = useStyles();
   const history = useHistory();
+  const loginUserPhone = localStorage.getItem("phone");
+  const loginUserName = localStorage.getItem("userName");
   const isAdmin = localStorage.getItem("role") === "Admin";
   const isSuperAdmin = localStorage.getItem("role") === "superAdmin";
-  const isAEIT = localStorage.getItem("role") === "AEIT";
+  const isAEIT = localStorage.getItem("role") === "AIET";
   const userCircle = localStorage.getItem("circle");
   const loggedInUserPhone = localStorage.getItem("phone");
   const [rows, setRows] = useState([]);
@@ -164,6 +166,113 @@ export default function Tickets(props: any) {
               <EditIcon fontSize="small" />
             </IconButton>
           </strong>
+        ),
+      },
+    ],
+    []
+  );
+
+  const columnsForAIET = useMemo(
+    () => [
+      { accessorKey: "serialNo", header: "S/no.", size: 80 },
+      { accessorKey: "complaintNo", header: "Complaint No", size: 120 },
+      {
+        accessorKey: "complaintDatetime",
+        header: "Complaint Date & Time",
+        size: 200,
+      },
+      {
+        accessorKey: "complainantName",
+        header: "Complainant Name",
+        size: 180,
+      },
+      {
+        accessorKey: "complainantContactNo",
+        header: "Complainant Contact No",
+        size: 200,
+      },
+      {
+        accessorKey: "approved",
+        header: "Status",
+        size: 120,
+        Cell: (cell: GridRenderCellParams) => (
+          <>
+            {cell.row.original.approved ? (
+              <Typography style={{ color: "#009900" }}>Approved</Typography>
+            ) : (
+              <Typography style={{ color: "#f44336" }}>Pending</Typography>
+            )}
+            {/* <IconButton
+              size="small"
+              style={{ marginLeft: 2, color: "#0000FF" }}
+              tabIndex={cell.hasFocus ? 0 : -1}
+              onClick={() => {
+                editRow(cell.row.original);
+              }}
+            >
+              <EditIcon fontSize="small" />
+            </IconButton> */}
+          </>
+        ),
+      },
+      {
+        accessorKey: "View/Edit",
+        header: "View/Edit",
+        size: 120,
+        muiTableHeadCellProps: {
+          align: "center",
+        },
+        muiTableBodyCellProps: {
+          align: "center",
+        },
+        Cell: (cell: GridRenderCellParams) => (
+          <strong>
+            <IconButton
+              size="small"
+              style={{ marginLeft: 2, color: "#0000FF" }}
+              tabIndex={cell.hasFocus ? 0 : -1}
+              onClick={() => {
+                editRow(cell.row.original);
+              }}
+            >
+              <EditIcon fontSize="small" />
+            </IconButton>
+          </strong>
+        ),
+      },
+      {
+        accessorKey: "approved",
+        header: "Action",
+        size: 120,
+        Cell: (cell: GridRenderCellParams) => (
+          <>
+            <Button
+              style={{
+                color: "white",
+                backgroundColor: cell.row.original.approved ? "#f44336" : "#008000",
+                marginTop: 20,
+                marginLeft: 4,
+                marginBottom: 20,
+                minWidth: 120,
+              }}
+              // type="submit"
+              onClick={() =>
+                cell.row.original.approved ? handleUnApproveButton(cell.row.original) : handleApproveButton(cell.row.original)
+              }
+            >
+              {cell.row.original.approved ? "UnApprove" : "Approve"}
+            </Button>
+            {/* <IconButton
+              size="small"
+              style={{ marginLeft: 2, color: "#0000FF" }}
+              tabIndex={cell.hasFocus ? 0 : -1}
+              onClick={() => {
+                editRow(cell.row.original);
+              }}
+            >
+              <EditIcon fontSize="small" />
+            </IconButton> */}
+          </>
         ),
       },
     ],
@@ -356,6 +465,76 @@ export default function Tickets(props: any) {
     getTickets(date[0], date[1]);
   };
 
+  const handleApproveButton = (selectedTicket: any) => {
+    axios
+      .patch(`${UrlConstants.baseUrl}/admin/updateTicket`, {
+        ...selectedTicket,
+        approved: true,
+        approverPhone: loginUserPhone,
+        approverName: loginUserName,
+      })
+      .then(function (response) {
+        toast.success("Survey Updated!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        setTimeout(() => history.push("/tickets"), 700);
+      })
+      .catch(function (error) {
+        toast.error("Error while updating!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      });
+  };
+
+  const handleUnApproveButton = (selectedTicket: any) => {
+    axios
+      .patch(`${UrlConstants.baseUrl}/admin/updateTicket`, {
+        ...selectedTicket,
+        approved: false,
+        approverPhone: loginUserPhone,
+        approverName: loginUserName,
+      })
+      .then(function (response) {
+        toast.success("Survey Updated!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        setTimeout(() => history.push("/tickets"), 700);
+      })
+      .catch(function (error) {
+        toast.error("Error while updating!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      });
+  };
+
   return (
     <>
       <Grid
@@ -454,7 +633,7 @@ export default function Tickets(props: any) {
         <Grid item lg={12} sm={12} xs={12}>
           <CustomTable
             data={rows}
-            columns={isAdmin ? columnsForAdmin : columnsForEmployee}
+            columns={isAdmin ? columnsForAdmin : isAEIT ? columnsForAIET : columnsForEmployee}
           />
         </Grid>
       </Grid>

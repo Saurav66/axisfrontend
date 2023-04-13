@@ -36,8 +36,6 @@ export default function AddEditSurvey(props: any) {
   const classes = useStyles();
   const history = useHistory();
   const role = localStorage.getItem("role");
-  const loginUserPhone = localStorage.getItem("phone");
-  const loginUserName = localStorage.getItem("userName");
   const [circleOptions, setCircleOptions] = useState([]);
   const [divisionOptions, setDivisionOptions] = useState([]);
   const [subDivisionOptions, setSubDivisionOptions] = useState([]);
@@ -50,6 +48,7 @@ export default function AddEditSurvey(props: any) {
     subdivision: edit?.subdivision ?? "",
     endLocationAddress: edit?.endLocationAddress ?? "",
     itHardwareName: edit?.itHardwareName ?? "",
+    machineMake: edit?.machineMake ?? "",
     model: edit?.model ?? "",
     serialNo: edit?.serialNo ?? "",
     upsBatteryStatus: edit?.upsBatteryStatus ?? "",
@@ -57,9 +56,6 @@ export default function AddEditSurvey(props: any) {
     domainJoiningStatus: edit?.domainJoiningStatus ?? "",
     utilityContactPersonName: edit?.utilityContactPersonName ?? "",
     utilityContactPersonContact: edit?.utilityContactPersonContact ?? "",
-    approved: edit?.approved ?? false,
-    approverPhone: edit?.approverPhone ?? null,
-    approverName: edit?.approverName ?? null,
   });
 
   useEffect(() => {
@@ -75,7 +71,7 @@ export default function AddEditSurvey(props: any) {
       .then((response: any) => {
         return response.data;
       })
-      .catch((error) => {});
+      .catch((error) => { });
     setCircleOptions(response);
   };
 
@@ -210,7 +206,7 @@ export default function AddEditSurvey(props: any) {
         .then((response: any) => {
           return response.data;
         })
-        .catch((error) => {});
+        .catch((error) => { });
       setDivisionOptions(response);
     }
     if (event.target.name === "division") {
@@ -221,79 +217,9 @@ export default function AddEditSurvey(props: any) {
         .then((response: any) => {
           return response.data;
         })
-        .catch((error) => {});
+        .catch((error) => { });
       setSubDivisionOptions(response);
     }
-  };
-
-  const handleApproveButton = () => {
-    axios
-      .patch(`${UrlConstants.baseUrl}/updateSurvey`, {
-        ...surveyObj,
-        approved: true,
-        approverPhone: loginUserPhone,
-        approverName: loginUserName,
-      })
-      .then(function (response) {
-        toast.success("Survey Updated!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        setTimeout(() => history.push("/survey"), 700);
-      })
-      .catch(function (error) {
-        toast.error("Error while updating!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      });
-  };
-
-  const handleUnApproveButton = () => {
-    axios
-      .patch(`${UrlConstants.baseUrl}/updateSurvey`, {
-        ...surveyObj,
-        approved: false,
-        approverPhone: loginUserPhone,
-        approverName: loginUserName,
-      })
-      .then(function (response) {
-        toast.success("Survey Updated!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        setTimeout(() => history.push("/survey"), 700);
-      })
-      .catch(function (error) {
-        toast.error("Error while updating!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      });
   };
 
   return (
@@ -415,6 +341,17 @@ export default function AddEditSurvey(props: any) {
             </Box>
           </Grid>
           <Grid className={classes.input} item xs>
+            <Typography className={classes.Typography}>Machine Make</Typography>
+            <Box>
+              <input
+                className={classes.input}
+                name="model"
+                value={surveyObj.machineMake}
+                onChange={handleInputChange}
+              />
+            </Box>
+          </Grid>
+          <Grid className={classes.input} item xs>
             <Typography className={classes.Typography}>Model</Typography>
             <Box>
               <input
@@ -526,38 +463,19 @@ export default function AddEditSurvey(props: any) {
           >
             Cancel
           </Button>
-          {role === "Engineer" ? (
-            <Button
-              style={{
-                color: "white",
-                backgroundColor: "#f44336",
-                marginTop: 20,
-                marginLeft: 4,
-                marginBottom: 20,
-                minWidth: 120,
-              }}
-              type="submit"
-            >
-              Submit
-            </Button>
-          ) : (
-            <Button
-              style={{
-                color: "white",
-                backgroundColor: "#f44336",
-                marginTop: 20,
-                marginLeft: 4,
-                marginBottom: 20,
-                minWidth: 120,
-              }}
-              // type="submit"
-              onClick={
-                surveyObj.approved ? handleUnApproveButton : handleApproveButton
-              }
-            >
-              {surveyObj.approved ? "UnApprove" : "Approve"}
-            </Button>
-          )}
+          <Button
+            style={{
+              color: "white",
+              backgroundColor: "#f44336",
+              marginTop: 20,
+              marginLeft: 4,
+              marginBottom: 20,
+              minWidth: 120,
+            }}
+            type="submit"
+          >
+            Submit
+          </Button>
         </Paper>
       </Box>
       <ToastContainer />

@@ -102,10 +102,10 @@ export default function EditTicket(props: any) {
 
   console.log(
     data.complaintCompletionDatetime &&
-      moment(data.engineerAssignedDateTime).diff(
-        moment(data.complaintCompletionDatetime),
-        "hours"
-      )
+    moment(data.engineerAssignedDateTime).diff(
+      moment(data.complaintCompletionDatetime),
+      "hours"
+    )
   );
 
   const handleChange = (event: any) => {
@@ -304,7 +304,7 @@ export default function EditTicket(props: any) {
               <hr />
               <TextField
                 disabled={
-                  role === "Engineer" || role === "Admin" || role === "AEIT"
+                  role === "Engineer" || role === "Admin" || role === "AIET"
                 }
                 className={classes.textField}
                 label="Complainant Name"
@@ -318,7 +318,7 @@ export default function EditTicket(props: any) {
               />
               <TextField
                 disabled={
-                  role === "Engineer" || role === "Admin" || role === "AEIT"
+                  role === "Engineer" || role === "Admin" || role === "AIET"
                 }
                 className={classes.textField}
                 label="Contact No"
@@ -333,7 +333,7 @@ export default function EditTicket(props: any) {
               />
               <TextField
                 disabled={
-                  role === "Engineer" || role === "Admin" || role === "AEIT"
+                  role === "Engineer" || role === "Admin" || role === "AIET"
                 }
                 className={classes.textField}
                 label="Project Name"
@@ -347,7 +347,7 @@ export default function EditTicket(props: any) {
               />
               <TextField
                 disabled={
-                  role === "Engineer" || role === "Admin" || role === "AEIT"
+                  role === "Engineer" || role === "Admin" || role === "AIET"
                 }
                 className={classes.textField}
                 label="Product"
@@ -362,7 +362,7 @@ export default function EditTicket(props: any) {
               />
               <TextField
                 disabled={
-                  role === "Engineer" || role === "Admin" || role === "AEIT"
+                  role === "Engineer" || role === "Admin" || role === "AIET"
                 }
                 className={classes.textField}
                 label="Machine Make"
@@ -376,7 +376,7 @@ export default function EditTicket(props: any) {
               />
               <TextField
                 disabled={
-                  role === "Engineer" || role === "Admin" || role === "AEIT"
+                  role === "Engineer" || role === "Admin" || role === "AIET"
                 }
                 className={classes.textField}
                 label="Problem Type"
@@ -390,7 +390,7 @@ export default function EditTicket(props: any) {
               />
               <TextField
                 disabled={
-                  role === "Engineer" || role === "Admin" || role === "AEIT"
+                  role === "Engineer" || role === "Admin" || role === "AIET"
                 }
                 className={classes.textField}
                 label="Machine Serial No"
@@ -404,7 +404,7 @@ export default function EditTicket(props: any) {
               />
               <TextField
                 disabled={
-                  role === "Engineer" || role === "Admin" || role === "AEIT"
+                  role === "Engineer" || role === "Admin" || role === "AIET"
                 }
                 className={classes.textField}
                 label="Village/Town or Substation"
@@ -418,7 +418,7 @@ export default function EditTicket(props: any) {
               />
               <TextField
                 disabled={
-                  role === "Engineer" || role === "Admin" || role === "AEIT"
+                  role === "Engineer" || role === "Admin" || role === "AIET"
                 }
                 className={classes.textField}
                 label="Landmark"
@@ -432,7 +432,7 @@ export default function EditTicket(props: any) {
               />
               <TextField
                 disabled={
-                  role === "Engineer" || role === "Admin" || role === "AEIT"
+                  role === "Engineer" || role === "Admin" || role === "AIET"
                 }
                 className={classes.textField}
                 label="Circle"
@@ -446,7 +446,7 @@ export default function EditTicket(props: any) {
               />
               <TextField
                 disabled={
-                  role === "Engineer" || role === "Admin" || role === "AEIT"
+                  role === "Engineer" || role === "Admin" || role === "AIET"
                 }
                 className={classes.textField}
                 label="Division"
@@ -460,7 +460,7 @@ export default function EditTicket(props: any) {
               />
               <TextField
                 disabled={
-                  role === "Engineer" || role === "Admin" || role === "AEIT"
+                  role === "Engineer" || role === "Admin" || role === "AIET"
                 }
                 className={classes.textField}
                 label="Pincode"
@@ -474,7 +474,7 @@ export default function EditTicket(props: any) {
               />
               <TextField
                 disabled={
-                  role === "Engineer" || role === "Admin" || role === "AEIT"
+                  role === "Engineer" || role === "Admin" || role === "AIET"
                 }
                 className={classes.textField}
                 label="Complainant Designation"
@@ -493,7 +493,7 @@ export default function EditTicket(props: any) {
               <Typography variant="h5">DETAILS FILLED BY ENGINNER</Typography>
               <hr />
               <TextField
-                disabled={role === "Admin" || role === "AEIT"}
+                disabled={role === "Admin" || role === "AIET"}
                 className={classes.textField}
                 label="Defective Item Name"
                 InputLabelProps={{
@@ -505,7 +505,7 @@ export default function EditTicket(props: any) {
                 size="small"
               />
               <TextField
-                disabled={role === "Admin" || role === "AEIT"}
+                disabled={role === "Admin" || role === "AIET"}
                 className={classes.textField}
                 label="Old Serial No. MB/HDD/TFT"
                 InputLabelProps={{
@@ -517,7 +517,7 @@ export default function EditTicket(props: any) {
                 size="small"
               />
               <TextField
-                disabled={role === "Admin" || role === "AEIT"}
+                disabled={role === "Admin" || role === "AIET"}
                 className={classes.textField}
                 label="New Serial No. MB/HDD/TFT"
                 InputLabelProps={{
@@ -529,7 +529,7 @@ export default function EditTicket(props: any) {
                 size="small"
               />
               <TextField
-                disabled={role === "Admin" || role === "AEIT"}
+                disabled={role === "Admin" || role === "AIET"}
                 className={classes.textField}
                 label="Action Taken And Spare Useds"
                 InputLabelProps={{
@@ -541,7 +541,7 @@ export default function EditTicket(props: any) {
                 size="small"
               />
               <TextField
-                disabled={role === "Admin" || role === "AEIT"}
+                disabled={role === "Admin" || role === "AIET"}
                 className={classes.dateField}
                 type="datetime-local"
                 label="Complaint Closed On"
@@ -664,7 +664,7 @@ export default function EditTicket(props: any) {
             }}
           >
             <TextField
-              disabled={role === "AEIT"}
+              disabled={role === "AIET"}
               className={classes.textField}
               label="Remarks"
               InputLabelProps={{
@@ -695,13 +695,13 @@ export default function EditTicket(props: any) {
                   value="OPEN"
                   control={<Radio />}
                   label="OPEN"
-                  disabled={role === "AEIT"}
+                  disabled={role === "AIET"}
                 />
                 <FormControlLabel
                   value="CLOSED"
                   control={<Radio />}
                   label="CLOSED"
-                  disabled={role === "AEIT"}
+                  disabled={role === "AIET"}
                 />
               </RadioGroup>
             </FormControl>

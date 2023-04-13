@@ -23,7 +23,7 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 
 export default function Survey() {
   let history = useHistory();
-  const isAEIT = localStorage.getItem("role") === "AEIT";
+  const isAEIT = localStorage.getItem("role") === "AIET";
   const loggedInUserCircle = localStorage.getItem("circle");
   const [selectedCity, setSelectedCity] = useState("Saharanpur");
   const [cityOptions, setCityOptions] = useState([]);
@@ -80,6 +80,7 @@ export default function Survey() {
         header: "IT Hardware Name(Computer/ 600 VA UPS/ 3 KVA UPS/PRINTERS)",
         size: 520,
       },
+      { accessorKey: "machineMake", header: "Machine Make", size: 120 },
       { accessorKey: "model", header: "Model", size: 120 },
       { accessorKey: "serialNo", header: "Serial No", size: 120 },
       {
@@ -102,30 +103,6 @@ export default function Survey() {
         accessorKey: "utilityContactPersonContact",
         header: "Phone no of Utility Contact Person",
         size: 300,
-      },
-      {
-        accessorKey: "approved",
-        header: "Approval",
-        size: 120,
-        Cell: (cell: GridRenderCellParams) => (
-          <>
-            {cell.row.original.approved ? (
-              <Typography style={{ color: "#009900" }}>Approved</Typography>
-            ) : (
-              <Typography style={{ color: "#f44336" }}>Pending</Typography>
-            )}
-            {/* <IconButton
-              size="small"
-              style={{ marginLeft: 2, color: "#0000FF" }}
-              tabIndex={cell.hasFocus ? 0 : -1}
-              onClick={() => {
-                editRow(cell.row.original);
-              }}
-            >
-              <EditIcon fontSize="small" />
-            </IconButton> */}
-          </>
-        ),
       },
       {
         accessorKey: "edit",
@@ -211,7 +188,7 @@ export default function Survey() {
       .then((response: any) => {
         return response.data;
       })
-      .catch((error) => {});
+      .catch((error) => { });
     setRows(response);
   };
 
@@ -221,7 +198,7 @@ export default function Survey() {
       .then((response: any) => {
         return response.data;
       })
-      .catch((error) => {});
+      .catch((error) => { });
     setSelectedCity(response[0]);
     setCityOptions(response.concat("All"));
     getSurveys(response[0]);
@@ -238,7 +215,7 @@ export default function Survey() {
       .then((response: any) => {
         return response.data;
       })
-      .catch((error) => {});
+      .catch((error) => { });
     setRows(response);
   };
 

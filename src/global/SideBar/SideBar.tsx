@@ -108,33 +108,33 @@ export default function SideBar() {
       />
       <Divider />
       <List>
-        {role === "AEIT"
+        {role === "AIET"
           ? listItemsForAEIT.map((listItem, index) => (
-              <ListItem
-                onClick={() => redirectToComponent(listItem.url)}
-                className={classes.listItem}
-                button
-                key={index}
-              >
-                <ListItemIcon className={classes.listItem}>
-                  {listItem.listIcon}
-                </ListItemIcon>
-                <ListItemText primary={listItem.listText} />
-              </ListItem>
-            ))
+            <ListItem
+              onClick={() => redirectToComponent(listItem.url)}
+              className={classes.listItem}
+              button
+              key={index}
+            >
+              <ListItemIcon className={classes.listItem}>
+                {listItem.listIcon}
+              </ListItemIcon>
+              <ListItemText primary={listItem.listText} />
+            </ListItem>
+          ))
           : listItems.map((listItem, index) => (
-              <ListItem
-                onClick={() => redirectToComponent(listItem.url)}
-                className={classes.listItem}
-                button
-                key={index}
-              >
-                <ListItemIcon className={classes.listItem}>
-                  {listItem.listIcon}
-                </ListItemIcon>
-                <ListItemText primary={listItem.listText} />
-              </ListItem>
-            ))}
+            <ListItem
+              onClick={() => redirectToComponent(listItem.url)}
+              className={classes.listItem}
+              button
+              key={index}
+            >
+              <ListItemIcon className={classes.listItem}>
+                {listItem.listIcon}
+              </ListItemIcon>
+              <ListItemText primary={listItem.listText} />
+            </ListItem>
+          ))}
       </List>
     </Box>
   );
@@ -169,7 +169,7 @@ export default function SideBar() {
           }}
         >
           <Toolbar>
-            {(role === "Admin" || role === "superAdmin" || role === "AEIT") && (
+            {(role === "Admin" || role === "superAdmin" || role === "AIET") && (
               <IconButton onClick={toggleSlider}>
                 <Menu style={{ fill: "#FFFFFF" }} />
               </IconButton>
