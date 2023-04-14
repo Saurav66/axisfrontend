@@ -12,6 +12,8 @@ import { UrlConstants } from "../../global/UrlConstants";
 import Survey from "../Survey/Survey";
 import AddEditSurvey from "../Survey/AddEditSurvey";
 import AdminDashboard from "../Dashboard/AdminDashboard";
+import Aiet from "../Aiet/Aiet";
+import AddAiet from "../Aiet/AddAiet/AddAiet";
 
 //authenticated api will give response. if authenticated then only redirect to following urls/routes.
 
@@ -51,6 +53,8 @@ export default function Layout() {
         <Route exact path={"/survey"} component={Survey} />
         <Route exact path={"/addEditSurvey"} component={AddEditSurvey} />
         <Route exact path={"/adminDashboard"} component={AdminDashboard} />
+        <Route exact path={"/aiet"} component={Aiet} />
+        <Route exact path={"/addAiet"} component={AddAiet} />
       </Switch>
     );
   };

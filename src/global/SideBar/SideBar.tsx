@@ -30,6 +30,7 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import GroupIcon from "@mui/icons-material/Group";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 
 const useStyles = makeStyles((theme) => ({
   menuSliderContainer: {
@@ -71,8 +72,13 @@ const listItems = [
     url: "/survey",
   },
   {
+    listIcon: <ManageAccountsIcon />,
+    listText: "AIET",
+    url: "/aiet",
+  },
+  {
     listIcon: <GroupIcon />,
-    listText: "Service Engineer",
+    listText: "Service Engineers",
     url: "/employees",
   },
 ];
