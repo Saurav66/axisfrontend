@@ -332,6 +332,12 @@ export default function AddTicket(props: any) {
             <Box>
               <input
                 required
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+                max="5"
                 className={classes.input}
                 autoComplete="new-password"
                 name="complainantContactNo"
