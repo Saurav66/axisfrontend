@@ -1,14 +1,16 @@
-import React from "react";
+import React, { Fragment } from "react";
 
 import {
   Button,
   Grid,
   IconButton,
+  Input,
   Stack,
   Tab,
   Tabs,
   Typography,
 } from "@mui/material";
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import CustomTable from "../../global/CustomTable/CustomTable";
 import { useEffect, useMemo, useState } from "react";
@@ -21,7 +23,24 @@ import { UrlConstants } from "../../global/UrlConstants";
 import axios from "axios";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    myDropZone: {
+      position: "relative",
+      width: "100%",
+      height: "10px",
+      // minHeight: "100px",
+      // backgroundColor: "#F0F0F0",
+      // border: "dashed",
+      // borderColor: "#C8C8C8",
+      // cursor: "pointer",
+      // boxSizing: "border-box",
+    },
+  })
+);
+
 export default function Survey() {
+  const classes = useStyles();
   let history = useHistory();
   const isSuperAdmin = localStorage.getItem("role") === "superAdmin";
   const isAEIT = localStorage.getItem("role") === "aeit";
@@ -304,6 +323,49 @@ export default function Survey() {
       .catch((error) => console.log(error));
   };
 
+  const onFileDropped = (event: any) => {
+    if (event.target.files[0]?.name) {
+      axios
+        .post(
+          `${UrlConstants.baseUrl}/importSurvey`,
+          {
+            file: event.target.files[0],
+          },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
+        .then(function (response) {
+          toast.success(response.data, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          window.location.reload();
+        })
+        .catch(function (error) {
+          console.log(error)
+          toast.error(error.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        });
+    }
+  };
+
   return (
     <div style={{ maxWidth: "100%" }}>
       <Stack
@@ -365,7 +427,7 @@ export default function Survey() {
           </>
         )}
 
-        {localStorage.getItem("role") === "Admin" && (
+        {localStorage.getItem("role") === "Admin" || localStorage.getItem("role") === "superAdmin" && (
           <>
             <Grid
               // item
@@ -380,9 +442,16 @@ export default function Survey() {
                 marginTop: 20,
               }}
             >
-              <Button variant="outlined" startIcon={<FileUploadIcon />}>
-                Import
-              </Button>
+              <Stack direction="row" alignItems="center" spacing={2}>
+                <label htmlFor="contained-button-file">
+                  <input
+                    style={{ display: 'none' }}
+                    id="contained-button-file" type="file" onChange={(files) => onFileDropped(files)} />
+                  <Button variant="outlined" component="span" >
+                    Import
+                  </Button>
+                </label>
+              </Stack>
             </Grid>
             <Grid
               item
@@ -396,7 +465,7 @@ export default function Survey() {
             >
               <Button
                 onClick={handlleExportSurvey}
-                variant="outlined"
+                variant="contained"
                 startIcon={<FileUploadIcon />}
               >
                 Export

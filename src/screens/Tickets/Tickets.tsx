@@ -19,7 +19,7 @@ import { useHistory } from "react-router-dom";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import ticketData from "../../data/ticketData.json";
-import { Tab, Tabs, TextField } from "@mui/material";
+import { Stack, Tab, Tabs, TextField } from "@mui/material";
 import {
   getAdminTicketByStatusAndDateRange,
   getAEITTicketByCircleStatusAndDateRange,
@@ -640,6 +640,63 @@ export default function Tickets(props: any) {
       });
   };
 
+  const onFileDropped = (event: any) => {
+    if (event.target.files[0]?.name) {
+      axios
+        .post(
+          `${UrlConstants.baseUrl}/importTickets`,
+          {
+            file: event.target.files[0],
+          },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
+        .then(function (response) {
+          toast.success(response.data, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          window.location.reload();
+        })
+        .catch(function (error) {
+          console.log(error)
+          toast.error(error.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        });
+    }
+  };
+
+  const handlleExportTicket = () => {
+    // axios
+    //   .get(`${UrlConstants.baseUrl}/exportSurvey/${selectedCity}`)
+    //   .then((response) => {
+    //     const url = window.URL.createObjectURL(new Blob([response.data]));
+    //     const link = document.createElement("a");
+    //     link.href = url;
+    //     link.setAttribute("download", `${selectedCity} - Survey.xlsx`);
+    //     document.body.appendChild(link);
+    //     link.click();
+    //   })
+    //   .catch((error) => console.log(error));
+  };
+
   return (
     <>
       <Grid
@@ -690,7 +747,7 @@ export default function Tickets(props: any) {
             // backgroundColor: "#94cc33",
           }}
         >
-          {isAdmin && (
+          {(localStorage.getItem("role") === "Admin" || localStorage.getItem("role") === "superAdmin") && (
             <>
               <Grid
                 // item
@@ -698,25 +755,37 @@ export default function Tickets(props: any) {
                 // lg={6}
                 // sm={6}
                 // xs={6}
-                className={classes.firstGridItems}
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  alignItems: "flex-end",
+                  marginTop: 20,
+                }}
               >
-                <Grid item xl={3} className={classes.firstGridItems}>
-                  <CustomRangePicker
-                    handleDateRangeChange={handleDateRangeChange}
-                  />
-                </Grid>
-                <Button
-                  className={classes.button}
-                  variant="outlined"
-                  startIcon={<FileUploadIcon />}
-                >
-                  Import
-                </Button>
+                <Stack direction="row" alignItems="center" spacing={2}>
+                  <label htmlFor="contained-button-file">
+                    <input
+                      style={{ display: 'none' }}
+                      id="contained-button-file" type="file" onChange={(files) => onFileDropped(files)} />
+                    <Button variant="outlined" component="span" >
+                      Import
+                    </Button>
+                  </label>
+                </Stack>
               </Grid>
-              <Grid item xl={1} className={classes.firstGridItems}>
+              <Grid
+                item
+                xl={1}
+              // style={{
+              //   display: "flex",
+              //   justifyContent: "flex-end",
+              //   alignItems: "flex-end",
+              //   marginTop: 20,
+              // }}
+              >
                 <Button
-                  className={classes.button}
-                  variant="outlined"
+                  onClick={handlleExportTicket}
+                  variant="contained"
                   startIcon={<FileUploadIcon />}
                 >
                   Export
