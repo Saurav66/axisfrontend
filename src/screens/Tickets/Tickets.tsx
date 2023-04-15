@@ -700,6 +700,22 @@ export default function Tickets(props: any) {
   const handleExportData = (rows: any[]) => {
     //write code to export
     // console.log(rows.map((row) => row.original.complaintNo))
+    const payload = rows.map((row) => row.original.complaintNo);
+    axios
+      .post(`${UrlConstants.baseUrl}/exportTicketBycomplaintNo`, payload, {
+        method: 'GET',
+        responseType: 'blob', // important
+      })
+      .then((response) => {
+        console.log("response", response.data)
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `Exported-Tickets` + ".xlsx");
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch((error) => console.log(error));
   }
 
   return (
