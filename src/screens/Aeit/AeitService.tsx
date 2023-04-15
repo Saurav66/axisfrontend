@@ -1,7 +1,7 @@
 import axios from "axios";
 import { UrlConstants } from "../../global/UrlConstants";
 
-export const getAietByStatus = async (status: any) => {
+export const getAeitByStatus = async (status: any) => {
   const response = await axios
     .get(`${UrlConstants.baseUrl}/getAllAeit/${status}/loggedInUserId/${localStorage.getItem("id")}`)
     .then((response: any) => {

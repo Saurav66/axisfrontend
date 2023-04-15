@@ -136,7 +136,7 @@ export default function AddAiet(props: any) {
         if (handleValidation()) {
             if (edit) {
                 axios
-                    .patch(`${UrlConstants.baseUrl}/updateEmployee`, employeeData)
+                    .patch(`${UrlConstants.baseUrl}/updateEmployee/loggedInUserId/${localStorage.getItem("id")}`, employeeData)
                     .then(function (response) {
                         toast.success("Successfully Updated!", {
                             position: "top-right",

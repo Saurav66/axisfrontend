@@ -2,7 +2,7 @@ import { Button, Grid, IconButton, Stack, Tab, Tabs } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import CustomTable from "../../global/CustomTable/CustomTable";
 import { useEffect, useMemo, useState } from "react";
-import { getAietByStatus } from "./AietService";
+import { getAeitByStatus } from "./AeitService";
 import { GridRenderCellParams } from "@mui/x-data-grid";
 import EditIcon from "@material-ui/icons/Edit";
 import { ToastContainer, toast } from "react-toastify";
@@ -37,12 +37,12 @@ export default function Aiet() {
     const getEngineers = async () => {
         let response;
         if (tabValue === "Active") {
-            response = await getAietByStatus("Active");
+            response = await getAeitByStatus("Active");
             response.map((data: any) => {
                 data.serialNo = data.id;
             });
         } else if (tabValue === "Inactive") {
-            response = await getAietByStatus("Inactive");
+            response = await getAeitByStatus("Inactive");
             response.map((data: any) => {
                 data.serialNo = data.id;
             });
@@ -51,7 +51,7 @@ export default function Aiet() {
     };
 
     const handleOnClick = () => {
-        history.push("/addAiet");
+        history.push("/addAeit");
     };
 
     const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -126,7 +126,7 @@ export default function Aiet() {
     );
 
     const editRow = (event: any) => {
-        history.push("/addAiet", { data: event });
+        history.push("/addAeit", { data: event });
     };
 
     const resetPasswordRow = (row: any) => {

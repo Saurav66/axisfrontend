@@ -172,7 +172,7 @@ export default function Tickets(props: any) {
     []
   );
 
-  const columnsForAIET = useMemo(
+  const columnsForAEIT = useMemo(
     () => [
       { accessorKey: "serialNo", header: "S/no.", size: 80 },
       { accessorKey: "complaintNo", header: "Complaint No", size: 120 },
@@ -280,6 +280,111 @@ export default function Tickets(props: any) {
   );
 
   const columnsForAdmin = useMemo(
+    () => [
+      {
+        accessorKey: "serialNo",
+        header: "S/no.",
+        size: 80,
+      },
+      {
+        accessorKey: "complaintNo",
+        header: "Complaint No",
+        // minSize: 200,
+        // maxSize: 200,
+        size: 120,
+        muiTableHeadCellProps: {
+          align: "left",
+        },
+        muiTableBodyCellProps: {
+          align: "lect",
+        },
+      },
+      {
+        accessorKey: "complaintDatetime",
+        header: "Complaint Date & Time",
+        size: 200,
+        enableSorting: false,
+        Cell: (cell: GridRenderCellParams) => (
+          <TextField
+            variant="standard"
+            disabled={true}
+            type="datetime-local"
+            style={{ width: 200 }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            name="complaintDatetime"
+            defaultValue={cell.row.original.complaintDatetime}
+            size="small"
+          />
+        ),
+      },
+      {
+        accessorKey: "complainantName",
+        header: "Complainant Name",
+        size: 180,
+      },
+      {
+        accessorKey: "engineerAssigned",
+        header: "Engineer Assigned",
+        size: 180,
+      },
+      {
+        accessorKey: "engineerContactNo",
+        header: "Engineer Contact Number",
+        size: 220,
+      },
+      {
+        accessorKey: "Re-Assign",
+        header: "Re-Assign",
+        size: 120,
+        muiTableHeadCellProps: {
+          align: "center",
+        },
+        muiTableBodyCellProps: {
+          align: "center",
+        },
+        Cell: (cell: GridRenderCellParams) => (
+          <Chip
+            size="small"
+            label="Re-assign"
+            onClick={() => {
+              handleReAssign(cell.row.original);
+            }}
+            style={{ color: "white", backgroundColor: "#f44336" }}
+          />
+        ),
+      },
+      {
+        accessorKey: "View/Edit",
+        header: "View/Edit",
+        size: 120,
+        muiTableHeadCellProps: {
+          align: "center",
+        },
+        muiTableBodyCellProps: {
+          align: "center",
+        },
+        Cell: (cell: GridRenderCellParams) => (
+          <strong>
+            <IconButton
+              size="small"
+              style={{ marginLeft: 2, color: "#0000FF" }}
+              tabIndex={cell.hasFocus ? 0 : -1}
+              onClick={() => {
+                editRow(cell.row.original);
+              }}
+            >
+              <EditIcon fontSize="small" />
+            </IconButton>
+          </strong>
+        ),
+      },
+    ],
+    []
+  );
+
+  const columnsForSuperAdmin = useMemo(
     () => [
       {
         accessorKey: "serialNo",
@@ -633,7 +738,7 @@ export default function Tickets(props: any) {
         <Grid item lg={12} sm={12} xs={12}>
           <CustomTable
             data={rows}
-            columns={isAdmin ? columnsForAdmin : isAEIT ? columnsForAIET : columnsForEmployee}
+            columns={isSuperAdmin ? columnsForSuperAdmin : (isAdmin ? columnsForAdmin : isAEIT ? columnsForAEIT : columnsForEmployee)}
           />
         </Grid>
       </Grid>

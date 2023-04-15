@@ -23,6 +23,7 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 
 export default function Survey() {
   let history = useHistory();
+  const isSuperAdmin = localStorage.getItem("role") === "superAdmin";
   const isAEIT = localStorage.getItem("role") === "aeit";
   const loggedInUserCircle = localStorage.getItem("circle");
   const [selectedCity, setSelectedCity] = useState("Saharanpur");
@@ -64,6 +65,76 @@ export default function Survey() {
   };
 
   const columns = useMemo(
+    () => [
+      { accessorKey: "id", header: "S.No.", size: 80 },
+      { accessorKey: "city", header: "City.", size: 120 },
+      { accessorKey: "circle", header: "Circle", size: 180 },
+      { accessorKey: "division", header: "Division", size: 180 },
+      { accessorKey: "subDivision", header: "Sub Division", size: 180 },
+      {
+        accessorKey: "endLocationAddress",
+        header: "End Location Address",
+        size: 420,
+      },
+      {
+        accessorKey: "itHardwareName",
+        header: "IT Hardware Name(Computer/ 600 VA UPS/ 3 KVA UPS/PRINTERS)",
+        size: 520,
+      },
+      { accessorKey: "machineMake", header: "Machine Make", size: 120 },
+      { accessorKey: "model", header: "Model", size: 120 },
+      { accessorKey: "serialNo", header: "Serial No", size: 120 },
+      {
+        accessorKey: "upsBatteryStatus",
+        header: "Ups Battery status",
+        size: 200,
+      },
+      { accessorKey: "windowsType", header: "Windows Type", size: 150 },
+      {
+        accessorKey: "domainJoiningStatus",
+        header: "Domain Joining Status (Domain/Without Domain)",
+        size: 400,
+      },
+      {
+        accessorKey: "utilityContactPersonName",
+        header: "Name of Utility Contact Person",
+        size: 270,
+      },
+      {
+        accessorKey: "utilityContactPersonContact",
+        header: "Phone no of Utility Contact Person",
+        size: 300,
+      },
+      {
+        accessorKey: "edit",
+        header: "Edit",
+        size: 100,
+        muiTableHeadCellProps: {
+          align: "center",
+        },
+        muiTableBodyCellProps: {
+          align: "center",
+        },
+        Cell: (cell: GridRenderCellParams) => (
+          <strong>
+            <IconButton
+              size="small"
+              style={{ marginLeft: 2, color: "#0000FF" }}
+              tabIndex={cell.hasFocus ? 0 : -1}
+              onClick={() => {
+                editRow(cell.row.original);
+              }}
+            >
+              <EditIcon fontSize="small" />
+            </IconButton>
+          </strong>
+        ),
+      },
+    ],
+    []
+  );
+
+  const columnsForSuperAdmin = useMemo(
     () => [
       { accessorKey: "id", header: "S.No.", size: 80 },
       { accessorKey: "city", header: "City.", size: 120 },
@@ -337,7 +408,7 @@ export default function Survey() {
 
       <Grid lg={12} sm={12} xs={12} item container spacing={2}>
         <Grid item lg={12} sm={12} xs={12}>
-          <CustomTable data={rows} columns={columns} />
+          <CustomTable data={rows} columns={isSuperAdmin ? columnsForSuperAdmin : columns} />
         </Grid>
       </Grid>
       <ToastContainer />
