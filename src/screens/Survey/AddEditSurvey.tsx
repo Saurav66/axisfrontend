@@ -119,13 +119,14 @@ export default function AddEditSurvey(props: any) {
   };
 
   const handleSubmit = () => {
-    console.log("surveyObj", surveyObj);
+    // console.log("surveyObj", surveyObj);
     // e.preventDefault();
     if (handleValidation()) {
       if (edit) {
         axios
           .patch(`${UrlConstants.baseUrl}/updateSurvey`, surveyObj)
           .then(function (response) {
+            history.push("/survey")
             toast.success("Survey Updated!", {
               position: "top-right",
               autoClose: 5000,
@@ -136,7 +137,8 @@ export default function AddEditSurvey(props: any) {
               progress: undefined,
               theme: "light",
             });
-            setTimeout(() => history.push("/survey"), 700);
+            history.push("/survey")
+            // setTimeout(() => history.push("/survey"), 300);
           })
           .catch(function (error) {
             toast.error("Error while updating!", {
@@ -166,7 +168,8 @@ export default function AddEditSurvey(props: any) {
               progress: undefined,
               theme: "light",
             });
-            setTimeout(() => history.push("/survey"), 700);
+            history.push("/survey")
+            // setTimeout(() => history.push("/survey"), 300);
           })
           .catch(function (error) {
             console.log(error);
@@ -345,7 +348,7 @@ export default function AddEditSurvey(props: any) {
             <Box>
               <input
                 className={classes.input}
-                name="model"
+                name="machineMake"
                 value={surveyObj.machineMake}
                 onChange={handleInputChange}
               />

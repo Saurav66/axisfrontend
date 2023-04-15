@@ -22,6 +22,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { UrlConstants } from "../../global/UrlConstants";
 import axios from "axios";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
+import XLSX from 'xlsx';
+// import * as xlsx from "xlsx";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -311,7 +313,10 @@ export default function Survey() {
 
   const handlleExportSurvey = () => {
     axios
-      .get(`${UrlConstants.baseUrl}/exportSurvey/${selectedCity}`)
+      .get(`${UrlConstants.baseUrl}/exportSurvey/${selectedCity}`, {
+        method: 'GET',
+        responseType: 'blob', // important
+      })
       .then((response) => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
@@ -365,6 +370,35 @@ export default function Survey() {
         });
     }
   };
+
+  function s2ab(s: any) {
+    const buf = new ArrayBuffer(s.length);
+    const view = new Uint8Array(buf);
+    for (let i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+    return buf;
+  }
+
+  const handleExportData = (rows: any[]) => {
+
+
+
+    const payload = rows.map((row) => row.original.id);
+    axios
+      .post(`${UrlConstants.baseUrl}/exportSurveyById`, payload, {
+        method: 'GET',
+        responseType: 'blob', // important
+      })
+      .then((response) => {
+        console.log("response", response.data)
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `${selectedCity} - Survey` + ".xlsx");
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch((error) => console.log(error));
+  }
 
   return (
     <div style={{ maxWidth: "100%" }}>
@@ -427,21 +461,21 @@ export default function Survey() {
           </>
         )}
 
-        {localStorage.getItem("role") === "Admin" || localStorage.getItem("role") === "superAdmin" && (
-          <>
-            <Grid
-              // item
-              // xl={6}
-              // lg={6}
-              // sm={6}
-              // xs={6}
-              style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                alignItems: "flex-end",
-                marginTop: 20,
-              }}
-            >
+        <Grid
+          // item
+          // xl={6}
+          // lg={6}
+          // sm={6}
+          // xs={6}
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "flex-end",
+            marginTop: 20,
+          }}
+        >
+          {(localStorage.getItem("role") === "Admin" || localStorage.getItem("role") === "superAdmin") && (
+            <>
               <Stack direction="row" alignItems="center" spacing={2}>
                 <label htmlFor="contained-button-file">
                   <input
@@ -451,33 +485,23 @@ export default function Survey() {
                     Import
                   </Button>
                 </label>
+                <label>
+                  <Button
+                    onClick={handlleExportSurvey}
+                    variant="contained"
+                    startIcon={<FileUploadIcon />}
+                  >
+                    Export by City
+                  </Button>
+                </label>
               </Stack>
-            </Grid>
-            <Grid
-              item
-              xl={1}
-              style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                alignItems: "flex-end",
-                marginTop: 20,
-              }}
-            >
-              <Button
-                onClick={handlleExportSurvey}
-                variant="contained"
-                startIcon={<FileUploadIcon />}
-              >
-                Export
-              </Button>
-            </Grid>
-          </>
-        )}
+            </>
+          )}
+        </Grid>
       </Stack>
-
       <Grid lg={12} sm={12} xs={12} item container spacing={2}>
         <Grid item lg={12} sm={12} xs={12}>
-          <CustomTable data={rows} columns={isSuperAdmin ? columnsForSuperAdmin : columns} />
+          <CustomTable data={rows} columns={isSuperAdmin ? columnsForSuperAdmin : columns} handleExportData={handleExportData} />
         </Grid>
       </Grid>
       <ToastContainer />

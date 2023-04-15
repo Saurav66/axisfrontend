@@ -697,6 +697,11 @@ export default function Tickets(props: any) {
     //   .catch((error) => console.log(error));
   };
 
+  const handleExportData = (rows: any[]) => {
+    //write code to export
+    // console.log(rows.map((row) => row.original.complaintNo))
+  }
+
   return (
     <>
       <Grid
@@ -756,7 +761,7 @@ export default function Tickets(props: any) {
                     Import
                   </Button>
                 </label>
-                <label htmlFor="contained-button-file">
+                {/* <label htmlFor="contained-button-file">
                   <Button
                     onClick={handlleExportTicket}
                     variant="contained"
@@ -764,7 +769,7 @@ export default function Tickets(props: any) {
                   >
                     Export
                   </Button>
-                </label>
+                </label> */}
               </Stack>
             </>
           )}
@@ -783,6 +788,7 @@ export default function Tickets(props: any) {
         <Grid item lg={12} sm={12} xs={12}>
           <CustomTable
             data={rows}
+            handleExportData={handleExportData}
             columns={isSuperAdmin ? columnsForSuperAdmin : (isAdmin ? columnsForAdmin : isAEIT ? columnsForAEIT : columnsForEmployee)}
           />
         </Grid>
