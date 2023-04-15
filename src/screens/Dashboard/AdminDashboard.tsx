@@ -118,7 +118,7 @@ export default function AdminDashboard() {
             title="Total Tickets"
             // icon={ConfirmationNumberIcon}
             cardColor="#fcffde"
-            count={ticketCount.OPEN + (ticketCount.CLOSED ?? 0)}
+            count={(ticketCount?.OPEN ?? 0) + (ticketCount?.CLOSED ?? 0)}
             onClick={() => history.push("/tickets")}
           ></CustomCard>
         </Grid>
@@ -191,7 +191,7 @@ export default function AdminDashboard() {
         </Grid>
         <Grid item xs >
           <CustomCard
-            title="Ticket Closed this Month"
+            title="Total Ticket Closed this Month"
             cardWidth="30vw"
             cardColor="#e8ffde"
             count={ticketCount.currentMonthClosedTicket}
@@ -200,7 +200,7 @@ export default function AdminDashboard() {
         </Grid>
         <Grid item xs>
           <CustomCard
-            title="Ticket Created this Month"
+            title="Total Ticket Created this Month"
             color="#141414"
             cardColor="#ffeade"
             cardWidth="30vw"

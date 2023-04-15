@@ -186,7 +186,7 @@ export default function SideBar() {
                 <Menu style={{ fill: "#FFFFFF" }} />
               </IconButton>
             )}
-            <Typography>{localStorage.getItem("userName")}</Typography>
+            <Typography>{`${localStorage.getItem("userName")} ( ${localStorage.getItem("circle")} )`}</Typography>
             <Drawer open={open} anchor="left" onClose={toggleSlider}>
               {sideList()}
             </Drawer>
