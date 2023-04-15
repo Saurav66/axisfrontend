@@ -100,7 +100,7 @@ export default function AdminDashboard() {
 
   const getTicketCounts = async () => {
     const response = await axios
-      .get(`${UrlConstants.baseUrl}/getDashboard/count/admin`)
+      .get(`${UrlConstants.baseUrl}/getDashboard/count/loggedInUserId/${localStorage.getItem("id")}`)
       .then((response: any) => {
         return response.data;
       })

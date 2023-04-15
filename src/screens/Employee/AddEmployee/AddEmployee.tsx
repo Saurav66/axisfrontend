@@ -125,7 +125,7 @@ export default function AddEmployee(props: any) {
     if (handleValidation()) {
       if (edit) {
         axios
-          .patch(`${UrlConstants.baseUrl}/updateEmployee`, employeeData)
+          .patch(`${UrlConstants.baseUrl}/updateEmployee/loggedInUserId/${localStorage.getItem("id")}`, employeeData)
           .then(function (response) {
             toast.success("Successfully Updated!", {
               position: "top-right",
@@ -153,7 +153,7 @@ export default function AddEmployee(props: any) {
           });
       } else {
         axios
-          .post(`${UrlConstants.baseUrl}/addEmployee`, employeeData)
+          .post(`${UrlConstants.baseUrl}/addEmployee/loggedInUserId/${localStorage.getItem("id")}`, employeeData)
           .then(function (response) {
             console.log(response);
             console.log("sucessfully added");

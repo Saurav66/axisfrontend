@@ -164,7 +164,7 @@ export default function AddAiet(props: any) {
                     });
             } else {
                 axios
-                    .post(`${UrlConstants.baseUrl}/addEmployee`, employeeData)
+                    .post(`${UrlConstants.baseUrl}/addEmployee/loggedInUserId/${localStorage.getItem("id")}`, employeeData)
                     .then(function (response) {
                         console.log(response);
                         console.log("sucessfully added");
@@ -267,7 +267,7 @@ export default function AddAiet(props: any) {
                     </Grid>
                     <Grid className={classes.input} item xs>
                         <Typography className={classes.Typography}>
-                            * AIET Phone Number  / Username
+                            * AEIT Phone Number  / Username
                         </Typography>
                         <Box>
                             <input

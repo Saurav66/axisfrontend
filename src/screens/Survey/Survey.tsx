@@ -23,7 +23,7 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 
 export default function Survey() {
   let history = useHistory();
-  const isAEIT = localStorage.getItem("role") === "AIET";
+  const isAEIT = localStorage.getItem("role") === "aeit";
   const loggedInUserCircle = localStorage.getItem("circle");
   const [selectedCity, setSelectedCity] = useState("Saharanpur");
   const [cityOptions, setCityOptions] = useState([]);

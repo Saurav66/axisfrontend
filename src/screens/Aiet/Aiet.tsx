@@ -60,7 +60,7 @@ export default function Aiet() {
 
     const columns = useMemo(
         () => [
-            { accessorKey: "name", header: "AIET Name", width: 320 },
+            { accessorKey: "name", header: "AEIT Name", width: 320 },
             { accessorKey: "phone", header: "AEIT Username", width: 320 },
             { accessorKey: "circle", header: "Circle", width: 320 },
             { accessorKey: "status", header: "Status", width: 420 },
@@ -217,7 +217,7 @@ export default function Aiet() {
                             variant="outlined"
                             onClick={handleOnClick}
                         >
-                            Add AIET
+                            Add AEIT
                         </Button>
                     </Stack>
                 </Grid>

@@ -73,7 +73,7 @@ const listItems = [
   },
   {
     listIcon: <ManageAccountsIcon />,
-    listText: "AIET",
+    listText: "AEIT",
     url: "/aeit",
   },
   {
@@ -120,7 +120,7 @@ export default function SideBar() {
       />
       <Divider />
       <List>
-        {role === "AIET"
+        {role === "aeit"
           ? listItemsForAEIT.map((listItem, index) => (
             <ListItem
               onClick={() => redirectToComponent(listItem.url)}
@@ -181,7 +181,7 @@ export default function SideBar() {
           }}
         >
           <Toolbar>
-            {(role === "Admin" || role === "superAdmin" || role === "AIET") && (
+            {(role === "Admin" || role === "superAdmin" || role === "aeit") && (
               <IconButton onClick={toggleSlider}>
                 <Menu style={{ fill: "#FFFFFF" }} />
               </IconButton>
