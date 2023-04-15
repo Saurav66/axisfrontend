@@ -2,7 +2,7 @@ import { Button, Grid, IconButton, Stack, Tab, Tabs } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import CustomTable from "../../global/CustomTable/CustomTable";
 import { useEffect, useMemo, useState } from "react";
-// import { getEngineersByStatus } from "./Aietervice";
+import { getAietByStatus } from "./AietService";
 import { GridRenderCellParams } from "@mui/x-data-grid";
 import EditIcon from "@material-ui/icons/Edit";
 import { ToastContainer, toast } from "react-toastify";
@@ -27,28 +27,28 @@ export default function Aiet() {
             localStorage.getItem("role") === "Admin" ||
             localStorage.getItem("role") === "superAdmin"
         ) {
-            document.title = "Aiet";
-            // getEngineers();
+            document.title = "AEIT";
+            getEngineers();
         } else {
             window.location.replace("https://axisinfoline.com");
         }
     }, [tabValue]);
 
-    // const getEngineers = async () => {
-    //     let response;
-    //     if (tabValue === "Active") {
-    //         response = await getEngineersByStatus("Active");
-    //         response.map((data: any) => {
-    //             data.serialNo = data.id;
-    //         });
-    //     } else if (tabValue === "Inactive") {
-    //         response = await getEngineersByStatus("Inactive");
-    //         response.map((data: any) => {
-    //             data.serialNo = data.id;
-    //         });
-    //     }
-    //     setRows(response ?? []);
-    // };
+    const getEngineers = async () => {
+        let response;
+        if (tabValue === "Active") {
+            response = await getAietByStatus("Active");
+            response.map((data: any) => {
+                data.serialNo = data.id;
+            });
+        } else if (tabValue === "Inactive") {
+            response = await getAietByStatus("Inactive");
+            response.map((data: any) => {
+                data.serialNo = data.id;
+            });
+        }
+        setRows(response ?? []);
+    };
 
     const handleOnClick = () => {
         history.push("/addAiet");
@@ -61,7 +61,7 @@ export default function Aiet() {
     const columns = useMemo(
         () => [
             { accessorKey: "name", header: "AIET Name", width: 320 },
-            { accessorKey: "phone", header: "AEIT Contact No", width: 320 },
+            { accessorKey: "phone", header: "AEIT Username", width: 320 },
             { accessorKey: "circle", header: "Circle", width: 320 },
             { accessorKey: "status", header: "Status", width: 420 },
             {

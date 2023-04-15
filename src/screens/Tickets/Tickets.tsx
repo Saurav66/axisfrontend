@@ -58,7 +58,7 @@ export default function Tickets(props: any) {
   const loginUserName = localStorage.getItem("userName");
   const isAdmin = localStorage.getItem("role") === "Admin";
   const isSuperAdmin = localStorage.getItem("role") === "superAdmin";
-  const isAEIT = localStorage.getItem("role") === "AIET";
+  const isAEIT = localStorage.getItem("role") === "aeit";
   const userCircle = localStorage.getItem("circle");
   const loggedInUserPhone = localStorage.getItem("phone");
   const [rows, setRows] = useState([]);

@@ -27,7 +27,7 @@ export const getAEITTicketByCircleStatusAndDateRange = async (
 ) => {
   const response = await axios
     .post(
-      `${UrlConstants.baseUrl}/getTickets/AIET/${status}/${fromDate}/${toDate}`,
+      `${UrlConstants.baseUrl}/getTickets/aeit/${status}/${fromDate}/${toDate}`,
       { text: circle }
     )
     .then((response: any) => {

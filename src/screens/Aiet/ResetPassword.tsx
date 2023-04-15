@@ -54,7 +54,7 @@ export default function ResetPassword(props: SimpleDialogProps) {
           theme: "colored",
         });
       });
-    setTimeout(() => history.push("/employees"), 700);
+    setTimeout(() => history.push("/aeit"), 700);
   };
 
   const handleClose = () => {

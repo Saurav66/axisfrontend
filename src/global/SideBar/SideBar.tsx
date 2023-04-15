@@ -74,7 +74,7 @@ const listItems = [
   {
     listIcon: <ManageAccountsIcon />,
     listText: "AIET",
-    url: "/aiet",
+    url: "/aeit",
   },
   {
     listIcon: <GroupIcon />,

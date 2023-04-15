@@ -36,6 +36,7 @@ export default function AddAiet(props: any) {
     const classes = useStyles();
     const history = useHistory();
     const [circleOptions, setCircleOptions] = useState([]);
+    const [selectedCircle, setSelectedCircle] = useState([]);
     const [edit, setEdit] = useState(props.history.location.state?.data);
     const [employeeData, setEmployeeData] = useState({
         id: edit?.id ?? "",
@@ -43,7 +44,7 @@ export default function AddAiet(props: any) {
         phone: edit?.phone ?? "",
         circle: edit?.circle ?? "",
         password: edit?.password ?? "",
-        role: edit?.role ?? "Engineer",
+        role: edit?.role ?? "aeit",
         status: edit?.status ?? "Active",
     });
 
@@ -63,6 +64,16 @@ export default function AddAiet(props: any) {
             .catch((error) => { });
         setCircleOptions(response);
     };
+
+    // const getSurveyCirclesToAddSurveyor = async () => {
+    //     const response = await axios
+    //         .get(`${UrlConstants.baseUrl}/getSurveyCirclesToAddSurveyor`)
+    //         .then((response: any) => {
+    //             return response.data;
+    //         })
+    //         .catch((error) => { });
+    //     setCircleOptions(response);
+    // };
 
     const handleValidation = () => {
         if (!employeeData.name) {
@@ -104,7 +115,7 @@ export default function AddAiet(props: any) {
             });
             return false;
         }
-        if (!employeeData.password) {
+        if (!edit && !employeeData.password) {
             toast.error("Please Enter Password!", {
                 position: "top-right",
                 autoClose: 5000,
@@ -137,10 +148,10 @@ export default function AddAiet(props: any) {
                             progress: undefined,
                             theme: "light",
                         });
-                        setTimeout(() => history.push("/employees"), 700);
+                        setTimeout(() => history.push("/aeit"), 700);
                     })
                     .catch(function (error) {
-                        toast.error("Error while updating!", {
+                        toast.error(`User Already Exists for circle! ${selectedCircle}`, {
                             position: "top-right",
                             autoClose: 5000,
                             hideProgressBar: false,
@@ -153,7 +164,7 @@ export default function AddAiet(props: any) {
                     });
             } else {
                 axios
-                    .post(`${UrlConstants.baseUrl}/AddAiet`, employeeData)
+                    .post(`${UrlConstants.baseUrl}/addEmployee`, employeeData)
                     .then(function (response) {
                         console.log(response);
                         console.log("sucessfully added");
@@ -167,21 +178,38 @@ export default function AddAiet(props: any) {
                             progress: undefined,
                             theme: "light",
                         });
-                        history.push("/employees");
+                        history.push("/aeit");
                     })
                     .catch(function (error) {
-                        console.log(error);
-                        console.log("error came");
+                        toast.error(`User Already Exists for circle! ${selectedCircle}`, {
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                        });
                     });
             }
         }
     };
 
     const handleInputChange = (event: any) => {
-        setEmployeeData({
-            ...employeeData,
-            [event.target.name]: event.target.value,
-        });
+        if (event.target.name === "circle") {
+            setEmployeeData({
+                ...employeeData,
+                circle: event.target.value,
+                phone: `AEIT_${event.target.value}`,
+            });
+            setSelectedCircle(event.target.value)
+        } else {
+            setEmployeeData({
+                ...employeeData,
+                [event.target.name]: event.target.value,
+            });
+        }
     };
 
     return (
@@ -205,9 +233,9 @@ export default function AddAiet(props: any) {
                         variant="h4"
                         sx={{ paddingTop: 6, paddingBottom: 3, fontFamily: "sans-serif" }}
                     >
-                        {edit ? `Update AIET` : `Add AIET`}
+                        {edit ? `Update AEIT` : `Add AEIT`}
                     </Typography>
-                    <Typography className={classes.Typography}>* AIET Name</Typography>
+                    <Typography className={classes.Typography}>* AEIT Name</Typography>
                     <Grid item xs>
                         <Box>
                             <input
@@ -215,21 +243,6 @@ export default function AddAiet(props: any) {
                                 autoComplete="new-password"
                                 name="name"
                                 value={employeeData.name}
-                                onChange={handleInputChange}
-                            />
-                        </Box>
-                    </Grid>
-                    <Grid className={classes.input} item xs>
-                        <Typography className={classes.Typography}>
-                            * AIET Phone Number
-                        </Typography>
-                        <Box>
-                            <input
-                                className={classes.input}
-                                autoComplete="new-password"
-                                name="phone"
-                                value={employeeData.phone}
-                                type="tel"
                                 onChange={handleInputChange}
                             />
                         </Box>
@@ -251,6 +264,23 @@ export default function AddAiet(props: any) {
                                 </option>
                             ))}
                         </select>
+                    </Grid>
+                    <Grid className={classes.input} item xs>
+                        <Typography className={classes.Typography}>
+                            * AIET Phone Number  / Username
+                        </Typography>
+                        <Box>
+                            <input
+                                disabled
+                                className={classes.input}
+                                autoComplete="new-password"
+                                name="phone"
+                                // value={employeeData.phone}
+                                value={`AEIT_${selectedCircle}`}
+                                type="tel"
+                                onChange={handleInputChange}
+                            />
+                        </Box>
                     </Grid>
                     {!edit && (
                         <Grid className={classes.input} item xs>

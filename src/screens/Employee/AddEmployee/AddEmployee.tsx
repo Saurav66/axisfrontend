@@ -60,7 +60,7 @@ export default function AddEmployee(props: any) {
       .then((response: any) => {
         return response.data;
       })
-      .catch((error) => {});
+      .catch((error) => { });
     setCircleOptions(response);
   };
 
@@ -104,7 +104,7 @@ export default function AddEmployee(props: any) {
       });
       return false;
     }
-    if (!employeeData.password) {
+    if (!edit && !employeeData.password) {
       toast.error("Please Enter Password!", {
         position: "top-right",
         autoClose: 5000,

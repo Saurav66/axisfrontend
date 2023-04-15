@@ -695,13 +695,13 @@ export default function EditTicket(props: any) {
                   value="OPEN"
                   control={<Radio />}
                   label="OPEN"
-                  disabled={role === "AIET"}
+                  disabled={role !== "superAdmin"}
                 />
                 <FormControlLabel
                   value="CLOSED"
                   control={<Radio />}
                   label="CLOSED"
-                  disabled={role === "AIET"}
+                  disabled={role !== "superAdmin"}
                 />
               </RadioGroup>
             </FormControl>

@@ -53,7 +53,7 @@ export default function Layout() {
         <Route exact path={"/survey"} component={Survey} />
         <Route exact path={"/addEditSurvey"} component={AddEditSurvey} />
         <Route exact path={"/adminDashboard"} component={AdminDashboard} />
-        <Route exact path={"/aiet"} component={Aiet} />
+        <Route exact path={"/aeit"} component={Aiet} />
         <Route exact path={"/addAiet"} component={AddAiet} />
       </Switch>
     );

@@ -131,7 +131,7 @@ export default function SignInSide() {
                   required
                   fullWidth
                   id="phone"
-                  label="Phone Number"
+                  label="Username or Phone Number"
                   name="phone"
                   autoComplete="phone"
                   autoFocus

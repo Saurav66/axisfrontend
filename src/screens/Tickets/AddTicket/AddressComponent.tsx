@@ -70,9 +70,19 @@ export default function AddressComponent(props: any) {
       .then((response: any) => {
         return response.data;
       })
-      .catch((error) => {});
+      .catch((error) => { });
     setCircleOptions(response);
   };
+
+  // const getSurveyCirclesToAddSurveyor = async () => {
+  //   const response = await axios
+  //     .get(`${UrlConstants.baseUrl}/getSurveyCirclesToAddSurveyor`)
+  //     .then((response: any) => {
+  //       return response.data;
+  //     })
+  //     .catch((error) => { });
+  //   setCircleOptions(response);
+  // };
 
   const getDivisions = async () => {
     const response = await axios
@@ -80,7 +90,7 @@ export default function AddressComponent(props: any) {
       .then((response: any) => {
         return response.data;
       })
-      .catch((error) => {});
+      .catch((error) => { });
     setDivisionOptions(response);
   };
 
@@ -97,7 +107,7 @@ export default function AddressComponent(props: any) {
         .then((response: any) => {
           return response.data;
         })
-        .catch((error) => {});
+        .catch((error) => { });
       setCityOptions(response);
     }
   };
