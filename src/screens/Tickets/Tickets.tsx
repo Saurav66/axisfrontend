@@ -732,67 +732,43 @@ export default function Tickets(props: any) {
           </Tabs>
         </Grid>
         <Grid
+          item
           xl={6}
           lg={6}
-          md={6}
           sm={6}
           xs={6}
-          item
-          container
           style={{
-            padding: "0.5rem",
+            // backgroundColor: "red",
             display: "flex",
             justifyContent: "flex-end",
             alignItems: "flex-end",
-            // backgroundColor: "#94cc33",
+            // marginRight: 2,
           }}
         >
           {(localStorage.getItem("role") === "Admin" || localStorage.getItem("role") === "superAdmin") && (
             <>
-              <Grid
-                // item
-                // xl={6}
-                // lg={6}
-                // sm={6}
-                // xs={6}
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  alignItems: "flex-end",
-                  marginTop: 20,
-                }}
-              >
-                <Stack direction="row" alignItems="center" spacing={2}>
-                  <label htmlFor="contained-button-file">
-                    <input
-                      style={{ display: 'none' }}
-                      id="contained-button-file" type="file" onChange={(files) => onFileDropped(files)} />
-                    <Button variant="outlined" component="span" >
-                      Import
-                    </Button>
-                  </label>
-                </Stack>
-              </Grid>
-              <Grid
-                item
-                xl={1}
-              // style={{
-              //   display: "flex",
-              //   justifyContent: "flex-end",
-              //   alignItems: "flex-end",
-              //   marginTop: 20,
-              // }}
-              >
-                <Button
-                  onClick={handlleExportTicket}
-                  variant="contained"
-                  startIcon={<FileUploadIcon />}
-                >
-                  Export
-                </Button>
-              </Grid>
+              <Stack direction="row" alignItems="center" spacing={2}>
+                <label htmlFor="contained-button-file">
+                  <input
+                    style={{ display: 'none' }}
+                    id="contained-button-file" type="file" onChange={(files) => onFileDropped(files)} />
+                  <Button variant="outlined" component="span" >
+                    Import
+                  </Button>
+                </label>
+                <label htmlFor="contained-button-file">
+                  <Button
+                    onClick={handlleExportTicket}
+                    variant="contained"
+                    startIcon={<FileUploadIcon />}
+                  >
+                    Export
+                  </Button>
+                </label>
+              </Stack>
             </>
           )}
+
         </Grid>
       </Grid>
       <Grid
