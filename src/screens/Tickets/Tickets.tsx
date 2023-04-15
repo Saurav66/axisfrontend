@@ -417,13 +417,13 @@ export default function Tickets(props: any) {
     history.push("/edit", { data: event });
   };
 
-  const deleteRow = (serialNo: string) => {
+  const deleteRow = (complaintNumber: string) => {
     const confirmBox = window.confirm(
-      "Do you really want to delete Ticket No: ".concat(serialNo)
+      "Do you really want to delete Ticket No: ".concat(complaintNumber)
     );
     if (confirmBox === true) {
       axios
-        .delete(`${UrlConstants.baseUrl}/deleteTicket/${serialNo}`)
+        .delete(`${UrlConstants.baseUrl}/complaintNumber/${complaintNumber}/loggedInUserId/${localStorage.getItem("id")}`)
         .then(function (response) {
           toast.success("Successfully Deleted!", {
             position: "top-right",
@@ -467,7 +467,7 @@ export default function Tickets(props: any) {
 
   const handleApproveButton = (selectedTicket: any) => {
     axios
-      .patch(`${UrlConstants.baseUrl}/admin/updateTicket`, {
+      .patch(`${UrlConstants.baseUrl}/admin/updateTicket/loggedInUserId/${localStorage.getItem("id")}`, {
         ...selectedTicket,
         approved: true,
         approverPhone: loginUserPhone,
@@ -502,7 +502,7 @@ export default function Tickets(props: any) {
 
   const handleUnApproveButton = (selectedTicket: any) => {
     axios
-      .patch(`${UrlConstants.baseUrl}/admin/updateTicket`, {
+      .patch(`${UrlConstants.baseUrl}/admin/updateTicket/loggedInUserId/${localStorage.getItem("id")}`, {
         ...selectedTicket,
         approved: false,
         approverPhone: loginUserPhone,

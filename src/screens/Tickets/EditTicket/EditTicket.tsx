@@ -115,8 +115,9 @@ export default function EditTicket(props: any) {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    let subUrl = localStorage.getItem("role") !== "superAdmin" ? `/admin/updateTicket` : `/engineer/updateTicket`
     axios
-      .patch(`${UrlConstants.baseUrl}/admin/updateTicket`, data)
+      .patch(`${UrlConstants.baseUrl}/${subUrl}`, data)
       .then(function (response) {
         toast.success("Successfully Updated!", {
           position: "top-right",
@@ -639,7 +640,7 @@ export default function EditTicket(props: any) {
             }}
           >
             <TextField
-              // disabled={role === "aeit"}
+              disabled={role === "aeit"}
               className={classes.textField}
               label="Remarks"
               InputLabelProps={{

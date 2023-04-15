@@ -44,7 +44,7 @@ export default function SimpleDialog(props: SimpleDialogProps) {
   const handeSubmitButton = (e: any) => {
     e.preventDefault();
     axios
-      .patch(`${UrlConstants.baseUrl}/admin/updateTicket`, ticketData)
+      .patch(`${UrlConstants.baseUrl}/admin/updateTicket/loggedInUserId/${localStorage.getItem("id")}`, ticketData)
       .then(function (response) {
         toast.success("Successfully Updated!", {
           position: "top-right",
@@ -77,12 +77,12 @@ export default function SimpleDialog(props: SimpleDialogProps) {
     <Dialog
       onClose={handleClose}
       open={open}
-      // style={{
-      //   // color: "black",
-      //   paddingTop: "0.3rem",
-      //   paddingLeft: "2rem",
-      //   textAlign: "left",
-      // }}
+    // style={{
+    //   // color: "black",
+    //   paddingTop: "0.3rem",
+    //   paddingLeft: "2rem",
+    //   textAlign: "left",
+    // }}
     >
       <DialogTitle>
         {"Ticket No: "}

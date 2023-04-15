@@ -3,7 +3,7 @@ import { UrlConstants } from "../../global/UrlConstants";
 
 export const getEngineersByStatus = async (status: any) => {
   const response = await axios
-    .get(`${UrlConstants.baseUrl}/getAllEngineers/${status}`)
+    .get(`${UrlConstants.baseUrl}/getAllEngineers/${status}/loggedInUserId/${localStorage.getItem("id")}`)
     .then((response: any) => {
       return response.data;
     })

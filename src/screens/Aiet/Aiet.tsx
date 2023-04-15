@@ -148,7 +148,7 @@ export default function Aiet() {
                 );
                 if (secondConfirmBox === true) {
                     axios
-                        .delete(`${UrlConstants.baseUrl}/deleteEmployee/${row.id}`)
+                        .delete(`${UrlConstants.baseUrl}/deleteEmployee/${row.id}/loggedInUserId/${localStorage.getItem("id")}`)
                         .then(function (response) {
                             toast.success("Successfully Deleted!", {
                                 position: "top-right",

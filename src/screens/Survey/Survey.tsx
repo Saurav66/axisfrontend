@@ -44,7 +44,7 @@ export default function Survey() {
         );
         if (secondConfirmBox === true) {
           axios
-            .delete(`${UrlConstants.baseUrl}/deleteSurvey/${row.id}`)
+            .delete(`${UrlConstants.baseUrl}/deleteSurvey/${row.id}/loggedInUserId/${localStorage.getItem("id")}`)
             .then(function (response) {
               toast.success("Successfully Deleted!", {
                 position: "top-right",
