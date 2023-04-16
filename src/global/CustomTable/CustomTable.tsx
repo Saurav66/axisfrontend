@@ -51,7 +51,7 @@ const CustomTable = (props: any) => {
 
   // const handleExportRows = (rows: MRT_Row<Person>[]) => {
   const handleExportRows = (rows: any[]) => {
-    props.handleExportData(rows)
+    props.handleExportData(rows);
     // csvExporter.generateCsv(rows.map((row) => row.original));
   };
 

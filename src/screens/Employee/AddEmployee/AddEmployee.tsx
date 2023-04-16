@@ -60,7 +60,7 @@ export default function AddEmployee(props: any) {
       .then((response: any) => {
         return response.data;
       })
-      .catch((error) => { });
+      .catch((error) => {});
     setCircleOptions(response);
   };
 
@@ -125,7 +125,12 @@ export default function AddEmployee(props: any) {
     if (handleValidation()) {
       if (edit) {
         axios
-          .patch(`${UrlConstants.baseUrl}/updateEmployee/loggedInUserId/${localStorage.getItem("id")}`, employeeData)
+          .patch(
+            `${
+              UrlConstants.baseUrl
+            }/updateEmployee/loggedInUserId/${localStorage.getItem("id")}`,
+            employeeData
+          )
           .then(function (response) {
             toast.success("Successfully Updated!", {
               position: "top-right",
@@ -153,7 +158,12 @@ export default function AddEmployee(props: any) {
           });
       } else {
         axios
-          .post(`${UrlConstants.baseUrl}/addEmployee/loggedInUserId/${localStorage.getItem("id")}`, employeeData)
+          .post(
+            `${
+              UrlConstants.baseUrl
+            }/addEmployee/loggedInUserId/${localStorage.getItem("id")}`,
+            employeeData
+          )
           .then(function (response) {
             console.log(response);
             console.log("sucessfully added");
@@ -221,7 +231,7 @@ export default function AddEmployee(props: any) {
           </Grid>
           <Grid className={classes.input} item xs>
             <Typography className={classes.Typography}>
-              * Phone Number
+              * Phone Number or Username
             </Typography>
             <Box>
               <input

@@ -98,15 +98,20 @@ export default function EditTicket(props: any) {
   const classes = useStyles();
   const history = useHistory();
   const role = localStorage.getItem("role");
-  const disableEdit = localStorage.getItem("role") !== "superAdmin" || localStorage.getItem("role") !== "Engineer";
   const [data, setData] = useState(props.history.location.state?.data);
+  const disableEdit =
+    localStorage.getItem("role") === "superAdmin" ||
+    (localStorage.getItem("role") === "Engineer" &&
+      props.history.location.state?.data?.status === "OPEN")
+      ? false
+      : true;
 
   console.log(
     data.complaintCompletionDatetime &&
-    moment(data.engineerAssignedDateTime).diff(
-      moment(data.complaintCompletionDatetime),
-      "hours"
-    )
+      moment(data.engineerAssignedDateTime).diff(
+        moment(data.complaintCompletionDatetime),
+        "hours"
+      )
   );
 
   const handleChange = (event: any) => {
@@ -115,7 +120,10 @@ export default function EditTicket(props: any) {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    let subUrl = localStorage.getItem("role") !== "superAdmin" ? `/admin/updateTicket` : `/engineer/updateTicket`
+    let subUrl =
+      localStorage.getItem("role") === "superAdmin"
+        ? `admin/updateTicket/loggedInUserId/${localStorage.getItem("id")}`
+        : `engineer/updateTicket`;
     axios
       .patch(`${UrlConstants.baseUrl}/${subUrl}`, data)
       .then(function (response) {
@@ -177,46 +185,48 @@ export default function EditTicket(props: any) {
   };
 
   const onFileDropped = (files: any) => {
-    if (files[0]?.name) {
-      axios
-        .post(
-          `${UrlConstants.baseUrl}/document`,
-          {
-            userId: data.complaintNo,
-            documentFile: files[0],
-          },
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
+    if (!disableEdit) {
+      if (files[0]?.name) {
+        axios
+          .post(
+            `${UrlConstants.baseUrl}/document`,
+            {
+              userId: data.complaintNo,
+              documentFile: files[0],
             },
-          }
-        )
-        .then(function (response) {
-          console.log(response);
-          setData({ ...data, docPath: response.data.data.name });
-          toast.success("Successfully Updated!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          )
+          .then(function (response) {
+            console.log(response);
+            setData({ ...data, docPath: response.data.data.name });
+            toast.success("Successfully Updated!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+          })
+          .catch(function (error) {
+            toast.error("Error while Uploading Document!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
           });
-        })
-        .catch(function (error) {
-          toast.error("Error while Uploading Document!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        });
+      }
     }
   };
 
@@ -471,6 +481,18 @@ export default function EditTicket(props: any) {
               <TextField
                 disabled={disableEdit}
                 className={classes.textField}
+                label="Location Code"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                name="locationCode"
+                value={data.locationCode}
+                onChange={handleChange}
+                size="small"
+              />
+              <TextField
+                disabled={disableEdit}
+                className={classes.textField}
                 label="Defective Item Name"
                 InputLabelProps={{
                   shrink: true,
@@ -529,7 +551,7 @@ export default function EditTicket(props: any) {
                 onChange={handleChange}
                 size="small"
               />
-              <Box>
+              {/* <Box>
                 <TextField
                   disabled
                   className={classes.textField}
@@ -579,7 +601,46 @@ export default function EditTicket(props: any) {
                   }
                   size="small"
                 />
-              </Box>
+              </Box> */}
+              <TextField
+                disabled={disableEdit}
+                type="datetime-local"
+                className={classes.dateField}
+                label="Complaint Attempts First Date & Time"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                name="complaintAttemptsFirstDateAndTime"
+                defaultValue={data.complaintAttemptsFirstDateAndTime}
+                onChange={handleChange}
+                size="small"
+              />
+              <TextField
+                disabled={disableEdit}
+                type="datetime-local"
+                className={classes.dateField}
+                label="Complaint Attempts Second Date & Time"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                name="complaintAttemptsSecondDateAndTime"
+                defaultValue={data.complaintAttemptsSecondDateAndTime}
+                onChange={handleChange}
+                size="small"
+              />
+              <TextField
+                disabled={disableEdit}
+                type="datetime-local"
+                className={classes.dateField}
+                label="Complaint Attempts Third Date & Time"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                name="complaintAttemptsThirdDateAndTime"
+                defaultValue={data.complaintAttemptsThirdDateAndTime}
+                onChange={handleChange}
+                size="small"
+              />
               {role === "Engineer" && (
                 <Box>
                   <DropzoneArea
@@ -671,13 +732,13 @@ export default function EditTicket(props: any) {
                   value="OPEN"
                   control={<Radio />}
                   label="OPEN"
-                  disabled={role !== "superAdmin"}
+                  disabled={disableEdit}
                 />
                 <FormControlLabel
                   value="CLOSED"
                   control={<Radio />}
                   label="CLOSED"
-                  disabled={role !== "superAdmin"}
+                  disabled={disableEdit}
                 />
               </RadioGroup>
             </FormControl>
