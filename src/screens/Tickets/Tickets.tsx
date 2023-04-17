@@ -809,16 +809,32 @@ export default function Tickets(props: any) {
             }
           }
         >
-          <Tabs
-            value={tabValue}
-            onChange={handleTabChange}
-            textColor="secondary"
-            TabIndicatorProps={{ style: { background: "#e03a3c" } }}
-            aria-label="secondary tabs example"
-          >
-            <Tab value="OPEN" label="OPEN" />
-            <Tab value="CLOSED" label="CLOSED" />
-          </Tabs>
+
+          {localStorage.getItem("role") === "aeit" ?
+            <>
+              <Tabs
+                value={tabValue}
+                onChange={handleTabChange}
+                textColor="secondary"
+                TabIndicatorProps={{ style: { background: "#e03a3c" } }}
+                aria-label="secondary tabs example"
+              >
+                <Tab value="CLOSED" label="CLOSED" />
+                <Tab value="OPEN" label="OPEN" />
+              </Tabs>
+            </> : <>
+              <Tabs
+                value={tabValue}
+                onChange={handleTabChange}
+                textColor="secondary"
+                TabIndicatorProps={{ style: { background: "#e03a3c" } }}
+                aria-label="secondary tabs example"
+              >
+                <Tab value="OPEN" label="OPEN" />
+                <Tab value="CLOSED" label="CLOSED" />
+              </Tabs>
+            </>}
+
         </Grid>
         <Grid
           item
@@ -862,7 +878,7 @@ export default function Tickets(props: any) {
               </>
             )}
         </Grid>
-      </Grid>
+      </Grid >
       <Grid
         lg={12}
         sm={12}
