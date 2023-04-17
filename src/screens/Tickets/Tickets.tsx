@@ -655,7 +655,7 @@ export default function Tickets(props: any) {
           }
         )
         .then(function (response) {
-          toast.success(response.data, {
+          toast.success("Ticket Imported Successfully", {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -702,8 +702,8 @@ export default function Tickets(props: any) {
     // console.log(rows.map((row) => row.original.complaintNo))
     const payload = rows.map((row) => row.original.complaintNo);
     axios
-      .post(`${UrlConstants.baseUrl}/exportTicketBycomplaintNo`, payload, {
-        method: 'GET',
+      .post(`${UrlConstants.baseUrl}/exportTicketByComplaintNo`, payload, {
+        method: 'POST',
         responseType: 'blob', // important
       })
       .then((response) => {
