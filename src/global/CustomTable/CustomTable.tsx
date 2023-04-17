@@ -6,6 +6,7 @@ import FileDownloadIcon from "@mui/icons-material/FileDownload";
 
 const CustomTable = (props: any) => {
   const globalTheme = useTheme();
+  const isAdmin = localStorage.getItem("role") === "superAdmin" || localStorage.getItem("role") === "Admin" ? true : false;
 
   const tableTheme = useMemo(
     () =>
@@ -59,6 +60,7 @@ const CustomTable = (props: any) => {
     <div style={{ height: 500 }}>
       <ThemeProvider theme={tableTheme}>
         <MaterialReactTable
+          enableRowNumbers={true}
           enableHiding={false}
           enableSorting={false}
           enableColumnActions={false}
@@ -80,7 +82,7 @@ const CustomTable = (props: any) => {
           }}
           muiTableBodyRowProps={{ hover: true }}
           enableDensityToggle={false}
-          initialState={{ density: "compact" }}
+          initialState={{ density: "compact", showColumnFilters: true, pagination: { pageSize: 20, pageIndex: 0 }, showGlobalFilter: true }}
           enableRowSelection={false}
           columns={props.columns}
           data={props.data}
@@ -93,6 +95,7 @@ const CustomTable = (props: any) => {
               fontSize: "15px",
             },
           }}
+
           renderTopToolbarCustomActions={({ table }) => (
             <Box
               sx={{
@@ -101,7 +104,7 @@ const CustomTable = (props: any) => {
                 flexWrap: "wrap",
               }}
             >
-              <Button
+              {(props.handleExportData && isAdmin) && (<Button
                 disabled={table.getPrePaginationRowModel().rows.length === 0}
                 //export all rows, including from the next page, (still respects filtering and sorting)
                 onClick={() =>
@@ -111,9 +114,10 @@ const CustomTable = (props: any) => {
                 variant="contained"
               >
                 Export All Rows
-              </Button>
+              </Button>)}
             </Box>
           )}
+        // filterVariant={"select"}
         />
       </ThemeProvider>
     </div>

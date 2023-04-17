@@ -61,11 +61,11 @@ const listItems = [
     listText: "Tickets",
     url: "/tickets",
   },
-  // {
-  //   listIcon: <AssignmentInd />,
-  //   listText: "Locations",
-  //   url: "/locations",
-  // },
+  {
+    listIcon: <AssignmentInd />,
+    listText: "Locations",
+    url: "/locations",
+  },
   {
     listIcon: <AnalyticsIcon />,
     listText: "Survey List",
@@ -100,6 +100,7 @@ export default function SideBar() {
   const classes = useStyles();
   let history = useHistory();
   const role = localStorage.getItem("role");
+  const isAdmin = localStorage.getItem("role") === "superAdmin" || localStorage.getItem("role") === 'Admin' ? true : false;
   const [open, setOpen] = useState(false);
 
   const toggleSlider = () => {
@@ -186,7 +187,7 @@ export default function SideBar() {
                 <Menu style={{ fill: "#FFFFFF" }} />
               </IconButton>
             )}
-            <Typography>{`${localStorage.getItem("userName")} ( ${localStorage.getItem("circle")} )`}</Typography>
+            <Typography>{isAdmin ? `${localStorage.getItem("userName")}` : `${localStorage.getItem("userName")} ( ${localStorage.getItem("circle")} )`}</Typography>
             <Drawer open={open} anchor="left" onClose={toggleSlider}>
               {sideList()}
             </Drawer>

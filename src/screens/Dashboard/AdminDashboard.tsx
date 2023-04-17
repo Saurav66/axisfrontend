@@ -101,18 +101,17 @@ export default function AdminDashboard() {
   const getTicketCounts = async () => {
     const response = await axios
       .get(
-        `${
-          UrlConstants.baseUrl
+        `${UrlConstants.baseUrl
         }/getDashboard/count/loggedInUserId/${localStorage.getItem("id")}`
       )
       .then((response: any) => {
         return response.data;
       })
-      .catch((error) => {});
+      .catch((error) => { });
     setTicketCount(response);
   };
 
-  const handleOnClick = () => {};
+  const handleOnClick = () => { };
 
   return (
     <>
@@ -139,7 +138,7 @@ export default function AdminDashboard() {
             title="Total Circle"
             cardColor="#fcffde"
             count={ticketCount.totalCircles ?? 0}
-            onClick={handleOnClick}
+            onClick={() => history.push("/locations")}
           ></CustomCard>
         </Grid>
         <Grid item xs>
@@ -186,6 +185,7 @@ export default function AdminDashboard() {
                 >
                   {data.map((entry, index) => (
                     <Cell
+                      onClick={() => history.push("/tickets")}
                       key={`cell-${index}`}
                       fill={COLORS[index % COLORS.length]}
                     />

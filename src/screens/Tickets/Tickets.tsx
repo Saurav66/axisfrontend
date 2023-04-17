@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useLayoutEffect } from "react";
 import CustomTable from "../../global/CustomTable/CustomTable";
 import { useHistory } from "react-router-dom";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
@@ -68,11 +68,27 @@ export default function Tickets(props: any) {
   const [OPEN, setOPEN] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState();
   const [engineersList, setengineersList] = useState([]);
+  const [assignedEngineerList, setAssignedEngineerList] = useState([]);
+  const [assignedEngineerContactNoList, setAssignedEngineerContactNoList] = useState([]);
 
   useEffect(() => {
     document.title = "Tickets";
     getTickets("1900-01-01", "9999-01-01");
+    // getTicketDropDownMatrix();
   }, [tabValue]);
+
+
+  // const getTicketDropDownMatrix = async () => {
+  //   const response = await axios
+  //     .get(`${UrlConstants.baseUrl}/getTicketDropDownMatrix/loggedInUserId/${localStorage.getItem("id")}`)
+  //     .then((response: any) => {
+  //       return response.data;
+  //     })
+  //     .catch((error) => { });
+  //   return response.data;
+  //   // setAssignedEngineerList(response.assignedEngineerList);
+  //   // setAssignedEngineerContactNoList(response.assignedEngineerContactNoList);
+  // };
 
   const getTickets = async (fromDate: String, toDate: String) => {
     let response;
@@ -126,7 +142,7 @@ export default function Tickets(props: any) {
 
   const columnsForEmployee = useMemo(
     () => [
-      { accessorKey: "serialNo", header: "S/no.", size: 80 },
+      // { accessorKey: "serialNo", header: "S/no.", size: 80 },
       { accessorKey: "complaintNo", header: "Complaint No", size: 120 },
       {
         accessorKey: "complaintDatetime",
@@ -193,7 +209,7 @@ export default function Tickets(props: any) {
       },
       {
         accessorKey: "approved",
-        header: "Status",
+        header: "AEIT Status",
         size: 120,
         Cell: (cell: GridRenderCellParams) => (
           <>
@@ -339,6 +355,20 @@ export default function Tickets(props: any) {
         size: 220,
       },
       {
+        accessorKey: "approved",
+        header: "AEIT Status",
+        size: 120,
+        Cell: (cell: GridRenderCellParams) => (
+          <>
+            {cell.row.original.approved ? (
+              <Typography style={{ color: "#009900" }}>Approved</Typography>
+            ) : (
+              <Typography style={{ color: "#f44336" }}>Pending</Typography>
+            )}
+          </>
+        ),
+      },
+      {
         accessorKey: "Re-Assign",
         header: "Re-Assign",
         size: 120,
@@ -436,12 +466,33 @@ export default function Tickets(props: any) {
       {
         accessorKey: "engineerAssigned",
         header: "Engineer Assigned",
+        // filterVariant: 'select',
+        // filterSelectOptions: ticketData?.map((ticket: any) => ticket?.engineerAssigned),
+        // filterSelectOptions: await getTicketDropDownMatrix(),
         size: 180,
       },
       {
         accessorKey: "engineerContactNo",
         header: "Engineer Contact Number",
+        // filterVariant: 'select',
+        // filterSelectOptions: ticketData?.map((ticket: any) => ticket?.engineerContactNo),
+        // filterSelectOptions: rows?.map((ticket: any) => ticket?.engineerContactNo),
         size: 220,
+      },
+      {
+        accessorKey: "approved",
+        header: "AEIT Approval",
+        size: 120,
+        //code
+        Cell: (cell: GridRenderCellParams) => (
+          <>
+            {cell.row.original.approved ? (
+              <Typography style={{ color: "#009900" }}>Approved</Typography>
+            ) : (
+              <Typography style={{ color: "#f44336" }}>Pending</Typography>
+            )}
+          </>
+        ),
       },
       {
         accessorKey: "Re-Assign",
@@ -533,8 +584,7 @@ export default function Tickets(props: any) {
     if (confirmBox === true) {
       axios
         .delete(
-          `${
-            UrlConstants.baseUrl
+          `${UrlConstants.baseUrl
           }/complaintNumber/${complaintNumber}/loggedInUserId/${localStorage.getItem(
             "id"
           )}`
@@ -583,8 +633,7 @@ export default function Tickets(props: any) {
   const handleApproveButton = (selectedTicket: any) => {
     axios
       .patch(
-        `${
-          UrlConstants.baseUrl
+        `${UrlConstants.baseUrl
         }/admin/updateTicket/loggedInUserId/${localStorage.getItem("id")}`,
         {
           ...selectedTicket,
@@ -623,8 +672,7 @@ export default function Tickets(props: any) {
   const handleUnApproveButton = (selectedTicket: any) => {
     axios
       .patch(
-        `${
-          UrlConstants.baseUrl
+        `${UrlConstants.baseUrl
         }/admin/updateTicket/loggedInUserId/${localStorage.getItem("id")}`,
         {
           ...selectedTicket,
@@ -788,20 +836,20 @@ export default function Tickets(props: any) {
         >
           {(localStorage.getItem("role") === "Admin" ||
             localStorage.getItem("role") === "superAdmin") && (
-            <>
-              <Stack direction="row" alignItems="center" spacing={2}>
-                <label htmlFor="contained-button-file">
-                  <input
-                    style={{ display: "none" }}
-                    id="contained-button-file"
-                    type="file"
-                    onChange={(files) => onFileDropped(files)}
-                  />
-                  <Button variant="outlined" component="span">
-                    Import
-                  </Button>
-                </label>
-                {/* <label htmlFor="contained-button-file">
+              <>
+                <Stack direction="row" alignItems="center" spacing={2}>
+                  <label htmlFor="contained-button-file">
+                    <input
+                      style={{ display: "none" }}
+                      id="contained-button-file"
+                      type="file"
+                      onChange={(files) => onFileDropped(files)}
+                    />
+                    <Button variant="outlined" component="span">
+                      Import
+                    </Button>
+                  </label>
+                  {/* <label htmlFor="contained-button-file">
                   <Button
                     onClick={handlleExportTicket}
                     variant="contained"
@@ -810,9 +858,9 @@ export default function Tickets(props: any) {
                     Export
                   </Button>
                 </label> */}
-              </Stack>
-            </>
-          )}
+                </Stack>
+              </>
+            )}
         </Grid>
       </Grid>
       <Grid
@@ -832,10 +880,10 @@ export default function Tickets(props: any) {
               isSuperAdmin
                 ? columnsForSuperAdmin
                 : isAdmin
-                ? columnsForAdmin
-                : isAEIT
-                ? columnsForAEIT
-                : columnsForEmployee
+                  ? columnsForAdmin
+                  : isAEIT
+                    ? columnsForAEIT
+                    : columnsForEmployee
             }
           />
         </Grid>
