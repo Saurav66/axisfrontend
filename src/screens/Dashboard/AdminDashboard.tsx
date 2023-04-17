@@ -15,7 +15,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
+import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -100,15 +100,19 @@ export default function AdminDashboard() {
 
   const getTicketCounts = async () => {
     const response = await axios
-      .get(`${UrlConstants.baseUrl}/getDashboard/count/loggedInUserId/${localStorage.getItem("id")}`)
+      .get(
+        `${
+          UrlConstants.baseUrl
+        }/getDashboard/count/loggedInUserId/${localStorage.getItem("id")}`
+      )
       .then((response: any) => {
         return response.data;
       })
-      .catch((error) => { });
+      .catch((error) => {});
     setTicketCount(response);
   };
 
-  const handleOnClick = () => { };
+  const handleOnClick = () => {};
 
   return (
     <>
@@ -126,7 +130,7 @@ export default function AdminDashboard() {
           <CustomCard
             title="Total Survey"
             cardColor="#fcffde"
-            count={ticketCount.totalSurvey}
+            count={ticketCount?.totalSurvey ?? 0}
             onClick={() => history.push("/survey")}
           ></CustomCard>
         </Grid>
@@ -134,7 +138,7 @@ export default function AdminDashboard() {
           <CustomCard
             title="Total Circle"
             cardColor="#fcffde"
-            count={ticketCount.totalCircles}
+            count={ticketCount.totalCircles ?? 0}
             onClick={handleOnClick}
           ></CustomCard>
         </Grid>
@@ -142,7 +146,7 @@ export default function AdminDashboard() {
           <CustomCard
             title="Active Engineer"
             cardColor="#e8ffde"
-            count={ticketCount.activeEngineers}
+            count={ticketCount?.activeEngineers ?? 0}
             onClick={() => history.push("/employees")}
           ></CustomCard>
         </Grid>
@@ -152,23 +156,25 @@ export default function AdminDashboard() {
           <ResponsiveContainer width="100%" height="100%">
             <Card
               // onClick={() => props.onClick && props.onClick()}
-              style={{
-                // width: "auto",
-                // height: "auto",
-                // backgroundColor: "#FFFFFF",
-                // color: "#141414",
-                // flexDirection: "column",
-                // padding: 1,
-                // //   ...centerItemFlex,
-                // cursor: "pointer",
-              }}
+              style={
+                {
+                  // width: "auto",
+                  // height: "auto",
+                  // backgroundColor: "#FFFFFF",
+                  // color: "#141414",
+                  // flexDirection: "column",
+                  // padding: 1,
+                  // //   ...centerItemFlex,
+                  // cursor: "pointer",
+                }
+              }
             >
-              <PieChart width={600} height={400}>
+              <PieChart width={550} height={400}>
                 <Pie
                   // data={data}
                   data={[
-                    { name: "Open", value: ticketCount.OPEN },
-                    { name: "Closed", value: ticketCount.CLOSED },
+                    { name: "Open Tickets", value: ticketCount.OPEN },
+                    { name: "Closed Tickets", value: ticketCount.CLOSED },
                   ]}
                   cx="50%"
                   cy="50%"
@@ -189,7 +195,7 @@ export default function AdminDashboard() {
             </Card>
           </ResponsiveContainer>
         </Grid>
-        <Grid item xs >
+        <Grid item xs>
           <CustomCard
             title="Total Ticket Closed this Month"
             cardWidth="30vw"

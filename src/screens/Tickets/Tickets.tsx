@@ -249,7 +249,9 @@ export default function Tickets(props: any) {
             <Button
               style={{
                 color: "white",
-                backgroundColor: cell.row.original.approved ? "#f44336" : "#008000",
+                backgroundColor: cell.row.original.approved
+                  ? "#f44336"
+                  : "#008000",
                 marginTop: 20,
                 marginLeft: 4,
                 marginBottom: 20,
@@ -257,7 +259,9 @@ export default function Tickets(props: any) {
               }}
               // type="submit"
               onClick={() =>
-                cell.row.original.approved ? handleUnApproveButton(cell.row.original) : handleApproveButton(cell.row.original)
+                cell.row.original.approved
+                  ? handleUnApproveButton(cell.row.original)
+                  : handleApproveButton(cell.row.original)
               }
             >
               {cell.row.original.approved ? "UnApprove" : "Approve"}
@@ -528,7 +532,13 @@ export default function Tickets(props: any) {
     );
     if (confirmBox === true) {
       axios
-        .delete(`${UrlConstants.baseUrl}/complaintNumber/${complaintNumber}/loggedInUserId/${localStorage.getItem("id")}`)
+        .delete(
+          `${
+            UrlConstants.baseUrl
+          }/complaintNumber/${complaintNumber}/loggedInUserId/${localStorage.getItem(
+            "id"
+          )}`
+        )
         .then(function (response) {
           toast.success("Successfully Deleted!", {
             position: "top-right",
@@ -572,12 +582,17 @@ export default function Tickets(props: any) {
 
   const handleApproveButton = (selectedTicket: any) => {
     axios
-      .patch(`${UrlConstants.baseUrl}/admin/updateTicket/loggedInUserId/${localStorage.getItem("id")}`, {
-        ...selectedTicket,
-        approved: true,
-        approverPhone: loginUserPhone,
-        approverName: loginUserName,
-      })
+      .patch(
+        `${
+          UrlConstants.baseUrl
+        }/admin/updateTicket/loggedInUserId/${localStorage.getItem("id")}`,
+        {
+          ...selectedTicket,
+          approved: true,
+          approverPhone: loginUserPhone,
+          approverName: loginUserName,
+        }
+      )
       .then(function (response) {
         toast.success("Survey Updated!", {
           position: "top-right",
@@ -607,12 +622,17 @@ export default function Tickets(props: any) {
 
   const handleUnApproveButton = (selectedTicket: any) => {
     axios
-      .patch(`${UrlConstants.baseUrl}/admin/updateTicket/loggedInUserId/${localStorage.getItem("id")}`, {
-        ...selectedTicket,
-        approved: false,
-        approverPhone: loginUserPhone,
-        approverName: loginUserName,
-      })
+      .patch(
+        `${
+          UrlConstants.baseUrl
+        }/admin/updateTicket/loggedInUserId/${localStorage.getItem("id")}`,
+        {
+          ...selectedTicket,
+          approved: false,
+          approverPhone: loginUserPhone,
+          approverName: loginUserName,
+        }
+      )
       .then(function (response) {
         toast.success("Survey Updated!", {
           position: "top-right",
@@ -668,7 +688,7 @@ export default function Tickets(props: any) {
           window.location.reload();
         })
         .catch(function (error) {
-          console.log(error)
+          console.log(error);
           toast.error(error.message, {
             position: "top-right",
             autoClose: 5000,
@@ -707,7 +727,7 @@ export default function Tickets(props: any) {
         responseType: 'blob', // important
       })
       .then((response) => {
-        console.log("response", response.data)
+        console.log("response", response.data);
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
@@ -716,7 +736,7 @@ export default function Tickets(props: any) {
         link.click();
       })
       .catch((error) => console.log(error));
-  }
+  };
 
   return (
     <>
@@ -766,14 +786,18 @@ export default function Tickets(props: any) {
             // marginRight: 2,
           }}
         >
-          {(localStorage.getItem("role") === "Admin" || localStorage.getItem("role") === "superAdmin") && (
+          {(localStorage.getItem("role") === "Admin" ||
+            localStorage.getItem("role") === "superAdmin") && (
             <>
               <Stack direction="row" alignItems="center" spacing={2}>
                 <label htmlFor="contained-button-file">
                   <input
-                    style={{ display: 'none' }}
-                    id="contained-button-file" type="file" onChange={(files) => onFileDropped(files)} />
-                  <Button variant="outlined" component="span" >
+                    style={{ display: "none" }}
+                    id="contained-button-file"
+                    type="file"
+                    onChange={(files) => onFileDropped(files)}
+                  />
+                  <Button variant="outlined" component="span">
                     Import
                   </Button>
                 </label>
@@ -789,7 +813,6 @@ export default function Tickets(props: any) {
               </Stack>
             </>
           )}
-
         </Grid>
       </Grid>
       <Grid
@@ -805,7 +828,15 @@ export default function Tickets(props: any) {
           <CustomTable
             data={rows}
             handleExportData={handleExportData}
-            columns={isSuperAdmin ? columnsForSuperAdmin : (isAdmin ? columnsForAdmin : isAEIT ? columnsForAEIT : columnsForEmployee)}
+            columns={
+              isSuperAdmin
+                ? columnsForSuperAdmin
+                : isAdmin
+                ? columnsForAdmin
+                : isAEIT
+                ? columnsForAEIT
+                : columnsForEmployee
+            }
           />
         </Grid>
       </Grid>

@@ -70,7 +70,7 @@ export default function AddressComponent(props: any) {
       .then((response: any) => {
         return response.data;
       })
-      .catch((error) => { });
+      .catch((error) => {});
     setCircleOptions(response);
   };
 
@@ -90,7 +90,7 @@ export default function AddressComponent(props: any) {
       .then((response: any) => {
         return response.data;
       })
-      .catch((error) => { });
+      .catch((error) => {});
     setDivisionOptions(response);
   };
 
@@ -107,7 +107,7 @@ export default function AddressComponent(props: any) {
         .then((response: any) => {
           return response.data;
         })
-        .catch((error) => { });
+        .catch((error) => {});
       setCityOptions(response);
     }
   };
@@ -115,7 +115,10 @@ export default function AddressComponent(props: any) {
   return (
     <>
       <Box sx={{ fontWeight: "bold" }}>
-        <Typography className={classes.TypographyHeading}>
+        <Typography
+          style={{ fontWeight: 800 }}
+          className={classes.TypographyHeading}
+        >
           Location Details:
         </Typography>
       </Box>

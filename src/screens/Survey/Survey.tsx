@@ -22,7 +22,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { UrlConstants } from "../../global/UrlConstants";
 import axios from "axios";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
-import XLSX from 'xlsx';
 // import * as xlsx from "xlsx";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -66,7 +65,11 @@ export default function Survey() {
         );
         if (secondConfirmBox === true) {
           axios
-            .delete(`${UrlConstants.baseUrl}/deleteSurvey/${row.id}/loggedInUserId/${localStorage.getItem("id")}`)
+            .delete(
+              `${UrlConstants.baseUrl}/deleteSurvey/${
+                row.id
+              }/loggedInUserId/${localStorage.getItem("id")}`
+            )
             .then(function (response) {
               toast.success("Successfully Deleted!", {
                 position: "top-right",
@@ -280,7 +283,7 @@ export default function Survey() {
       .then((response: any) => {
         return response.data;
       })
-      .catch((error) => { });
+      .catch((error) => {});
     setRows(response);
   };
 
@@ -290,7 +293,7 @@ export default function Survey() {
       .then((response: any) => {
         return response.data;
       })
-      .catch((error) => { });
+      .catch((error) => {});
     setSelectedCity(response[0]);
     setCityOptions(response.concat("All"));
     getSurveys(response[0]);
@@ -307,15 +310,15 @@ export default function Survey() {
       .then((response: any) => {
         return response.data;
       })
-      .catch((error) => { });
+      .catch((error) => {});
     setRows(response);
   };
 
   const handlleExportSurvey = () => {
     axios
       .get(`${UrlConstants.baseUrl}/exportSurvey/${selectedCity}`, {
-        method: 'GET',
-        responseType: 'blob', // important
+        method: "GET",
+        responseType: "blob", // important
       })
       .then((response) => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -356,7 +359,7 @@ export default function Survey() {
           window.location.reload();
         })
         .catch(function (error) {
-          console.log(error)
+          console.log(error);
           toast.error(error.message, {
             position: "top-right",
             autoClose: 5000,
@@ -374,7 +377,7 @@ export default function Survey() {
   function s2ab(s: any) {
     const buf = new ArrayBuffer(s.length);
     const view = new Uint8Array(buf);
-    for (let i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+    for (let i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xff;
     return buf;
   }
 
@@ -382,11 +385,11 @@ export default function Survey() {
     const payload = rows.map((row) => row.original.id);
     axios
       .post(`${UrlConstants.baseUrl}/exportSurveyById`, payload, {
-        method: 'GET',
-        responseType: 'blob', // important
+        method: "GET",
+        responseType: "blob", // important
       })
       .then((response) => {
-        console.log("response", response.data)
+        console.log("response", response.data);
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
@@ -395,7 +398,7 @@ export default function Survey() {
         link.click();
       })
       .catch((error) => console.log(error));
-  }
+  };
 
   return (
     <div style={{ maxWidth: "100%" }}>
@@ -471,14 +474,18 @@ export default function Survey() {
             marginTop: 20,
           }}
         >
-          {(localStorage.getItem("role") === "Admin" || localStorage.getItem("role") === "superAdmin") && (
+          {(localStorage.getItem("role") === "Admin" ||
+            localStorage.getItem("role") === "superAdmin") && (
             <>
               <Stack direction="row" alignItems="center" spacing={2}>
                 <label htmlFor="contained-button-file">
                   <input
-                    style={{ display: 'none' }}
-                    id="contained-button-file" type="file" onChange={(files) => onFileDropped(files)} />
-                  <Button variant="outlined" component="span" >
+                    style={{ display: "none" }}
+                    id="contained-button-file"
+                    type="file"
+                    onChange={(files) => onFileDropped(files)}
+                  />
+                  <Button variant="outlined" component="span">
                     Import
                   </Button>
                 </label>
@@ -498,7 +505,11 @@ export default function Survey() {
       </Stack>
       <Grid lg={12} sm={12} xs={12} item container spacing={2}>
         <Grid item lg={12} sm={12} xs={12}>
-          <CustomTable data={rows} columns={isSuperAdmin ? columnsForSuperAdmin : columns} handleExportData={handleExportData} />
+          <CustomTable
+            data={rows}
+            columns={isSuperAdmin ? columnsForSuperAdmin : columns}
+            handleExportData={handleExportData}
+          />
         </Grid>
       </Grid>
       <ToastContainer />
