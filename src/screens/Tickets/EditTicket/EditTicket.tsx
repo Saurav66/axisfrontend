@@ -101,18 +101,17 @@ export default function EditTicket(props: any) {
   const [data, setData] = useState(props.history.location.state?.data);
   const disableEdit =
     localStorage.getItem("role") === "superAdmin" ||
-    (localStorage.getItem("role") === "Engineer" &&
-      props.history.location.state?.data?.status === "OPEN")
+      (localStorage.getItem("role") === "Engineer" &&
+        props.history.location.state?.data?.status === "OPEN")
       ? false
       : true;
 
-  console.log(
-    data.complaintCompletionDatetime &&
-      moment(data.engineerAssignedDateTime).diff(
-        moment(data.complaintCompletionDatetime),
-        "hours"
-      )
-  );
+  const disableStatusChange =
+    localStorage.getItem("role") === "superAdmin" || localStorage.getItem("role") === "Admin" ||
+      (localStorage.getItem("role") === "Engineer" &&
+        props.history.location.state?.data?.status === "OPEN")
+      ? false
+      : true;
 
   const handleChange = (event: any) => {
     setData({ ...data, [event.target.name]: event.target.value });
@@ -729,13 +728,13 @@ export default function EditTicket(props: any) {
                   value="OPEN"
                   control={<Radio />}
                   label="OPEN"
-                  disabled={disableEdit}
+                  disabled={disableStatusChange}
                 />
                 <FormControlLabel
                   value="CLOSED"
                   control={<Radio />}
                   label="CLOSED"
-                  disabled={disableEdit}
+                  disabled={disableStatusChange}
                 />
               </RadioGroup>
             </FormControl>
