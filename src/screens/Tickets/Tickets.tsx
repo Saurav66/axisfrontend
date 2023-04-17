@@ -99,7 +99,7 @@ export default function Tickets(props: any) {
         );
       }
     } else if (tabValue === "CLOSED") {
-      if (isAdmin) {
+      if (isAdmin || isSuperAdmin) {
         response = await getAdminTicketByStatusAndDateRange(
           "CLOSED",
           fromDate,

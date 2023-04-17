@@ -379,9 +379,6 @@ export default function Survey() {
   }
 
   const handleExportData = (rows: any[]) => {
-
-
-
     const payload = rows.map((row) => row.original.id);
     axios
       .post(`${UrlConstants.baseUrl}/exportSurveyById`, payload, {

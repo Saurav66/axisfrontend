@@ -63,7 +63,7 @@ const CustomTable = (props: any) => {
           enableSorting={false}
           enableColumnActions={false}
           muiTablePaginationProps={{
-            rowsPerPageOptions: [10, 20, 50, 100, 1000],
+            rowsPerPageOptions: [20, 50, 100, 1000],
             showFirstButton: false,
             showLastButton: false,
           }}

@@ -98,7 +98,7 @@ export default function EditTicket(props: any) {
   const classes = useStyles();
   const history = useHistory();
   const role = localStorage.getItem("role");
-  const disableEdit = localStorage.getItem("role") !== "superAdmin" || localStorage.getItem("role") !== "Engineer";
+  const disableEdit = localStorage.getItem("role") === "superAdmin" || localStorage.getItem("role") === "Engineer" ? false : true;
   const [data, setData] = useState(props.history.location.state?.data);
 
   console.log(
@@ -115,7 +115,7 @@ export default function EditTicket(props: any) {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    let subUrl = localStorage.getItem("role") !== "superAdmin" ? `/admin/updateTicket` : `/engineer/updateTicket`
+    let subUrl = localStorage.getItem("role") === "superAdmin" ? `admin/updateTicket/loggedInUserId/${localStorage.getItem("id")}` : `engineer/updateTicket`
     axios
       .patch(`${UrlConstants.baseUrl}/${subUrl}`, data)
       .then(function (response) {
@@ -529,7 +529,7 @@ export default function EditTicket(props: any) {
                 onChange={handleChange}
                 size="small"
               />
-              <Box>
+              {/* <Box>
                 <TextField
                   disabled
                   className={classes.textField}
@@ -579,7 +579,7 @@ export default function EditTicket(props: any) {
                   }
                   size="small"
                 />
-              </Box>
+              </Box> */}
               {role === "Engineer" && (
                 <Box>
                   <DropzoneArea
@@ -640,7 +640,7 @@ export default function EditTicket(props: any) {
             }}
           >
             <TextField
-              disabled={role === "aeit"}
+              // disabled={role === "aeit"}
               className={classes.textField}
               label="Remarks"
               InputLabelProps={{
@@ -671,13 +671,13 @@ export default function EditTicket(props: any) {
                   value="OPEN"
                   control={<Radio />}
                   label="OPEN"
-                  disabled={role !== "superAdmin"}
+                  disabled={disableEdit}
                 />
                 <FormControlLabel
                   value="CLOSED"
                   control={<Radio />}
                   label="CLOSED"
-                  disabled={role !== "superAdmin"}
+                  disabled={disableEdit}
                 />
               </RadioGroup>
             </FormControl>
