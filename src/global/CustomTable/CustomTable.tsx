@@ -113,7 +113,7 @@ const CustomTable = (props: any) => {
                 // startIcon={<FileDownloadIcon />}
                 variant="contained"
               >
-                Export All Rows
+                Export Table Rows
               </Button>)}
             </Box>
           )}

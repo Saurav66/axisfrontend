@@ -66,8 +66,7 @@ export default function Survey() {
         if (secondConfirmBox === true) {
           axios
             .delete(
-              `${UrlConstants.baseUrl}/deleteSurvey/${
-                row.id
+              `${UrlConstants.baseUrl}/deleteSurvey/${row.id
               }/loggedInUserId/${localStorage.getItem("id")}`
             )
             .then(function (response) {
@@ -283,7 +282,7 @@ export default function Survey() {
       .then((response: any) => {
         return response.data;
       })
-      .catch((error) => {});
+      .catch((error) => { });
     setRows(response);
   };
 
@@ -293,7 +292,7 @@ export default function Survey() {
       .then((response: any) => {
         return response.data;
       })
-      .catch((error) => {});
+      .catch((error) => { });
     setSelectedCity(response[0]);
     setCityOptions(response.concat("All"));
     getSurveys(response[0]);
@@ -310,7 +309,7 @@ export default function Survey() {
       .then((response: any) => {
         return response.data;
       })
-      .catch((error) => {});
+      .catch((error) => { });
     setRows(response);
   };
 
@@ -446,21 +445,8 @@ export default function Survey() {
                 ))}
               </select>
             </Grid>
-            <Button
-              style={{
-                color: "white",
-                backgroundColor: "#f44336",
-                marginTop: 20,
-                minWidth: 120,
-              }}
-              variant="outlined"
-              onClick={handleOnClick}
-            >
-              Add Survey
-            </Button>
           </>
         )}
-
         <Grid
           // item
           // xl={6}
@@ -476,33 +462,48 @@ export default function Survey() {
         >
           {(localStorage.getItem("role") === "Admin" ||
             localStorage.getItem("role") === "superAdmin") && (
-            <>
-              <Stack direction="row" alignItems="center" spacing={2}>
-                <label htmlFor="contained-button-file">
-                  <input
-                    style={{ display: "none" }}
-                    id="contained-button-file"
-                    type="file"
-                    onChange={(files) => onFileDropped(files)}
-                  />
-                  <Button variant="outlined" component="span">
-                    Import
-                  </Button>
-                </label>
-                <label>
-                  <Button
-                    onClick={handlleExportSurvey}
-                    variant="contained"
-                    startIcon={<FileUploadIcon />}
-                  >
-                    Export by City
-                  </Button>
-                </label>
-              </Stack>
-            </>
-          )}
+              <>
+                <Stack direction="row" alignItems="center" spacing={2}>
+                  <label>
+                    <Button
+                      onClick={handlleExportSurvey}
+                      variant="contained"
+                      startIcon={<FileUploadIcon />}
+                    >
+                      Export by City
+                    </Button>
+                  </label>
+                  <label htmlFor="contained-button-file">
+                    <input
+                      style={{ display: "none" }}
+                      id="contained-button-file"
+                      type="file"
+                      onChange={(files) => onFileDropped(files)}
+                    />
+                    <Button variant="outlined" component="span">
+                      Import
+                    </Button>
+                  </label>
+                </Stack>
+              </>
+            )}
+        </Grid>
+        <Grid item>
+          <Button
+            style={{
+              color: "white",
+              backgroundColor: "#f44336",
+              marginTop: 20,
+              minWidth: 120,
+            }}
+            variant="outlined"
+            onClick={handleOnClick}
+          >
+            Add Survey
+          </Button>
         </Grid>
       </Stack>
+
       <Grid lg={12} sm={12} xs={12} item container spacing={2}>
         <Grid item lg={12} sm={12} xs={12}>
           <CustomTable

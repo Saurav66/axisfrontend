@@ -38,17 +38,19 @@ import { UrlConstants } from "../../global/UrlConstants";
 const emails = ["username@gmail.com", "user02@gmail.com"];
 
 const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    firstGridItems: {
-      display: "flex",
-      justifyContent: "flex-end",
-      alignItems: "flex-end",
-      padding: "0.5rem",
-    },
-    secondGridItems: {},
-    thirdGridItems: {},
-    button: {},
-  })
+  createStyles(
+    {
+      firstGridItems: {
+        display: "flex",
+        justifyContent: "flex-end",
+        alignItems: "flex-end",
+        padding: "0.5rem",
+      },
+      secondGridItems: {},
+      thirdGridItems: {},
+      button: {},
+    }
+  )
 );
 
 export default function Tickets(props: any) {
@@ -68,6 +70,10 @@ export default function Tickets(props: any) {
   const [OPEN, setOPEN] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState();
   const [engineersList, setengineersList] = useState([]);
+  const [dropdown, setDropdown] = useState({
+    assignedEngineerList: [],
+    assignedEngineerContactNoList: []
+  });
   const [assignedEngineerList, setAssignedEngineerList] = useState([]);
   const [assignedEngineerContactNoList, setAssignedEngineerContactNoList] = useState([]);
 
@@ -76,7 +82,6 @@ export default function Tickets(props: any) {
     getTickets("1900-01-01", "9999-01-01");
     // getTicketDropDownMatrix();
   }, [tabValue]);
-
 
   // const getTicketDropDownMatrix = async () => {
   //   const response = await axios
@@ -138,6 +143,8 @@ export default function Tickets(props: any) {
       }
     }
     setRows(response ?? []);
+    setDropdown({ ...dropdown, assignedEngineerList: response?.map((row: any) => row?.engineerAssigned), assignedEngineerContactNoList: response?.map((row: any) => row?.engineerContactNo) })
+    // setAssignedEngineerList(response?.map((row: any) => row?.engineerAssigned))
   };
 
   const columnsForEmployee = useMemo(
@@ -466,9 +473,15 @@ export default function Tickets(props: any) {
       {
         accessorKey: "engineerAssigned",
         header: "Engineer Assigned",
-        // filterVariant: 'select',
+        //code1
+        filterVariant: 'select',
         // filterSelectOptions: ticketData?.map((ticket: any) => ticket?.engineerAssigned),
-        // filterSelectOptions: await getTicketDropDownMatrix(),
+        // filterSelectOptions: assignedEngineerList,
+        filterSelectOptions: [
+          { text: 'Male', value: 'Male' },
+          { text: 'Female', value: 'Female' },
+          { text: 'Other', value: 'Other' },
+        ],
         size: 180,
       },
       {
@@ -582,26 +595,31 @@ export default function Tickets(props: any) {
       "Do you really want to delete Ticket No: ".concat(complaintNumber)
     );
     if (confirmBox === true) {
-      axios
-        .delete(
-          `${UrlConstants.baseUrl
-          }/complaintNumber/${complaintNumber}/loggedInUserId/${localStorage.getItem(
-            "id"
-          )}`
-        )
-        .then(function (response) {
-          toast.success("Successfully Deleted!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
+      const finalConfirmBox = window.confirm(
+        "Do you really want to delete Ticket No: ".concat(complaintNumber).concat(" Permanently")
+      );
+      if (finalConfirmBox === true) {
+        axios
+          .delete(
+            `${UrlConstants.baseUrl
+            }/deleteTicket/${complaintNumber}/loggedInUserId/${localStorage.getItem(
+              "id"
+            )}`
+          )
+          .then(function (response) {
+            toast.success("Successfully Deleted!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+            window.location.reload();
           });
-          window.location.reload();
-        });
+      }
     }
   };
 

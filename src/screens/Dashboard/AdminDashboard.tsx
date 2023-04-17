@@ -1,6 +1,6 @@
 import { Card } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Stack, Typography } from "@mui/material";
 // import { BarChart, Bar, CartesianGrid, XAxis, YAxis } from "recharts";
 import React, { useEffect, useState } from "react";
 import CustomCard from "../../global/CustomCard/CustomCard";
@@ -115,107 +115,110 @@ export default function AdminDashboard() {
 
   return (
     <>
-      <Grid container spacing={2} style={{ padding: "2rem" }}>
-        <Grid item xs>
-          <CustomCard
-            title="Total Tickets"
-            // icon={ConfirmationNumberIcon}
-            cardColor="#fcffde"
-            count={(ticketCount?.OPEN ?? 0) + (ticketCount?.CLOSED ?? 0)}
-            onClick={() => history.push("/tickets")}
-          ></CustomCard>
+      <Box>
+        <Grid container spacing={2} style={{ padding: "2rem" }}>
+          <Grid item xs>
+            <CustomCard
+              title="Total Tickets"
+              // icon={ConfirmationNumberIcon}
+              cardColor="#fcffde"
+              count={(ticketCount?.OPEN ?? 0) + (ticketCount?.CLOSED ?? 0)}
+              onClick={() => history.push("/tickets")}
+            ></CustomCard>
+          </Grid>
+          <Grid item xs>
+            <CustomCard
+              title="Total Survey"
+              cardColor="#fcffde"
+              count={ticketCount?.totalSurvey ?? 0}
+              onClick={() => history.push("/survey")}
+            ></CustomCard>
+          </Grid>
+          <Grid item xs>
+            <CustomCard
+              title="Total Circle"
+              cardColor="#fcffde"
+              count={ticketCount.totalCircles ?? 0}
+              onClick={() => history.push("/locations")}
+            ></CustomCard>
+          </Grid>
+          <Grid item xs>
+            <CustomCard
+              title="Active Engineer"
+              cardColor="#e8ffde"
+              count={ticketCount?.activeEngineers ?? 0}
+              onClick={() => history.push("/employees")}
+            ></CustomCard>
+          </Grid>
         </Grid>
-        <Grid item xs>
-          <CustomCard
-            title="Total Survey"
-            cardColor="#fcffde"
-            count={ticketCount?.totalSurvey ?? 0}
-            onClick={() => history.push("/survey")}
-          ></CustomCard>
+      </Box>
+      <Box>
+        <Grid container spacing={2} style={{ height: "17vw" }}>
+          <Grid item xl={3} style={
+            {
+              padding: "2rem"
+              // width: "auto",
+              // height: "auto",
+              // backgroundColor: "#FFFFFF",
+              // color: "#141414",
+              // flexDirection: "column",
+              // padding: 1,
+              // //   ...centerItemFlex,
+              // cursor: "pointer",
+            }
+          }>
+            <ResponsiveContainer width="100%" height="100%">
+              <Card
+              >
+                <PieChart width={370} height={400}>
+                  <Pie
+                    // data={data}
+                    data={[
+                      { name: "Open Tickets", value: ticketCount.OPEN },
+                      { name: "Closed Tickets", value: ticketCount.CLOSED },
+                    ]}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={renderCustomizedLabel}
+                    outerRadius={120}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {data.map((entry, index) => (
+                      <Cell
+                        onClick={() => history.push("/tickets")}
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                      />
+                    ))}
+                  </Pie>
+                </PieChart>
+              </Card>
+            </ResponsiveContainer>
+          </Grid>
+          <Grid item xl={9} spacing={2} style={{ padding: "2rem" }}>
+            <Box style={{ padding: "1rem" }}></Box>
+            <CustomCard
+              title="Total Ticket Closed this Month"
+              // cardWidth="100vw"
+              cardColor="#e8ffde"
+              count={ticketCount.currentMonthClosedTicket}
+              onClick={() => history.push("/tickets", { tabValue: "CLOSED" })}
+            ></CustomCard>
+            <Box style={{ padding: "1.5rem" }}></Box>
+            <CustomCard
+              title="Total Ticket Created this Month"
+              color="#141414"
+              cardColor="#ffeade"
+              // cardWidth="100vw"
+              count={ticketCount.currentMonthCreatedTicket}
+              onClick={() => history.push("/tickets")}
+            ></CustomCard>
+          </Grid>
         </Grid>
-        <Grid item xs>
-          <CustomCard
-            title="Total Circle"
-            cardColor="#fcffde"
-            count={ticketCount.totalCircles ?? 0}
-            onClick={() => history.push("/locations")}
-          ></CustomCard>
-        </Grid>
-        <Grid item xs>
-          <CustomCard
-            title="Active Engineer"
-            cardColor="#e8ffde"
-            count={ticketCount?.activeEngineers ?? 0}
-            onClick={() => history.push("/employees")}
-          ></CustomCard>
-        </Grid>
-      </Grid>
-      <Grid container spacing={2} style={{ height: "17vw" }}>
-        <Grid item xs>
-          <ResponsiveContainer width="100%" height="100%">
-            <Card
-              // onClick={() => props.onClick && props.onClick()}
-              style={
-                {
-                  // width: "auto",
-                  // height: "auto",
-                  // backgroundColor: "#FFFFFF",
-                  // color: "#141414",
-                  // flexDirection: "column",
-                  // padding: 1,
-                  // //   ...centerItemFlex,
-                  // cursor: "pointer",
-                }
-              }
-            >
-              <PieChart width={550} height={400}>
-                <Pie
-                  // data={data}
-                  data={[
-                    { name: "Open Tickets", value: ticketCount.OPEN },
-                    { name: "Closed Tickets", value: ticketCount.CLOSED },
-                  ]}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={renderCustomizedLabel}
-                  outerRadius={130}
-                  fill="#8884d8"
-                  dataKey="value"
-                >
-                  {data.map((entry, index) => (
-                    <Cell
-                      onClick={() => history.push("/tickets")}
-                      key={`cell-${index}`}
-                      fill={COLORS[index % COLORS.length]}
-                    />
-                  ))}
-                </Pie>
-              </PieChart>
-            </Card>
-          </ResponsiveContainer>
-        </Grid>
-        <Grid item xs>
-          <CustomCard
-            title="Total Ticket Closed this Month"
-            cardWidth="30vw"
-            cardColor="#e8ffde"
-            count={ticketCount.currentMonthClosedTicket}
-            onClick={() => history.push("/tickets", { tabValue: "CLOSED" })}
-          ></CustomCard>
-        </Grid>
-        <Grid item xs>
-          <CustomCard
-            title="Total Ticket Created this Month"
-            color="#141414"
-            cardColor="#ffeade"
-            cardWidth="30vw"
-            count={ticketCount.currentMonthCreatedTicket}
-            onClick={() => history.push("/tickets")}
-          ></CustomCard>
-        </Grid>
-      </Grid>
-      <Grid container spacing={2} style={{ padding: "2rem" }}></Grid>
+      </Box>
+
     </>
   );
 }
