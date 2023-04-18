@@ -139,7 +139,7 @@ export default function AdminDashboard() {
               title="Total Circle"
               cardColor="#fcffde"
               count={ticketCount.totalCircles ?? 0}
-            // onClick={() => history.push("/locations")}
+              onClick={() => history.push("/locations")}
             ></CustomCard>
           </Grid>
           <Grid item xs>

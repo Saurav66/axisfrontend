@@ -3,7 +3,7 @@ import { UrlConstants } from "../../global/UrlConstants";
 
 export const getLocations = async () => {
     const response = await axios
-        .get(`${UrlConstants.baseUrl}/getAllLocations/loggedInUserId/${localStorage.getItem("id")}`)
+        .get(`${UrlConstants.baseUrl}/getAllCirclesForEngineer`)
         .then((response: any) => {
             return response.data;
         })

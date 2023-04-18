@@ -55,9 +55,9 @@ export default function LocationList() {
       // { accessorKey: "serialNo", header: "Serial No", width: 50 },
       { accessorKey: "zone", header: "Zone", width: 320 },
       { accessorKey: "circle", header: "Circle", width: 320 },
-      { accessorKey: "division", header: "Division", width: 420 },
-      { accessorKey: "subdivision", header: "Subdivision", width: 420 },
-      { accessorKey: "substation", header: "Substation", width: 420 },
+      // { accessorKey: "division", header: "Division", width: 420 },
+      // { accessorKey: "subdivision", header: "Subdivision", width: 420 },
+      // { accessorKey: "substation", header: "Substation", width: 420 },
       // {
       //   accessorKey: "edit",
       //   header: "Edit",
