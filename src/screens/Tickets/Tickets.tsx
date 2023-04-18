@@ -66,7 +66,7 @@ export default function Tickets(props: any) {
   const loggedInUserPhone = localStorage.getItem("phone");
   const [rows, setRows] = useState([]);
   const [tabValue, setTabValue] = useState(
-    props.history.location.state?.tabValue ?? "OPEN"
+    props.history.location.state?.tabValue ?? !isAEIT ? "OPEN" : "CLOSED"
   );
   const [OPEN, setOPEN] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -203,26 +203,26 @@ export default function Tickets(props: any) {
   const columnsForAEIT = useMemo(
     () => [
       { accessorKey: "serialNo", header: "S/no.", size: 80 },
-      { accessorKey: "complaintNo", header: "Complaint No", size: 120 },
+      { accessorKey: "complaintNo", header: "Complaint No", size: 90 },
       {
         accessorKey: "complaintDatetime",
         header: "Complaint Date & Time",
-        size: 200,
+        size: 150,
       },
       {
         accessorKey: "complainantName",
         header: "Complainant Name",
-        size: 180,
+        size: 150,
       },
       {
         accessorKey: "complainantContactNo",
         header: "Complainant Contact No",
-        size: 200,
+        size: 150,
       },
       {
         accessorKey: "aeitStatus",
         header: "AEIT Status",
-        size: 120,
+        size: 40,
         Cell: (cell: GridRenderCellParams) => (
           <>
             {cell.row.original.aeitStatus === "Approved" ? (
@@ -230,16 +230,6 @@ export default function Tickets(props: any) {
             ) : (
               <Typography style={{ color: "#f44336" }}>{cell.row.original.aeitStatus}</Typography>
             )}
-            {/* <IconButton
-              size="small"
-              style={{ marginLeft: 2, color: "#0000FF" }}
-              tabIndex={cell.hasFocus ? 0 : -1}
-              onClick={() => {
-                editRow(cell.row.original);
-              }}
-            >
-              <EditIcon fontSize="small" />
-            </IconButton> */}
           </>
         ),
       },
@@ -271,13 +261,14 @@ export default function Tickets(props: any) {
       {
         accessorKey: "aeitStatus",
         header: "Action",
-        size: 120,
+        size: 170,
         Cell: (cell: GridRenderCellParams) => (
           <>
             <Button
+              size="small"
               style={{
                 color: "white",
-                backgroundColor: cell.row.original.aeitStatus
+                backgroundColor: cell.row.original.aeitStatus === "Approved"
                   ? "#f44336"
                   : "#008000",
                 marginTop: 20,
@@ -294,6 +285,24 @@ export default function Tickets(props: any) {
             >
               {cell.row.original.aeitStatus === "Approved" ? "UnApprove" : "Approve"}
             </Button>
+            {!["UnApprove", "Approved"].includes(cell.row.original.aeitStatus) &&
+              (<Button
+                size="small"
+                style={{
+                  color: "white",
+                  backgroundColor: "#f75f31",
+                  marginTop: 20,
+                  marginLeft: 4,
+                  marginBottom: 20,
+                  minWidth: 120,
+                }}
+                // type="submit"
+                onClick={() => handleRejectButton(cell.row.original)
+                }
+              >
+                {"Reject"}
+              </Button>)}
+
             {/* <IconButton
               size="small"
               style={{ marginLeft: 2, color: "#0000FF" }}
@@ -372,15 +381,15 @@ export default function Tickets(props: any) {
         size: 220,
       },
       {
-        accessorKey: "approved",
+        accessorKey: "aeitStatus",
         header: "AEIT Status",
         size: 120,
         Cell: (cell: GridRenderCellParams) => (
           <>
-            {cell.row.original.approved ? (
+            {cell.row.original.aeitStatus === "Approved" ? (
               <Typography style={{ color: "#009900" }}>Approved</Typography>
             ) : (
-              <Typography style={{ color: "#f44336" }}>Pending</Typography>
+              <Typography style={{ color: "#f44336" }}>{cell.row.original.aeitStatus}</Typography>
             )}
           </>
         ),
@@ -508,16 +517,15 @@ export default function Tickets(props: any) {
         size: 220,
       },
       {
-        accessorKey: "approved",
-        header: "AEIT Approval",
+        accessorKey: "aeitStatus",
+        header: "AEIT Status",
         size: 120,
-        //code
         Cell: (cell: GridRenderCellParams) => (
           <>
-            {cell.row.original.approved ? (
+            {cell.row.original.aeitStatus === "Approved" ? (
               <Typography style={{ color: "#009900" }}>Approved</Typography>
             ) : (
-              <Typography style={{ color: "#f44336" }}>Pending</Typography>
+              <Typography style={{ color: "#f44336" }}>{cell.row.original.aeitStatus}</Typography>
             )}
           </>
         ),
@@ -676,7 +684,7 @@ export default function Tickets(props: any) {
         }
       )
       .then(function (response) {
-        toast.success("Survey Updated!", {
+        toast.success("Survey Approved!", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -715,7 +723,46 @@ export default function Tickets(props: any) {
         }
       )
       .then(function (response) {
-        toast.success("Survey Updated!", {
+        toast.success("Survey UnApproved!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        setTimeout(() => history.push("/tickets"), 700);
+      })
+      .catch(function (error) {
+        toast.error("Error while updating!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      });
+  };
+
+  const handleRejectButton = (selectedTicket: any) => {
+    axios
+      .patch(
+        `${UrlConstants.baseUrl
+        }/admin/updateTicket/loggedInUserId/${localStorage.getItem("id")}`,
+        {
+          ...selectedTicket,
+          aeitStatus: "Rejected",
+          approverPhone: loginUserPhone,
+          approverName: loginUserName,
+        }
+      )
+      .then(function (response) {
+        toast.success("Survey Rejected!", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -843,32 +890,16 @@ export default function Tickets(props: any) {
             }
           }
         >
-
-          {localStorage.getItem("role") === "aeit" ?
-            <>
-              <Tabs
-                value={tabValue}
-                onChange={handleTabChange}
-                textColor="secondary"
-                TabIndicatorProps={{ style: { background: "#e03a3c" } }}
-                aria-label="secondary tabs example"
-              >
-                <Tab value="CLOSED" label="CLOSED" />
-                <Tab value="OPEN" label="OPEN" />
-              </Tabs>
-            </> : <>
-              <Tabs
-                value={tabValue}
-                onChange={handleTabChange}
-                textColor="secondary"
-                TabIndicatorProps={{ style: { background: "#e03a3c" } }}
-                aria-label="secondary tabs example"
-              >
-                <Tab value="OPEN" label="OPEN" />
-                <Tab value="CLOSED" label="CLOSED" />
-              </Tabs>
-            </>}
-
+          <Tabs
+            value={tabValue}
+            onChange={handleTabChange}
+            textColor="secondary"
+            TabIndicatorProps={{ style: { background: "#e03a3c" } }}
+            aria-label="secondary tabs example"
+          >
+            <Tab value="CLOSED" label="CLOSED" />
+            <Tab value="OPEN" label="OPEN" />
+          </Tabs>
         </Grid>
         <Grid
           item
