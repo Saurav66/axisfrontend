@@ -929,8 +929,9 @@ export default function Tickets(props: any) {
           item
           xl={6}
           lg={6}
+          md={6}
           sm={6}
-          xs={6}
+          xs={12}
           style={{
             // backgroundColor: "red",
             display: "flex",
@@ -944,11 +945,13 @@ export default function Tickets(props: any) {
               <>
                 <Grid
                   item
-                  xs
+                  // style={{ backgroundColor: "red" }}
                   style={{
+                    // backgroundColor: "red",
                     marginTop: 20,
-                    minWidth: 120,
+                    minWidth: 50,
                     padding: 5,
+                    marginRight: 20
                   }}
                 >
                   <label
@@ -974,8 +977,6 @@ export default function Tickets(props: any) {
                       </option>
                     ))}
                   </select>
-                </Grid>
-                <Stack direction="row" alignItems="center" spacing={2}>
                   <label htmlFor="contained-button-file">
                     <input
                       style={{ display: "none" }}
@@ -987,6 +988,9 @@ export default function Tickets(props: any) {
                       Import
                     </Button>
                   </label>
+                </Grid>
+                <div >
+
                   {/* <label htmlFor="contained-button-file">
                   <Button
                     onClick={handlleExportTicket}
@@ -996,7 +1000,7 @@ export default function Tickets(props: any) {
                     Export
                   </Button>
                 </label> */}
-                </Stack>
+                </div>
               </>
             )}
         </Grid>
