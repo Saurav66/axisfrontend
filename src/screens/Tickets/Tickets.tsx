@@ -32,6 +32,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UrlConstants } from "../../global/UrlConstants";
+import LinearProgress from '@mui/material/LinearProgress';
 
 // const rawRows = [...ticketData];
 
@@ -68,6 +69,7 @@ export default function Tickets(props: any) {
     props.history.location.state?.tabValue ?? "OPEN"
   );
   const [OPEN, setOPEN] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState();
   const [engineersList, setengineersList] = useState([]);
   const [dropdown, setDropdown] = useState({
@@ -96,6 +98,7 @@ export default function Tickets(props: any) {
   // };
 
   const getTickets = async (fromDate: String, toDate: String) => {
+    setLoading(true)
     let response;
     if (tabValue === "OPEN") {
       if (isAdmin || isSuperAdmin) {
@@ -142,9 +145,11 @@ export default function Tickets(props: any) {
         );
       }
     }
+
     setRows(response ?? []);
-    setDropdown({ ...dropdown, assignedEngineerList: response?.map((row: any) => row?.engineerAssigned), assignedEngineerContactNoList: response?.map((row: any) => row?.engineerContactNo) })
+    // setDropdown({ ...dropdown, assignedEngineerList: response?.map((row: any) => row?.engineerAssigned), assignedEngineerContactNoList: response?.map((row: any) => row?.engineerContactNo) })
     // setAssignedEngineerList(response?.map((row: any) => row?.engineerAssigned))
+    setLoading(false)
   };
 
   const columnsForEmployee = useMemo(
@@ -215,15 +220,15 @@ export default function Tickets(props: any) {
         size: 200,
       },
       {
-        accessorKey: "approved",
+        accessorKey: "aeitStatus",
         header: "AEIT Status",
         size: 120,
         Cell: (cell: GridRenderCellParams) => (
           <>
-            {cell.row.original.approved ? (
+            {cell.row.original.aeitStatus === "Approved" ? (
               <Typography style={{ color: "#009900" }}>Approved</Typography>
             ) : (
-              <Typography style={{ color: "#f44336" }}>Pending</Typography>
+              <Typography style={{ color: "#f44336" }}>{cell.row.original.aeitStatus}</Typography>
             )}
             {/* <IconButton
               size="small"
@@ -264,7 +269,7 @@ export default function Tickets(props: any) {
         ),
       },
       {
-        accessorKey: "approved",
+        accessorKey: "aeitStatus",
         header: "Action",
         size: 120,
         Cell: (cell: GridRenderCellParams) => (
@@ -272,7 +277,7 @@ export default function Tickets(props: any) {
             <Button
               style={{
                 color: "white",
-                backgroundColor: cell.row.original.approved
+                backgroundColor: cell.row.original.aeitStatus
                   ? "#f44336"
                   : "#008000",
                 marginTop: 20,
@@ -282,12 +287,12 @@ export default function Tickets(props: any) {
               }}
               // type="submit"
               onClick={() =>
-                cell.row.original.approved
+                cell.row.original.aeitStatus === "Approved"
                   ? handleUnApproveButton(cell.row.original)
                   : handleApproveButton(cell.row.original)
               }
             >
-              {cell.row.original.approved ? "UnApprove" : "Approve"}
+              {cell.row.original.aeitStatus === "Approved" ? "UnApprove" : "Approve"}
             </Button>
             {/* <IconButton
               size="small"
@@ -345,6 +350,11 @@ export default function Tickets(props: any) {
             size="small"
           />
         ),
+      },
+      {
+        accessorKey: "circle",
+        header: "Circle",
+        size: 180,
       },
       {
         accessorKey: "complainantName",
@@ -466,6 +476,11 @@ export default function Tickets(props: any) {
         ),
       },
       {
+        accessorKey: "circle",
+        header: "Circle",
+        size: 180,
+      },
+      {
         accessorKey: "complainantName",
         header: "Complainant Name",
         size: 180,
@@ -474,14 +489,14 @@ export default function Tickets(props: any) {
         accessorKey: "engineerAssigned",
         header: "Engineer Assigned",
         //code1
-        filterVariant: 'select',
+        // filterVariant: 'select',
         // filterSelectOptions: ticketData?.map((ticket: any) => ticket?.engineerAssigned),
         // filterSelectOptions: assignedEngineerList,
-        filterSelectOptions: [
-          { text: 'Male', value: 'Male' },
-          { text: 'Female', value: 'Female' },
-          { text: 'Other', value: 'Other' },
-        ],
+        // filterSelectOptions: [
+        //   { text: 'Male', value: 'Male' },
+        //   { text: 'Female', value: 'Female' },
+        //   { text: 'Other', value: 'Other' },
+        // ],
         size: 180,
       },
       {
@@ -655,7 +670,7 @@ export default function Tickets(props: any) {
         }/admin/updateTicket/loggedInUserId/${localStorage.getItem("id")}`,
         {
           ...selectedTicket,
-          approved: true,
+          aeitStatus: "Approved",
           approverPhone: loginUserPhone,
           approverName: loginUserName,
         }
@@ -694,7 +709,7 @@ export default function Tickets(props: any) {
         }/admin/updateTicket/loggedInUserId/${localStorage.getItem("id")}`,
         {
           ...selectedTicket,
-          approved: false,
+          aeitStatus: "UnApproved",
           approverPhone: loginUserPhone,
           approverName: loginUserName,
         }
@@ -805,6 +820,7 @@ export default function Tickets(props: any) {
   };
 
   return (
+
     <>
       <Grid
         lg={12}
@@ -907,6 +923,7 @@ export default function Tickets(props: any) {
         className={classes.thirdGridItems}
       >
         <Grid item lg={12} sm={12} xs={12}>
+          {/* {loading ? <LinearProgress /> :  */}
           <CustomTable
             data={rows}
             handleExportData={handleExportData}
@@ -920,6 +937,8 @@ export default function Tickets(props: any) {
                     : columnsForEmployee
             }
           />
+          {/* } */}
+
         </Grid>
       </Grid>
       <Grid lg={12} sm={12} xs={12} item container spacing={2}>

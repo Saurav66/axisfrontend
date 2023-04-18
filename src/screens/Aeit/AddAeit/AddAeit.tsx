@@ -36,7 +36,7 @@ export default function AddAiet(props: any) {
     const classes = useStyles();
     const history = useHistory();
     const [circleOptions, setCircleOptions] = useState([]);
-    const [selectedCircle, setSelectedCircle] = useState([]);
+    const [selectedCircle, setSelectedCircle] = useState<String>();
     const [edit, setEdit] = useState(props.history.location.state?.data);
     const [employeeData, setEmployeeData] = useState({
         id: edit?.id ?? "",
@@ -276,7 +276,8 @@ export default function AddAiet(props: any) {
                                 autoComplete="new-password"
                                 name="phone"
                                 // value={employeeData.phone}
-                                value={`AEIT_${selectedCircle}`}
+                                // value={`AEIT_${selectedCircle}`}
+                                value={edit ? employeeData.phone : selectedCircle?.replaceAll(' ', '-')}
                                 type="tel"
                                 onChange={handleInputChange}
                             />

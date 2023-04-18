@@ -70,7 +70,7 @@ export default function AddressComponent(props: any) {
       .then((response: any) => {
         return response.data;
       })
-      .catch((error) => {});
+      .catch((error) => { });
     setCircleOptions(response);
   };
 
@@ -86,11 +86,11 @@ export default function AddressComponent(props: any) {
 
   const getDivisions = async () => {
     const response = await axios
-      .get(`${UrlConstants.baseUrl}/getAllDivisions`)
+      .get(`${UrlConstants.baseUrl}/getAllCitiFromSurvey`)
       .then((response: any) => {
         return response.data;
       })
-      .catch((error) => {});
+      .catch((error) => { });
     setDivisionOptions(response);
   };
 
@@ -107,7 +107,7 @@ export default function AddressComponent(props: any) {
         .then((response: any) => {
           return response.data;
         })
-        .catch((error) => {});
+        .catch((error) => { });
       setCityOptions(response);
     }
   };
@@ -166,7 +166,18 @@ export default function AddressComponent(props: any) {
           ))}
         </select>
       </Grid>
-      <Grid item xs>
+      <Grid className={classes.input} item xs>
+        <Typography className={classes.Typography}>City/Division</Typography>
+        <Box>
+          <input
+            className={classes.input}
+            autoComplete="new-password"
+            name="division"
+            onChange={handleLocationChange}
+          />
+        </Box>
+      </Grid>
+      {/* <Grid item xs>
         <Typography className={classes.Typography}>City/Division</Typography>
         <select
           className={classes.select}
@@ -182,7 +193,7 @@ export default function AddressComponent(props: any) {
             </option>
           ))}
         </select>
-      </Grid>
+      </Grid> */}
       <Grid item xs>
         <Typography className={classes.Typography}>Pincode</Typography>
         <Box>
