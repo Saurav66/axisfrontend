@@ -35,14 +35,14 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function AddEmployee(props: any) {
   const classes = useStyles();
   const history = useHistory();
-  const [circleOptions, setCircleOptions] = useState([]);
+  const [citiOptions, setCitiOptions] = useState([]);
   const [zoneOptions, setZoneOptions] = useState([]);
   const [edit, setEdit] = useState(props.history.location.state?.data);
   const [employeeData, setEmployeeData] = useState({
     id: edit?.id ?? "",
     name: edit?.name ?? "",
     phone: edit?.phone ?? "",
-    circle: edit?.circle ?? "",
+    city: edit?.city ?? "",
     password: edit?.password ?? "",
     role: edit?.role ?? "Engineer",
     status: edit?.status ?? "Active",
@@ -50,19 +50,19 @@ export default function AddEmployee(props: any) {
 
   useEffect(() => {
     document.title = edit ? `Update Employee` : `Add Employee`;
-    if (circleOptions.length === 0) {
-      getZones();
+    if (citiOptions.length === 0) {
+      getAllCitiFromSurvey();
     }
   }, []);
 
-  const getZones = async () => {
+  const getAllCitiFromSurvey = async () => {
     const response = await axios
-      .get(`${UrlConstants.baseUrl}/getAllZone`)
+      .get(`${UrlConstants.baseUrl}/getAllCitiFromSurvey`)
       .then((response: any) => {
         return response.data;
       })
       .catch((error) => { });
-    setCircleOptions(response);
+    setCitiOptions(response);
   };
 
   const handleValidation = () => {
@@ -92,8 +92,8 @@ export default function AddEmployee(props: any) {
       });
       return false;
     }
-    if (!employeeData.circle) {
-      toast.error("Please Enter Circle!", {
+    if (!employeeData.city) {
+      toast.error("Please Enter City!", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -244,17 +244,17 @@ export default function AddEmployee(props: any) {
             </Box>
           </Grid>
           <Grid item xs>
-            <Typography className={classes.Typography}>* Zone</Typography>
+            <Typography className={classes.Typography}>* City/Town</Typography>
             <select
               className={classes.select}
-              name="circle"
-              value={employeeData.circle}
+              name="city"
+              value={employeeData.city}
               onChange={handleInputChange}
             >
-              <option value={edit ? employeeData.circle : `pleaseSelect`}>
-                {edit ? employeeData.circle : `Please Select`}
+              <option value={edit ? employeeData?.city : `pleaseSelect`}>
+                {edit ? employeeData?.city : `Please Select`}
               </option>
-              {circleOptions.map((x, y) => (
+              {citiOptions?.map((x, y) => (
                 <option key={y} value={x}>
                   {x}
                 </option>

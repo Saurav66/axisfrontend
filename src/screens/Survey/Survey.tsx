@@ -160,7 +160,7 @@ export default function Survey() {
   const columnsForSuperAdmin = useMemo(
     () => [
       { accessorKey: "id", header: "S.No.", size: 80 },
-      { accessorKey: "city", header: "City.", size: 120 },
+      { accessorKey: "city", header: "City", size: 120 },
       { accessorKey: "circle", header: "Circle", size: 180 },
       { accessorKey: "division", header: "Division", size: 180 },
       { accessorKey: "subDivision", header: "Sub Division", size: 180 },
