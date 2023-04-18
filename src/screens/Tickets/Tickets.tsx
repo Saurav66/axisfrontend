@@ -285,7 +285,7 @@ export default function Tickets(props: any) {
             >
               {cell.row.original.aeitStatus === "Approved" ? "UnApprove" : "Approve"}
             </Button>
-            {!["UnApprove", "Approved"].includes(cell.row.original.aeitStatus) &&
+            {!["UnApproved", "Approved"].includes(cell.row.original.aeitStatus) &&
               (<Button
                 size="small"
                 style={{
