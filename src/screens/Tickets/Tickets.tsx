@@ -801,6 +801,7 @@ export default function Tickets(props: any) {
   };
 
   const onFileDropped = (event: any) => {
+    console.log("jjj")
     if (event.target.files[0]?.name) {
       axios
         .post(
@@ -977,7 +978,7 @@ export default function Tickets(props: any) {
                       </option>
                     ))}
                   </select>
-                  <label htmlFor="contained-button-file">
+                  {/* <label htmlFor="contained-button-file">
                     <input
                       style={{ display: "none" }}
                       id="contained-button-file"
@@ -987,7 +988,7 @@ export default function Tickets(props: any) {
                     <Button variant="outlined" component="span">
                       Import
                     </Button>
-                  </label>
+                  </label> */}
                 </Grid>
                 <div >
 
@@ -1017,6 +1018,7 @@ export default function Tickets(props: any) {
         <Grid item lg={12} sm={12} xs={12}>
           {/* {loading ? <LinearProgress /> :  */}
           <CustomTable
+            onFileDropped={onFileDropped}
             data={rows}
             handleExportData={handleExportData}
             columns={

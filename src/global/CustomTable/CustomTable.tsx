@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import MaterialReactTable, { MRT_Row } from "material-react-table";
-import { createTheme, ThemeProvider, useTheme } from "@mui/material";
+import { createTheme, Grid, ThemeProvider, useTheme } from "@mui/material";
 import { Box, Button } from "@material-ui/core";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 
@@ -104,17 +104,37 @@ const CustomTable = (props: any) => {
                 flexWrap: "wrap",
               }}
             >
-              {(props.handleExportData && isAdmin) && (<Button
-                disabled={table.getPrePaginationRowModel().rows.length === 0}
-                //export all rows, including from the next page, (still respects filtering and sorting)
-                onClick={() =>
-                  handleExportRows(table.getPrePaginationRowModel().rows)
-                }
-                // startIcon={<FileDownloadIcon />}
-                variant="contained"
-              >
-                Export Table Rows
-              </Button>)}
+              {(props.handleExportData && isAdmin) && (
+                <>
+                  {props.onFileDropped && isAdmin && (
+                    // <Button>
+                    <label htmlFor="contained-button-file">
+                      <input
+                        style={{ display: "none" }}
+                        id="contained-button-file"
+                        type="file"
+                        onChange={(files) => props.onFileDropped(files)}
+                      />
+                      <Button variant="outlined" component="span">
+                        Import
+                      </Button>
+                    </label>
+                    // </Button>
+                  )}
+                  <Button
+                    disabled={table.getPrePaginationRowModel().rows.length === 0}
+                    //export all rows, including from the next page, (still respects filtering and sorting)
+                    onClick={() =>
+                      handleExportRows(table.getPrePaginationRowModel().rows)
+                    }
+                    // startIcon={<FileDownloadIcon />}
+                    variant="contained"
+                  >
+                    Export
+                  </Button>
+                </>
+
+              )}
             </Box>
           )}
         // filterVariant={"select"}

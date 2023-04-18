@@ -447,7 +447,7 @@ export default function Survey() {
             </Grid>
           </>
         )}
-        <Grid
+        {/* <Grid
           // item
           // xl={6}
           // lg={6}
@@ -487,7 +487,7 @@ export default function Survey() {
                 </Stack>
               </>
             )}
-        </Grid>
+        </Grid> */}
         <Grid item>
           <Button
             style={{
@@ -507,6 +507,7 @@ export default function Survey() {
       <Grid lg={12} sm={12} xs={12} item container spacing={2}>
         <Grid item lg={12} sm={12} xs={12}>
           <CustomTable
+            onFileDropped={onFileDropped}
             data={rows}
             columns={isSuperAdmin ? columnsForSuperAdmin : columns}
             handleExportData={handleExportData}
