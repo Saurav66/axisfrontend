@@ -36,6 +36,7 @@ export default function AddEmployee(props: any) {
   const classes = useStyles();
   const history = useHistory();
   const [circleOptions, setCircleOptions] = useState([]);
+  const [zoneOptions, setZoneOptions] = useState([]);
   const [edit, setEdit] = useState(props.history.location.state?.data);
   const [employeeData, setEmployeeData] = useState({
     id: edit?.id ?? "",
@@ -50,17 +51,17 @@ export default function AddEmployee(props: any) {
   useEffect(() => {
     document.title = edit ? `Update Employee` : `Add Employee`;
     if (circleOptions.length === 0) {
-      getCircles();
+      getZones();
     }
   }, []);
 
-  const getCircles = async () => {
+  const getZones = async () => {
     const response = await axios
-      .get(`${UrlConstants.baseUrl}/getAllCircles`)
+      .get(`${UrlConstants.baseUrl}/getAllZone`)
       .then((response: any) => {
         return response.data;
       })
-      .catch((error) => {});
+      .catch((error) => { });
     setCircleOptions(response);
   };
 
@@ -126,8 +127,7 @@ export default function AddEmployee(props: any) {
       if (edit) {
         axios
           .patch(
-            `${
-              UrlConstants.baseUrl
+            `${UrlConstants.baseUrl
             }/updateEmployee/loggedInUserId/${localStorage.getItem("id")}`,
             employeeData
           )
@@ -159,8 +159,7 @@ export default function AddEmployee(props: any) {
       } else {
         axios
           .post(
-            `${
-              UrlConstants.baseUrl
+            `${UrlConstants.baseUrl
             }/addEmployee/loggedInUserId/${localStorage.getItem("id")}`,
             employeeData
           )
@@ -245,7 +244,7 @@ export default function AddEmployee(props: any) {
             </Box>
           </Grid>
           <Grid item xs>
-            <Typography className={classes.Typography}>* Circle</Typography>
+            <Typography className={classes.Typography}>* Zone</Typography>
             <select
               className={classes.select}
               name="circle"

@@ -62,7 +62,7 @@ export default function Employees() {
     () => [
       { accessorKey: "name", header: "Engineer Name", width: 320 },
       { accessorKey: "phone", header: "Engineer Contact No", width: 320 },
-      { accessorKey: "circle", header: "Circle", width: 320 },
+      { accessorKey: "circle", header: "Zone", width: 320 },
       { accessorKey: "status", header: "Status", width: 420 },
       {
         accessorKey: "edit",

@@ -61,11 +61,11 @@ const listItems = [
     listText: "Tickets",
     url: "/tickets",
   },
-  {
-    listIcon: <AssignmentInd />,
-    listText: "Locations",
-    url: "/locations",
-  },
+  // {
+  //   listIcon: <AssignmentInd />,
+  //   listText: "Locations",
+  //   url: "/locations",
+  // },
   {
     listIcon: <AnalyticsIcon />,
     listText: "Survey List",
