@@ -304,6 +304,18 @@ export default function EditTicket(props: any) {
             onChange={handleChange}
             size="small"
           />
+          <TextField
+            disabled={role !== "superAdmin"}
+            className={classes.textField}
+            label="AEIT Status"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            name="aeitStatus"
+            value={data.aeitStatus}
+            onChange={handleChange}
+            size="small"
+          />
         </Paper>
         <Grid container spacing={2}>
           <Grid item xs>
