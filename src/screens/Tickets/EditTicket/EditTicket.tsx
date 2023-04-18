@@ -546,57 +546,6 @@ export default function EditTicket(props: any) {
                 onChange={handleChange}
                 size="small"
               />
-              {/* <Box>
-                <TextField
-                  disabled
-                  className={classes.textField}
-                  label="Admin Response Time ( In Hours )"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  // name="responseTime"
-                  value={
-                    data.engineerAssignedDateTime &&
-                    moment(data.engineerAssignedDateTime).diff(
-                      moment(data.complaintDatetime),
-                      "hours"
-                    )
-                  }
-                  size="small"
-                />
-                <TextField
-                  disabled
-                  className={classes.textField}
-                  label="Engineer Response Time ( In Hours )"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  value={
-                    data.complaintCompletionDatetime &&
-                    moment(data.complaintCompletionDatetime).diff(
-                      moment(data.engineerAssignedDateTime),
-                      "hours"
-                    )
-                  }
-                  size="small"
-                />
-                <TextField
-                  disabled
-                  className={classes.textField}
-                  label="Total Response Time ( In Hours )"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  value={
-                    data.complaintCompletionDatetime &&
-                    moment(data.complaintCompletionDatetime).diff(
-                      moment(data.complaintDatetime),
-                      "hours"
-                    )
-                  }
-                  size="small"
-                />
-              </Box> */}
               <TextField
                 disabled={disableEdit}
                 type="datetime-local"
@@ -649,6 +598,57 @@ export default function EditTicket(props: any) {
                 onChange={handleChange}
                 size="small"
               />
+              <Box>
+                <TextField
+                  disabled
+                  className={classes.textField}
+                  label="Admin Response Time ( In Hours )"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  // name="responseTime"
+                  value={
+                    data.engineerAssignedDateTime &&
+                    moment(data.engineerAssignedDateTime).diff(
+                      moment(data.complaintDatetime),
+                      "hours"
+                    )
+                  }
+                  size="small"
+                />
+                <TextField
+                  disabled
+                  className={classes.textField}
+                  label="Engineer Response Time ( In Hours )"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  value={
+                    data.complaintCompletionDatetime &&
+                    moment(data.complaintCompletionDatetime).diff(
+                      moment(data.engineerAssignedDateTime),
+                      "hours"
+                    )
+                  }
+                  size="small"
+                />
+                <TextField
+                  disabled
+                  className={classes.textField}
+                  label="Total Response Time ( In Hours )"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  value={
+                    data.complaintCompletionDatetime &&
+                    moment(data.complaintCompletionDatetime).diff(
+                      moment(data.complaintDatetime),
+                      "hours"
+                    )
+                  }
+                  size="small"
+                />
+              </Box>
               {role === "Engineer" || role === "superAdmin" && (
                 <Box>
                   <DropzoneArea
