@@ -546,19 +546,6 @@ export default function EditTicket(props: any) {
                 onChange={handleChange}
                 size="small"
               />
-              <TextField
-                disabled={disableEdit}
-                className={classes.dateField}
-                type="datetime-local"
-                label="Complaint Closed On"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                name="complaintCompletionDatetime"
-                value={data.complaintCompletionDatetime}
-                onChange={handleChange}
-                size="small"
-              />
               {/* <Box>
                 <TextField
                   disabled
@@ -649,7 +636,20 @@ export default function EditTicket(props: any) {
                 onChange={handleChange}
                 size="small"
               />
-              {role === "Engineer" && (
+              <TextField
+                disabled
+                className={classes.dateField}
+                type="datetime-local"
+                label="Complaint Closed On"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                name="complaintCompletionDatetime"
+                value={data.complaintCompletionDatetime}
+                onChange={handleChange}
+                size="small"
+              />
+              {role === "Engineer" || role === "superAdmin" && (
                 <Box>
                   <DropzoneArea
                     filesLimit={1}
