@@ -276,7 +276,6 @@ export default function AddAiet(props: any) {
                                 autoComplete="new-password"
                                 name="phone"
                                 // value={employeeData.phone}
-                                // value={`AEIT_${selectedCircle}`}
                                 value={edit ? employeeData.phone : selectedCircle?.replaceAll(' ', '-')}
                                 type="tel"
                                 onChange={handleInputChange}
