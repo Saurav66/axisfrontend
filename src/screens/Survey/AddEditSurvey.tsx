@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
       minHeight: 20,
     },
     select: {
-      width: 295,
+      width: 290,
       height: 27,
     },
     mainBox: {
@@ -210,7 +210,7 @@ export default function AddEditSurvey(props: any) {
           return response.data;
         })
         .catch((error) => { });
-      setDivisionOptions(response);
+      // setDivisionOptions(response);
     }
     if (event.target.name === "division") {
       const response = await axios
@@ -221,7 +221,7 @@ export default function AddEditSurvey(props: any) {
           return response.data;
         })
         .catch((error) => { });
-      setSubDivisionOptions(response);
+      // setSubDivisionOptions(response);
     }
   };
 
@@ -235,11 +235,11 @@ export default function AddEditSurvey(props: any) {
       }}
     >
       <Box
-        component="form"
-        onSubmit={handleSubmit}
-        noValidate
-        autoComplete="off"
-        className={classes.mainBox}
+      // component="form"
+      // onSubmit={handleSubmit}
+      // noValidate
+      // autoComplete="off"
+      // className={classes.mainBox}
       >
         <Paper className={classes.root} elevation={16}>
           <Typography
@@ -248,7 +248,7 @@ export default function AddEditSurvey(props: any) {
           >
             {edit ? `Update Survey` : `Add Survey`}
           </Typography>
-          <Typography className={classes.Typography}>City</Typography>
+          <Typography className={classes.Typography}>City / Town</Typography>
           <Grid item xs>
             <Box>
               <input
@@ -280,42 +280,31 @@ export default function AddEditSurvey(props: any) {
               ))}
             </select>
           </Grid>
-          <Grid item xs>
-            <Typography className={classes.Typography}>Division</Typography>
-            <select
-              className={classes.select}
-              id="division"
-              name="division"
-              value={surveyObj.division}
-              onChange={handleLocationChange}
-            >
-              <option value={edit ? surveyObj.division : `pleaseSelect`}>
-                {edit ? surveyObj.division : `pleaseSelect`}
-              </option>
-              {divisionOptions.map((x, y) => (
-                <option key={y} value={x}>
-                  {x}
-                </option>
-              ))}
-            </select>
+          <Grid className={classes.input} item xs>
+            <Typography className={classes.Typography}>
+              Division
+            </Typography>
+            <Box>
+              <input
+                className={classes.input}
+                name="division"
+                value={surveyObj.division}
+                onChange={handleInputChange}
+              />
+            </Box>
           </Grid>
-          <Grid item xs>
-            <Typography className={classes.Typography}>Sub Division</Typography>
-            <select
-              className={classes.select}
-              name="subdivision"
-              value={surveyObj.subdivision}
-              onChange={handleLocationChange}
-            >
-              <option value={edit ? surveyObj.subdivision : `pleaseSelect`}>
-                {edit ? surveyObj.subdivision : `pleaseSelect`}
-              </option>
-              {subDivisionOptions.map((x, y) => (
-                <option key={y} value={x}>
-                  {x}
-                </option>
-              ))}
-            </select>
+          <Grid className={classes.input} item xs>
+            <Typography className={classes.Typography}>
+              Sub Division
+            </Typography>
+            <Box>
+              <input
+                className={classes.input}
+                name="subdivision"
+                value={surveyObj.subdivision}
+                onChange={handleInputChange}
+              />
+            </Box>
           </Grid>
           <Grid className={classes.input} item xs>
             <Typography className={classes.Typography}>
@@ -475,7 +464,8 @@ export default function AddEditSurvey(props: any) {
               marginBottom: 20,
               minWidth: 120,
             }}
-            type="submit"
+            // type="submit"
+            onClick={handleSubmit}
           >
             Submit
           </Button>
