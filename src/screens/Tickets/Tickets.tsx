@@ -73,29 +73,29 @@ export default function Tickets(props: any) {
   const [selectedTicket, setSelectedTicket] = useState();
   const [engineersList, setengineersList] = useState([]);
   const [selectedEngineer, setSelectedEngineer] = useState("Saharanpur");
-  const [assignedEngineerList, setAssignedEngineerList] = useState([]);
+
   const [assignedEngineerContactNoList, setAssignedEngineerContactNoList] = useState([]);
+  const [selectedPrimaryOption, setSelectedPrimaryOption] = useState("All");
+  const [secondaryOptionsList, setSecondaryOptionsList] = useState([]);
+  const [selectedSecondaryOption, setSelectedSecondaryOption] = useState("All");
 
   useEffect(() => {
     document.title = "Tickets";
     getTickets("1900-01-01", "9999-01-01");
-    if (assignedEngineerList.length === 0) {
-      getTicketAssignedEngineersList();
-    }
+    // if (secondaryOptionsList.length === 0) {
+    // getTicketAssignedEngineersList();
+    // }
   }, [tabValue]);
 
-  const getTicketAssignedEngineersList = async () => {
-    const response = await axios
-      .get(`${UrlConstants.baseUrl}/getTicketAssignedEngineersList/loggedInUserId/${localStorage.getItem("id")}`)
-      .then((response: any) => {
-        return response.data;
-      })
-      .catch((error) => { });
-    setAssignedEngineerList(response)
-    // setSelectedCity(response[0]);
-    // setCityOptions(response.concat("All"));
-    // getSurveys(response[0]);
-  };
+  // const getTicketAssignedEngineersList = async () => {
+  //   const response = await axios
+  //     .get(`${UrlConstants.baseUrl}/getDistinctValueByColumn/loggedInUserId/${localStorage.getItem("id")}`)
+  //     .then((response: any) => {
+  //       return response.data;
+  //     })
+  //     .catch((error) => { });
+  //   setSecondaryOptionsList(response)
+  // };
 
   // const getTicketDropDownMatrix = async () => {
   //   const response = await axios
@@ -105,7 +105,7 @@ export default function Tickets(props: any) {
   //     })
   //     .catch((error) => { });
   //   return response.data;
-  //   // setAssignedEngineerList(response.assignedEngineerList);
+  //   // setSecondaryOptionsList(response.secondaryOptionsList);
   //   // setAssignedEngineerContactNoList(response.assignedEngineerContactNoList);
   // };
 
@@ -159,8 +159,8 @@ export default function Tickets(props: any) {
     }
 
     setRows(response ?? []);
-    // setDropdown({ ...dropdown, assignedEngineerList: response?.map((row: any) => row?.engineerAssigned), assignedEngineerContactNoList: response?.map((row: any) => row?.engineerContactNo) })
-    // setAssignedEngineerList(response?.map((row: any) => row?.engineerAssigned))
+    // setDropdown({ ...dropdown, secondaryOptionsList: response?.map((row: any) => row?.engineerAssigned), assignedEngineerContactNoList: response?.map((row: any) => row?.engineerContactNo) })
+    // setSecondaryOptionsList(response?.map((row: any) => row?.engineerAssigned))
     setLoading(false)
   };
 
@@ -512,7 +512,7 @@ export default function Tickets(props: any) {
         //code1
         // filterVariant: 'select',
         // filterSelectOptions: ticketData?.map((ticket: any) => ticket?.engineerAssigned),
-        // filterSelectOptions: assignedEngineerList,
+        // filterSelectOptions: secondaryOptionsList,
         // filterSelectOptions: [
         //   { text: 'Male', value: 'Male' },
         //   { text: 'Female', value: 'Female' },
@@ -660,9 +660,12 @@ export default function Tickets(props: any) {
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
     console.log(newValue);
+    setSelectedPrimaryOption("All")
+    setSecondaryOptionsList([])
     setTabValue(newValue);
     if (newValue === "OPEN") {
       // setRows(rawRows);
+      //code8
     } else {
       setRows([]);
     }
@@ -879,11 +882,24 @@ export default function Tickets(props: any) {
       .catch((error) => console.log(error));
   };
 
-  const handleAssignedEngineerChange = async (event: any) => {
-    //code1
-    setSelectedEngineer(event.target.value);
+  const handlePrimaryOptions = async (event: any) => {
+    //code
+    setSelectedPrimaryOption(event.target.value);
+    console.log("Tabbb ", tabValue)
     const response = await axios
-      .get(`${UrlConstants.baseUrl}/getTicketByEngineerAssigned/${event.target.value}/${tabValue}/loggedInUserId/${localStorage.getItem("id")}`)
+      .get(`${UrlConstants.baseUrl}/getDistinctValueByColumn/${event.target.value}/${tabValue}/loggedInUserId/${localStorage.getItem("id")}`)
+      .then((response: any) => {
+        return response.data;
+      })
+      .catch((error) => { });
+    console.log("respooo", response)
+    setSecondaryOptionsList(response) //code3
+  };
+
+  const handleSecondaryOptions = async (event: any) => {
+    //code1
+    const response = await axios
+      .get(`${UrlConstants.baseUrl}/getTicketBy/${selectedPrimaryOption}/${event.target.value}/${tabValue}/loggedInUserId/${localStorage.getItem("id")}`)
       .then((response: any) => {
         return response.data;
       })
@@ -961,18 +977,51 @@ export default function Tickets(props: any) {
                       color: "black",
                     }}
                   >
-                    Select Engineer
+                    Select
                   </label>
                   <select
                     style={{
                       width: 295,
                       height: 27,
                     }}
-                    name="city"
-                    // value={props.ticketData.division}
-                    onChange={handleAssignedEngineerChange}
+                    name="primaryOptions"
+                    value={selectedPrimaryOption}
+                    onChange={handlePrimaryOptions}
                   >
-                    {assignedEngineerList.map((x, y) => (
+                    <option value="All" >
+                      All
+                    </option>
+                    <option value="engineerAssigned" >
+                      Engineer Assigned
+                    </option>
+                    <option value="circle" >
+                      Circle
+                    </option>
+                    <option value="aeitStatus" >
+                      AEIT Status
+                    </option>
+                    <option value="engineerContactNumber" >
+                      Engineer Contact Number
+                    </option>
+                  </select>
+                  <label
+                    style={{
+                      paddingRight: "1rem",
+                      color: "black",
+                    }}
+                  >
+
+                  </label>
+                  <select
+                    style={{
+                      width: 295,
+                      height: 27,
+                    }}
+                    name="secondaryOption"
+                    // value={props.ticketData.division}
+                    onChange={handleSecondaryOptions}
+                  >
+                    {secondaryOptionsList?.map((x, y) => (
                       <option key={y} value={x}>
                         {x}
                       </option>
