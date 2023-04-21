@@ -200,20 +200,22 @@ export default function AdminDashboard() {
           <Grid item xl={9} spacing={2} style={{ padding: "2rem" }}>
             <Box style={{ padding: "1rem" }}></Box>
             <CustomCard
-              title="Total Ticket Closed this Month"
-              // cardWidth="100vw"
-              cardColor="#e8ffde"
-              count={ticketCount.currentMonthClosedTicket}
-              onClick={() => history.push("/tickets", { tabValue: "CLOSED" })}
-            ></CustomCard>
-            <Box style={{ padding: "1.5rem" }}></Box>
-            <CustomCard
-              title="Total Ticket Created this Month"
+              // title="Total Ticket Created this Month"
+              title="All Ticket in Month"
               color="#141414"
               cardColor="#ffeade"
               // cardWidth="100vw"
               count={ticketCount.currentMonthCreatedTicket}
               onClick={() => history.push("/tickets")}
+            ></CustomCard>
+            <Box style={{ padding: "1.5rem" }}></Box>
+            <CustomCard
+              // title="Total Ticket Closed this Month"
+              title="Closed Ticket in Month"
+              // cardWidth="100vw"
+              cardColor="#e8ffde"
+              count={ticketCount.currentMonthClosedTicket}
+              onClick={() => history.push("/tickets", { tabValue: "CLOSED" })}
             ></CustomCard>
           </Grid>
         </Grid>

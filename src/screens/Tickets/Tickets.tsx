@@ -407,6 +407,26 @@ export default function Tickets(props: any) {
         ),
       },
       {
+        accessorKey: "complaintCompletionDatetime",
+        header: "Complaint Completion Date & Time",
+        size: 280,
+        enableSorting: false,
+        Cell: (cell: GridRenderCellParams) => (
+          <TextField
+            variant="standard"
+            disabled={true}
+            type="datetime-local"
+            style={{ width: 200 }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            name="complaintDatetime"
+            defaultValue={cell.row.original.complaintCompletionDatetime}
+            size="small"
+          />
+        ),
+      },
+      {
         accessorKey: "Re-Assign",
         header: "Re-Assign",
         size: 120,
@@ -540,6 +560,26 @@ export default function Tickets(props: any) {
               <Typography style={{ color: "#f44336" }}>{cell.row.original.aeitStatus}</Typography>
             )}
           </>
+        ),
+      },
+      {
+        accessorKey: "complaintCompletionDatetime",
+        header: "Complaint Completion Date & Time",
+        size: 280,
+        enableSorting: false,
+        Cell: (cell: GridRenderCellParams) => (
+          <TextField
+            variant="standard"
+            disabled={true}
+            type="datetime-local"
+            style={{ width: 200 }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            name="complaintDatetime"
+            defaultValue={cell.row.original.complaintCompletionDatetime}
+            size="small"
+          />
         ),
       },
       {
