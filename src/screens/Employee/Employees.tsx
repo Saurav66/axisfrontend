@@ -7,7 +7,7 @@ import { GridRenderCellParams } from "@mui/x-data-grid";
 import EditIcon from "@material-ui/icons/Edit";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Typography } from "@material-ui/core";
+import { Chip, MenuItem, Typography } from "@material-ui/core";
 import ResetPassword from "./ResetPassword";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
@@ -60,14 +60,24 @@ export default function Employees() {
 
   const columns = useMemo(
     () => [
-      { accessorKey: "name", header: "Engineer Name", width: 320 },
-      { accessorKey: "phone", header: "Engineer Contact No", width: 320 },
-      { accessorKey: "city", header: "City", width: 320 },
-      { accessorKey: "status", header: "Status", width: 420 },
+      { accessorKey: "name", header: "Engineer Name" },
+      { accessorKey: "phone", header: "Engineer Contact No" },
+      {
+        accessorKey: "city",
+        header: "City",
+        size: 260,
+        Cell: (cell: GridRenderCellParams) => (cell.row.original.city.includes(',')) ? (
+          JSON.parse(cell.row.original.city)?.map((name: string) => (
+            <Chip label={name} />
+          ))
+        ) : (
+          <Chip label={cell.row.original.city} />
+        ),
+      },
+      { accessorKey: "status", header: "Status" },
       {
         accessorKey: "edit",
         header: "Edit",
-        width: 100,
         Cell: (cell: GridRenderCellParams) => (
           <strong>
             <IconButton
@@ -84,7 +94,6 @@ export default function Employees() {
       },
       {
         header: "Reset Password",
-        width: 100,
         Cell: (cell: GridRenderCellParams) => (
           <strong>
             <Button
@@ -105,7 +114,6 @@ export default function Employees() {
       },
       {
         header: "Delete",
-        width: 100,
         Cell: (cell: GridRenderCellParams) => (
           <strong>
             <IconButton
