@@ -78,10 +78,11 @@ export default function Tickets(props: any) {
   const [selectedPrimaryOption, setSelectedPrimaryOption] = useState("All");
   const [secondaryOptionsList, setSecondaryOptionsList] = useState([]);
   const [selectedSecondaryOption, setSelectedSecondaryOption] = useState("All");
+  const [defaultDateTime, setDefaultDateTime] = useState(['1700-12-12', '9999-12-12']);
 
   useEffect(() => {
     document.title = "Tickets";
-    getTickets("1900-01-01", "9999-01-01");
+    getTickets(defaultDateTime[0], defaultDateTime[1]);
     // if (secondaryOptionsList.length === 0) {
     // getTicketAssignedEngineersList();
     // }
@@ -110,7 +111,7 @@ export default function Tickets(props: any) {
   // };
 
   const getTickets = async (fromDate: String, toDate: String) => {
-    setLoading(true)
+    // setLoading(true)
     let response;
     if (tabValue === "OPEN") {
       if (isAdmin || isSuperAdmin) {
@@ -157,11 +158,10 @@ export default function Tickets(props: any) {
         );
       }
     }
-
     setRows(response ?? []);
     // setDropdown({ ...dropdown, secondaryOptionsList: response?.map((row: any) => row?.engineerAssigned), assignedEngineerContactNoList: response?.map((row: any) => row?.engineerContactNo) })
     // setSecondaryOptionsList(response?.map((row: any) => row?.engineerAssigned))
-    setLoading(false)
+    // setLoading(false)
   };
 
   const columnsForEmployee = useMemo(
@@ -724,7 +724,9 @@ export default function Tickets(props: any) {
   };
 
   const handleDateRangeChange = (date: any) => {
-    getTickets(date[0], date[1]);
+    // console.log(date, "date")
+    // getTickets(date[0], date[1]);
+    setDefaultDateTime(date);
   };
 
   const handleApproveButton = (selectedTicket: any) => {
@@ -1001,6 +1003,9 @@ export default function Tickets(props: any) {
           {(localStorage.getItem("role") === "Admin" ||
             localStorage.getItem("role") === "superAdmin") && (
               <>
+                {/* <Grid>
+                  <CustomRangePicker handleDateRangeChange={handleDateRangeChange} />
+                </Grid> */}
                 <Grid
                   item
                   // style={{ backgroundColor: "red" }}
