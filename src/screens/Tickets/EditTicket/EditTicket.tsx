@@ -12,6 +12,7 @@ import {
   FormControlLabel,
   InputLabel,
   MenuItem,
+  OutlinedInput,
   Radio,
   RadioGroup,
   Select,
@@ -44,6 +45,14 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     select: {
       width: 220,
+      height: 40,
+      size: "small",
+      "&&": {
+        marginTop: "0.7rem",
+        marginBottom: "0.7rem",
+        marginRight: "0.6rem",
+      },
+      backgroundColor: "#FFFFFF",
     },
     AddTicketInput: {
       // alignContent: "left",
@@ -99,6 +108,7 @@ export default function EditTicket(props: any) {
   const history = useHistory();
   const role = localStorage.getItem("role");
   const [data, setData] = useState(props.history.location.state?.data);
+  const [engineersList, setEngineersList] = useState(props.history.location.state?.engineersList);
   const disableEdit =
     localStorage.getItem("role") === "superAdmin" ||
       (localStorage.getItem("role") === "Engineer" &&
@@ -118,6 +128,7 @@ export default function EditTicket(props: any) {
   };
 
   const handleSubmit = (e: any) => {
+    console.log("data1", data)
     e.preventDefault();
     let subUrl = localStorage.getItem("role") === "superAdmin" ? `admin/updateTicket/loggedInUserId/${localStorage.getItem("id")}` : `engineer/updateTicket`
     axios
@@ -226,6 +237,21 @@ export default function EditTicket(props: any) {
     }
   };
 
+  const handleAssignedEngChange = (event: any) => {
+    //code1
+    // let value = event?.target.value.split(",");
+    let value = event?.target.value;
+    let id = value[0];
+    let name = value[1];
+    let phone = value[2];
+    setData({
+      ...data,
+      engineerAssigned: event?.target.value[1],
+      engineerContactNo: event?.target.value[2],
+      engineerAssignedDateTime: moment().format("YYYY-MM-DDTHH:mm"),
+    });
+  };
+
   return (
     <>
       <Paper className={classes.root} elevation={12}>
@@ -267,7 +293,7 @@ export default function EditTicket(props: any) {
             onChange={handleChange}
             size="small"
           />
-          <TextField
+          {/* <TextField
             disabled
             className={classes.textField}
             label="Engineer Assigned"
@@ -278,7 +304,58 @@ export default function EditTicket(props: any) {
             value={data.engineerAssigned}
             onChange={handleChange}
             size="small"
-          />
+          /> */}
+          {/* <select
+            //  style={{
+            //   // color: "black",
+            //   paddingTop: "0.3rem",
+            //   paddingLeft: "2rem",
+            //   textAlign: "left",
+            // }}
+            disabled={role === "Engineer"}
+            style={{
+              width: 240,
+              height: 27,
+              marginLeft: "2rem",
+              marginRight: "2rem",
+              marginBottom: "2rem",
+            }}
+            name="engineerAssigned"
+            value={data.engineerAssigned}
+            onChange={handleAssignedEngChange}
+
+          >
+            <option value="pleaseSelect">Please Select</option>
+            {engineersList?.map((x: any, y: any) => (
+              <option key={y} value={[x.id, x.name, x.phone]}>
+                {x.name}
+              </option>
+            ))}
+          </select> */}
+          <FormControl >
+            <InputLabel id="demo-simple-select-label">Engineer Assigned</InputLabel>
+            <Select
+              className={classes.select}
+              // size="small"
+              // style={{ minWidth: 120 }}
+              //code5
+              disabled={role !== "superAdmin"}
+              variant='outlined'
+              label="Engineer Assigned"
+              name="engineerAssigned"
+              defaultValue={data.engineerAssigned}
+              value={data.engineerAssigned}
+              renderValue={() => data.engineerAssigned}
+              onChange={handleAssignedEngChange}
+            >
+              {engineersList?.map((x: any, y: any) => (
+                <MenuItem key={y} value={[x.id, x.name, x.phone]}>
+                  {x.name}
+                </MenuItem>
+              ))}
+              {/* <MenuItem value={"pleaseSelect"}>Please Select</MenuItem> */}
+            </Select>
+          </FormControl>
           <TextField
             disabled
             className={classes.textField}
@@ -649,7 +726,7 @@ export default function EditTicket(props: any) {
                   size="small"
                 />
               </Box>
-              {role === "Engineer" || role === "superAdmin" && (
+              {(role === "Engineer" || role === "superAdmin") && (
                 <Box>
                   <DropzoneArea
                     filesLimit={1}

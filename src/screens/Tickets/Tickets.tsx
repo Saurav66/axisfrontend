@@ -621,8 +621,9 @@ export default function Tickets(props: any) {
     history.push("/edit", { data: event });
   };
 
-  const editRow = (event: any) => {
-    history.push("/edit", { data: event });
+  const editRow = async (event: any) => {
+    const response = await getEngineersByStatus("Active");
+    history.push("/edit", { data: event, engineersList: response });
   };
 
   const deleteRow = (complaintNumber: string) => {
