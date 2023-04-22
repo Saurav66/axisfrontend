@@ -22,6 +22,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { UrlConstants } from "../../global/UrlConstants";
 import axios from "axios";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
+import { Box, CardHeader } from "@material-ui/core";
 // import * as xlsx from "xlsx";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -400,119 +401,58 @@ export default function Survey() {
   };
 
   return (
-    <div style={{ maxWidth: "100%" }}>
-      <Stack
-        spacing={2}
-        direction="row"
-        style={{
-          float: "right",
-          color: "blue",
-          paddingRight: 20,
-        }}
-      >
-        {!isAEIT && (
-          <>
-            <Grid
-              item
-              xs
+    <div style={{ maxWidth: "100%", marginTop: 20, }}>
+      {!isAEIT && (
+        <>
+          <Grid item xs={12} sm={12} md={6} lg={5} xl={4} style={{ maxWidth: "100%", marginBottom: 15, }}>
+            <label
               style={{
-                marginTop: 20,
-                minWidth: 120,
-                padding: 5,
+                paddingRight: "1rem",
+                color: "black",
               }}
             >
-              <label
-                style={{
-                  paddingRight: "1rem",
-                  color: "black",
-                }}
-              >
-                Select City
-              </label>
-              <select
-                style={{
-                  width: 295,
-                  height: 27,
-                }}
-                name="city"
-                // value={props.ticketData.division}
-                onChange={handleCityChange}
-              >
-                {cityOptions.map((x, y) => (
-                  <option key={y} value={x}>
-                    {x}
-                  </option>
-                ))}
-              </select>
-            </Grid>
-          </>
-        )}
-        {/* <Grid
-          // item
-          // xl={6}
-          // lg={6}
-          // sm={6}
-          // xs={6}
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "flex-end",
-            marginTop: 20,
-          }}
-        >
-          {(localStorage.getItem("role") === "Admin" ||
-            localStorage.getItem("role") === "superAdmin") && (
-              <>
-                <Stack direction="row" alignItems="center" spacing={2}>
-                  <label>
-                    <Button
-                      onClick={handlleExportSurvey}
-                      variant="contained"
-                      startIcon={<FileUploadIcon />}
-                    >
-                      Export by City
-                    </Button>
-                  </label>
-                  <label htmlFor="contained-button-file">
-                    <input
-                      style={{ display: "none" }}
-                      id="contained-button-file"
-                      type="file"
-                      onChange={(files) => onFileDropped(files)}
-                    />
-                    <Button variant="outlined" component="span">
-                      Import
-                    </Button>
-                  </label>
-                </Stack>
-              </>
-            )}
-        </Grid> */}
-        <Grid item>
-          <Button
-            style={{
-              color: "white",
-              backgroundColor: "#f44336",
-              marginTop: 20,
-              minWidth: 120,
-            }}
-            variant="outlined"
-            onClick={handleOnClick}
-          >
-            Add Survey
-          </Button>
-        </Grid>
-      </Stack>
+              Select City
+            </label>
+            <select
+              style={{
+                width: 295,
+                height: 27,
 
-      <Grid lg={12} sm={12} xs={12} item container spacing={2}>
-        <Grid item lg={12} sm={12} xs={12}>
-          <CustomTable
-            onFileDropped={onFileDropped}
-            data={rows}
-            columns={isSuperAdmin ? columnsForSuperAdmin : columns}
-            handleExportData={handleExportData}
-          />
-        </Grid>
+              }}
+              name="city"
+              onChange={handleCityChange}
+            >
+              {cityOptions.map((x, y) => (
+                <option key={y} value={x}>
+                  {x}
+                </option>
+              ))}
+            </select>
+            <Button
+              size="small"
+              style={{
+                color: "white",
+                backgroundColor: "#f44336",
+                marginLeft: 8,
+                minWidth: 120,
+                marginTop: 12,
+                marginBottom: 12,
+              }}
+              variant="outlined"
+              onClick={handleOnClick}
+            >
+              Add Survey
+            </Button>
+          </Grid>
+        </>
+      )}
+      <Grid item lg={12} sm={12} xs={12}>
+        <CustomTable
+          onFileDropped={onFileDropped}
+          data={rows}
+          columns={isSuperAdmin ? columnsForSuperAdmin : columns}
+          handleExportData={handleExportData}
+        />
       </Grid>
       <ToastContainer />
     </div>

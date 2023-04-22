@@ -65,6 +65,7 @@ const Item = styled(Paper)(({ theme }) => ({
   // backgroundColor: '#f0fcf2',
   ...theme.typography.body2,
   padding: theme.spacing(1),
+  // height: 65,
   textAlign: 'center',
   color: theme.palette.text.secondary,
 }));
@@ -1023,16 +1024,16 @@ export default function Tickets(props: any) {
 
   return (
     <>
-      <CardHeader title="Tickets" />
+      {/* <CardHeader title="Tickets" /> */}
       <Grid container spacing={2} style={{ marginTop: 10, backgroundColor: "#faf7f7" }}>
         <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-          <Item>{complaintDatetimeRangePicker()}</Item>
+          {complaintDatetimeRangePicker()}
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-          <Item>{selectFilterComponent()}</Item>
+          {selectFilterComponent()}
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-          <Item>{tabComponent()}</Item>
+          {tabComponent()}
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
           <Item>{tableComponent()}</Item>
