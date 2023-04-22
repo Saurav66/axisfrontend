@@ -1004,10 +1004,10 @@ export default function Tickets(props: any) {
           {(localStorage.getItem("role") === "Admin" ||
             localStorage.getItem("role") === "superAdmin") && (
               <>
-                {/* <Grid>
+                <Grid>
                   <label> Complaint Date</label>
                   <CustomRangePicker handleDateRangeChange={handleDateRangeChange} />
-                </Grid> */}
+                </Grid>
                 <Grid
                   item
                   // style={{ backgroundColor: "red" }}

@@ -21,32 +21,36 @@ export default function CustomRangePicker(props: any) {
 
   return (
     <>
-      <input
-        style={{
-          // paddingTop: "0.44rem",
-          // paddingBottom: "0.42rem",
-          paddingLeft: "0.4rem",
-          paddingRight: "0.1rem",
-          marginLeft: "0.2rem",
-          marginRight: "0.1rem",
-        }}
-        type="date"
-        name="fromDate"
-        onSelect={handleFromDateChange}
-      />
-      <input
-        style={{
-          // paddingTop: "0.44rem",
-          // paddingBottom: "0.42rem",
-          paddingLeft: "0.1rem",
-          paddingRight: "0.1rem",
-          marginLeft: "0.2rem",
-          marginRight: "0.1rem",
-        }}
-        type="date"
-        name="toDate"
-        onChange={handleToDateChange}
-      />
+      <Grid>
+        <input
+          style={{
+            // paddingTop: "0.44rem",
+            // paddingBottom: "0.42rem",
+            paddingLeft: "0.4rem",
+            paddingRight: "0.1rem",
+            marginLeft: "0.2rem",
+            marginRight: "0.1rem",
+          }}
+          type="date"
+          name="fromDate"
+          onSelect={handleFromDateChange}
+        />
+      </Grid>
+      <Grid>
+        <input
+          style={{
+            // paddingTop: "0.44rem",
+            // paddingBottom: "0.42rem",
+            paddingLeft: "0.1rem",
+            paddingRight: "0.1rem",
+            marginLeft: "0.2rem",
+            marginRight: "0.1rem",
+          }}
+          type="date"
+          name="toDate"
+          onChange={handleToDateChange}
+        />
+      </Grid>
       {/* <label>Date Range:</label> */}
     </>
   );
