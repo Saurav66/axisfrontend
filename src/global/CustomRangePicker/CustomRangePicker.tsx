@@ -1,20 +1,22 @@
-import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import { useState } from "react";
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
+import { createStyles, makeStyles } from "@material-ui/core";
+import { Theme } from "react-toastify";
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles(
+    {
+      element: {
+        margin: 4,
+        width: 150,
+        height: 27,
+      },
+    }
+  )
+);
 
 export default function CustomRangePicker(props: any) {
+  const classes = useStyles();
   const [fromDate, setFromDate] = useState();
   const [toDate, setToDate] = useState();
 
@@ -34,38 +36,22 @@ export default function CustomRangePicker(props: any) {
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <Item><input
-            style={{
-              // paddingTop: "0.44rem",
-              // paddingBottom: "0.42rem",
-              paddingLeft: "0.4rem",
-              paddingRight: "0.1rem",
-              marginLeft: "0.2rem",
-              marginRight: "0.1rem",
-            }}
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+          <label className={classes.element}>{props?.label}</label>
+          <input
+            className={classes.element}
             type="date"
             name="fromDate"
             onSelect={handleFromDateChange}
-          /></Item>
-        </Grid>
-        <Grid item xs={6}>
-          <Item> <input
-            style={{
-              // paddingTop: "0.44rem",
-              // paddingBottom: "0.42rem",
-              paddingLeft: "0.1rem",
-              paddingRight: "0.1rem",
-              marginLeft: "0.2rem",
-              marginRight: "0.1rem",
-            }}
+          />
+          <input
+            className={classes.element}
             type="date"
             name="toDate"
             onChange={handleToDateChange}
-          /></Item>
+          />
         </Grid>
       </Grid>
-      {/* <label>Date Range:</label> */}
     </>
   );
 }

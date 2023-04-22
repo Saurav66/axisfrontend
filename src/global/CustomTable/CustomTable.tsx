@@ -18,10 +18,10 @@ const CustomTable = (props: any) => {
             main: "rgb(255,122,0)", //add in a custom color for the toolbar alert background stuff
           },
           background: {
-            default:
-              globalTheme.palette.mode === "light"
-                ? "rgb(254,255,244)" //random light yellow color for the background in light mode
-                : "#000", //pure black table in dark mode for fun
+            // default:
+            //   globalTheme.palette.mode === "light"
+            //     ? "rgb(254,255,244)" //random light yellow color for the background in light mode
+            //     : "#000", //pure black table in dark mode for fun
           },
         },
         typography: {
@@ -50,14 +50,14 @@ const CustomTable = (props: any) => {
     [globalTheme]
   );
 
-  // const handleExportRows = (rows: MRT_Row<Person>[]) => {
   const handleExportRows = (rows: any[]) => {
     props.handleExportData(rows);
-    // csvExporter.generateCsv(rows.map((row) => row.original));
   };
 
   return (
-    <div style={{ height: 500 }}>
+
+    // <div style={{ height: 500 }}>
+    <div style={{ height: "auto" }}>
       <ThemeProvider theme={tableTheme}>
         <MaterialReactTable
           enableRowNumbers={true}
@@ -106,41 +106,42 @@ const CustomTable = (props: any) => {
             >
               {(props.handleExportData && isAdmin) && (
                 <>
-                  {props.onFileDropped && isAdmin && (
-                    // <Button>
-                    <label htmlFor="contained-button-file">
-                      <input
-                        style={{ display: "none" }}
-                        id="contained-button-file"
-                        type="file"
-                        onChange={(files) => props.onFileDropped(files)}
-                      />
-                      <Button variant="outlined" component="span">
-                        Import
+                  <Grid container>
+                    <Grid style={{ padding: 8 }}>
+                      {props.onFileDropped && isAdmin && (
+                        <label htmlFor="contained-button-file">
+                          <input
+                            style={{ display: "none" }}
+                            id="contained-button-file"
+                            type="file"
+                            onChange={(files) => props.onFileDropped(files)}
+                          />
+                          <Button variant="outlined" component="span">
+                            Import
+                          </Button>
+                        </label>
+                      )}
+                    </Grid>
+                    <Grid style={{ padding: 8 }}>
+                      <Button
+                        disabled={table.getPrePaginationRowModel().rows.length === 0}
+                        onClick={() =>
+                          handleExportRows(table.getPrePaginationRowModel().rows)
+                        }
+                        // startIcon={<FileDownloadIcon />}
+                        variant="contained"
+                      >
+                        Export
                       </Button>
-                    </label>
-                    // </Button>
-                  )}
-                  <Button
-                    disabled={table.getPrePaginationRowModel().rows.length === 0}
-                    //export all rows, including from the next page, (still respects filtering and sorting)
-                    onClick={() =>
-                      handleExportRows(table.getPrePaginationRowModel().rows)
-                    }
-                    // startIcon={<FileDownloadIcon />}
-                    variant="contained"
-                  >
-                    Export
-                  </Button>
+                    </Grid>
+                  </Grid>
                 </>
-
               )}
             </Box>
           )}
-        // filterVariant={"select"}
         />
       </ThemeProvider>
-    </div>
+    </div >
   );
 };
 export default CustomTable;

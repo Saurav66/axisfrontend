@@ -2,8 +2,6 @@ import {
   Button,
   Chip,
   createStyles,
-  Dialog,
-  DialogTitle,
   IconButton,
   makeStyles,
   Theme,
@@ -14,10 +12,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useEffect, useState, useMemo, useLayoutEffect } from "react";
 import CustomTable from "../../global/CustomTable/CustomTable";
 import { useHistory } from "react-router-dom";
-import FileUploadIcon from "@mui/icons-material/FileUpload";
-import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
-import ticketData from "../../data/ticketData.json";
-import { Stack, Tab, Tabs, TextField } from "@mui/material";
+import { GridRenderCellParams } from "@mui/x-data-grid";
+import { Tab, Tabs, TextField } from "@mui/material";
 import {
   getAdminTicketByStatusAndDateRange,
   getAEITTicketByCircleStatusAndDateRange,
@@ -35,6 +31,7 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
+import { CardHeader } from '@mui/material';
 
 // const rawRows = [...ticketData];
 
@@ -43,6 +40,13 @@ const emails = ["username@gmail.com", "user02@gmail.com"];
 const useStyles = makeStyles((theme: Theme) =>
   createStyles(
     {
+      element: {
+        margin: 4,
+        width: 150,
+        height: 27,
+      },
+      typography: {
+      },
       firstGridItems: {
         display: "flex",
         justifyContent: "flex-end",
@@ -57,7 +61,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  // backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  // backgroundColor: '#f0fcf2',
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
@@ -93,35 +98,9 @@ export default function Tickets(props: any) {
   useEffect(() => {
     document.title = "Tickets";
     getTickets(defaultDateTime[0], defaultDateTime[1]);
-    // if (secondaryOptionsList.length === 0) {
-    // getTicketAssignedEngineersList();
-    // }
   }, [tabValue]);
 
-  // const getTicketAssignedEngineersList = async () => {
-  //   const response = await axios
-  //     .get(`${UrlConstants.baseUrl}/getDistinctValueByColumn/loggedInUserId/${localStorage.getItem("id")}`)
-  //     .then((response: any) => {
-  //       return response.data;
-  //     })
-  //     .catch((error) => { });
-  //   setSecondaryOptionsList(response)
-  // };
-
-  // const getTicketDropDownMatrix = async () => {
-  //   const response = await axios
-  //     .get(`${UrlConstants.baseUrl}/getTicketDropDownMatrix/loggedInUserId/${localStorage.getItem("id")}`)
-  //     .then((response: any) => {
-  //       return response.data;
-  //     })
-  //     .catch((error) => { });
-  //   return response.data;
-  //   // setSecondaryOptionsList(response.secondaryOptionsList);
-  //   // setAssignedEngineerContactNoList(response.assignedEngineerContactNoList);
-  // };
-
   const getTickets = async (fromDate: String, toDate: String) => {
-    // setLoading(true)
     let response;
     if (tabValue === "OPEN") {
       if (isAdmin || isSuperAdmin) {
@@ -169,14 +148,10 @@ export default function Tickets(props: any) {
       }
     }
     setRows(response ?? []);
-    // setDropdown({ ...dropdown, secondaryOptionsList: response?.map((row: any) => row?.engineerAssigned), assignedEngineerContactNoList: response?.map((row: any) => row?.engineerContactNo) })
-    // setSecondaryOptionsList(response?.map((row: any) => row?.engineerAssigned))
-    // setLoading(false)
   };
 
   const columnsForEmployee = useMemo(
     () => [
-      // { accessorKey: "serialNo", header: "S/no.", size: 80 },
       { accessorKey: "complaintNo", header: "Complaint No", size: 120 },
       {
         accessorKey: "complaintDatetime",
@@ -961,242 +936,109 @@ export default function Tickets(props: any) {
     setRows(response);
   };
 
-  return (
+  const tabComponent = () => {
+    return <Tabs
+      value={tabValue}
+      onChange={handleTabChange}
+      textColor="secondary"
+      TabIndicatorProps={{ style: { background: "#e03a3c" } }}
+      aria-label="secondary tabs example"
+    >
+      <Tab value="OPEN" label="OPEN TICKETS" />
+      <Tab value="CLOSED" label="CLOSED TICKETS" />
+    </Tabs>
+  }
 
-    <>
-      <Grid
-        lg={12}
-        sm={12}
-        xs={12}
-        item
-        container
-        spacing={2}
-        style={{ marginTop: 2 }}
-      >
-        <Grid
-          item
-          lg={6}
-          sm={6}
-          xs={6}
-          className={classes.secondGridItems}
-          style={
-            {
-              // backgroundColor: "red",
-            }
-          }
-        >
-          <Tabs
-            value={tabValue}
-            onChange={handleTabChange}
-            textColor="secondary"
-            TabIndicatorProps={{ style: { background: "#e03a3c" } }}
-            aria-label="secondary tabs example"
+  const complaintDatetimeRangePicker = () => {
+    return <CustomRangePicker label="Range " handleDateRangeChange={handleDateRangeChange} />
+  }
+
+  const selectFilterComponent = () => {
+    return (localStorage.getItem("role") === "Admin" ||
+      localStorage.getItem("role") === "superAdmin") && (
+        <>
+          <label className={classes.element}>Filter</label>
+          <select
+            className={classes.element}
+            name="primaryOptions"
+            value={selectedPrimaryOption}
+            onChange={handlePrimaryOptions}
           >
-            <Tab value="OPEN" label="OPEN" />
-            <Tab value="CLOSED" label="CLOSED" />
-          </Tabs>
+            <option value="All" >
+              All
+            </option>
+            <option value="engineerAssigned" >
+              Engineer Assigned
+            </option>
+            <option value="circle" >
+              Circle
+            </option>
+            <option value="aeitStatus" >
+              AEIT Status
+            </option>
+            <option value="engineerContactNumber" >
+              Engineer Contact Number
+            </option>
+          </select>
+          <select
+            className={classes.element}
+            name="secondaryOption"
+            onChange={handleSecondaryOptions}
+          >
+            {secondaryOptionsList?.map((x, y) => (
+              <option key={y} value={x}>
+                {x}
+              </option>
+            ))}
+          </select>
+        </>
+      )
+  }
+
+  const tableComponent = () => {
+    return <CustomTable
+      onFileDropped={onFileDropped}
+      data={rows}
+      handleExportData={handleExportData}
+      columns={
+        isSuperAdmin
+          ? columnsForSuperAdmin
+          : isAdmin
+            ? columnsForAdmin
+            : isAEIT
+              ? columnsForAEIT
+              : columnsForEmployee
+      }
+    />
+  }
+
+  const reAssignComponent = () => {
+    return <ReAssignComponent
+      open={OPEN}
+      onClose={handleClose}
+      engineersList={engineersList}
+      selectedTicket={selectedTicket}
+    />
+  }
+
+  return (
+    <>
+      <CardHeader title="Tickets" />
+      <Grid container spacing={2} style={{ marginTop: 10, backgroundColor: "#faf7f7" }}>
+        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+          <Item>{complaintDatetimeRangePicker()}</Item>
         </Grid>
-        <Grid
-          item
-          xl={6}
-          lg={6}
-          md={6}
-          sm={6}
-          xs={12}
-          style={{
-            // backgroundColor: "red",
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "flex-end",
-            // marginRight: 2,
-          }}
-        >
-          {(localStorage.getItem("role") === "Admin" ||
-            localStorage.getItem("role") === "superAdmin") && (
-              <>
-                <Grid item xs={2} style={{
-                  // paddingRight: "1rem",
-                  // backgroundColor: "black",
-                  color: "black",
-                  paddingBottom: "0.8rem"
-                }}>
-                  <label
-                    style={{
-                      // paddingRight: "1rem",
-                      // backgroundColor: "black",
-                      color: "black",
-                    }}
-                  >
-                    Complaint Date Range
-                  </label>
-                </Grid>
-                <Grid
-                  item
-                  // style={{ backgroundColor: "red" }}
-                  style={{
-                    // backgroundColor: "red",
-                    marginTop: 20,
-                    minWidth: 300,
-                    padding: 5,
-                    marginRight: 20
-                  }}>
-                  {/* <label> Complaint Date Range</label> */}
-                  <CustomRangePicker handleDateRangeChange={handleDateRangeChange} />
-                </Grid>
-                <Grid
-                  item
-                  // style={{ backgroundColor: "red" }}
-                  style={{
-                    // backgroundColor: "red",
-                    marginTop: 20,
-                    minWidth: 15,
-                    padding: 5,
-                    marginRight: 20
-                  }}
-                >
-
-                  <Grid container spacing={2}>
-                    <Grid item xs={2} style={{
-                      // paddingRight: "1rem",
-                      // backgroundColor: "black",
-                      color: "black",
-                      paddingTop: "1.8rem"
-                    }}>
-                      <label
-                        style={{
-                          // paddingRight: "1rem",
-                          // backgroundColor: "black",
-                          color: "black",
-                        }}
-                      >
-                        Select
-                      </label>
-                    </Grid>
-                    <Grid item xs={5}>
-                      <Item><select
-                        style={{
-                          width: 160,
-                          height: 27,
-                        }}
-                        name="primaryOptions"
-                        value={selectedPrimaryOption}
-                        onChange={handlePrimaryOptions}
-                      >
-                        <option value="All" >
-                          All
-                        </option>
-                        <option value="engineerAssigned" >
-                          Engineer Assigned
-                        </option>
-                        <option value="circle" >
-                          Circle
-                        </option>
-                        <option value="aeitStatus" >
-                          AEIT Status
-                        </option>
-                        <option value="engineerContactNumber" >
-                          Engineer Contact Number
-                        </option>
-                      </select></Item>
-                    </Grid>
-                    <Grid item xs={5}>
-                      <Item>
-
-                        {/* <label
-                    style={{
-                      paddingRight: "1rem",
-                      color: "black",
-                    }}
-                  >
-                  </label> */}
-                        <select
-                          style={{
-                            width: 160,
-                            height: 27,
-                          }}
-                          name="secondaryOption"
-                          // value={props.ticketData.division}
-                          onChange={handleSecondaryOptions}
-                        >
-                          {secondaryOptionsList?.map((x, y) => (
-                            <option key={y} value={x}>
-                              {x}
-                            </option>
-                          ))}
-                        </select>
-                      </Item>
-                    </Grid>
-                  </Grid>
-
-
-
-
-
-                  {/* <label htmlFor="contained-button-file">
-                    <input
-                      style={{ display: "none" }}
-                      id="contained-button-file"
-                      type="file"
-                      onChange={(files) => onFileDropped(files)}
-                    />
-                    <Button variant="outlined" component="span">
-                      Import
-                    </Button>
-                  </label> */}
-                </Grid>
-                <div >
-
-                  {/* <label htmlFor="contained-button-file">
-                  <Button
-                    onClick={handlleExportTicket}
-                    variant="contained"
-                    startIcon={<FileUploadIcon />}
-                  >
-                    Export
-                  </Button>
-                </label> */}
-                </div>
-              </>
-            )}
+        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+          <Item>{selectFilterComponent()}</Item>
         </Grid>
-      </Grid >
-      <Grid
-        lg={12}
-        sm={12}
-        xs={12}
-        item
-        container
-        spacing={2}
-        className={classes.thirdGridItems}
-      >
-        <Grid item lg={12} sm={12} xs={12}>
-          {/* {loading ? <LinearProgress /> :  */}
-          <CustomTable
-            onFileDropped={onFileDropped}
-            data={rows}
-            handleExportData={handleExportData}
-            columns={
-              isSuperAdmin
-                ? columnsForSuperAdmin
-                : isAdmin
-                  ? columnsForAdmin
-                  : isAEIT
-                    ? columnsForAEIT
-                    : columnsForEmployee
-            }
-          />
-          {/* } */}
-
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+          <Item>{tabComponent()}</Item>
         </Grid>
-      </Grid>
-      <Grid lg={12} sm={12} xs={12} item container spacing={2}>
-        <Grid item lg={12} sm={12} xs={12}>
-          <ReAssignComponent
-            open={OPEN}
-            onClose={handleClose}
-            engineersList={engineersList}
-            selectedTicket={selectedTicket}
-          />
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+          <Item>{tableComponent()}</Item>
+        </Grid>
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+          <Item>{reAssignComponent()}</Item>
         </Grid>
       </Grid>
       <ToastContainer />
