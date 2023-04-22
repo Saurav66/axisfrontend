@@ -1,11 +1,9 @@
 import {
-  Box,
   Button,
   Chip,
   createStyles,
   Dialog,
   DialogTitle,
-  Grid,
   IconButton,
   makeStyles,
   Theme,
@@ -33,6 +31,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UrlConstants } from "../../global/UrlConstants";
 import LinearProgress from '@mui/material/LinearProgress';
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
 
 // const rawRows = [...ticketData];
 
@@ -53,6 +55,14 @@ const useStyles = makeStyles((theme: Theme) =>
     }
   )
 );
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
 
 export default function Tickets(props: any) {
   const classes = useStyles();
@@ -1004,8 +1014,33 @@ export default function Tickets(props: any) {
           {(localStorage.getItem("role") === "Admin" ||
             localStorage.getItem("role") === "superAdmin") && (
               <>
-                <Grid>
-                  <label> Complaint Date</label>
+                <Grid item xs={2} style={{
+                  // paddingRight: "1rem",
+                  // backgroundColor: "black",
+                  color: "black",
+                  paddingBottom: "0.8rem"
+                }}>
+                  <label
+                    style={{
+                      // paddingRight: "1rem",
+                      // backgroundColor: "black",
+                      color: "black",
+                    }}
+                  >
+                    Complaint Date Range
+                  </label>
+                </Grid>
+                <Grid
+                  item
+                  // style={{ backgroundColor: "red" }}
+                  style={{
+                    // backgroundColor: "red",
+                    marginTop: 20,
+                    minWidth: 300,
+                    padding: 5,
+                    marginRight: 20
+                  }}>
+                  {/* <label> Complaint Date Range</label> */}
                   <CustomRangePicker handleDateRangeChange={handleDateRangeChange} />
                 </Grid>
                 <Grid
@@ -1014,67 +1049,89 @@ export default function Tickets(props: any) {
                   style={{
                     // backgroundColor: "red",
                     marginTop: 20,
-                    minWidth: 50,
+                    minWidth: 15,
                     padding: 5,
                     marginRight: 20
                   }}
                 >
-                  <label
-                    style={{
-                      paddingRight: "1rem",
-                      color: "black",
-                    }}
-                  >
-                    Select
-                  </label>
-                  <select
-                    style={{
-                      width: 295,
-                      height: 27,
-                    }}
-                    name="primaryOptions"
-                    value={selectedPrimaryOption}
-                    onChange={handlePrimaryOptions}
-                  >
-                    <option value="All" >
-                      All
-                    </option>
-                    <option value="engineerAssigned" >
-                      Engineer Assigned
-                    </option>
-                    <option value="circle" >
-                      Circle
-                    </option>
-                    <option value="aeitStatus" >
-                      AEIT Status
-                    </option>
-                    <option value="engineerContactNumber" >
-                      Engineer Contact Number
-                    </option>
-                  </select>
-                  <label
-                    style={{
-                      paddingRight: "1rem",
-                      color: "black",
-                    }}
-                  >
 
-                  </label>
-                  <select
+                  <Grid container spacing={2}>
+                    <Grid item xs={2} style={{
+                      // paddingRight: "1rem",
+                      // backgroundColor: "black",
+                      color: "black",
+                      paddingTop: "1.8rem"
+                    }}>
+                      <label
+                        style={{
+                          // paddingRight: "1rem",
+                          // backgroundColor: "black",
+                          color: "black",
+                        }}
+                      >
+                        Select
+                      </label>
+                    </Grid>
+                    <Grid item xs={5}>
+                      <Item><select
+                        style={{
+                          width: 160,
+                          height: 27,
+                        }}
+                        name="primaryOptions"
+                        value={selectedPrimaryOption}
+                        onChange={handlePrimaryOptions}
+                      >
+                        <option value="All" >
+                          All
+                        </option>
+                        <option value="engineerAssigned" >
+                          Engineer Assigned
+                        </option>
+                        <option value="circle" >
+                          Circle
+                        </option>
+                        <option value="aeitStatus" >
+                          AEIT Status
+                        </option>
+                        <option value="engineerContactNumber" >
+                          Engineer Contact Number
+                        </option>
+                      </select></Item>
+                    </Grid>
+                    <Grid item xs={5}>
+                      <Item>
+
+                        {/* <label
                     style={{
-                      width: 295,
-                      height: 27,
+                      paddingRight: "1rem",
+                      color: "black",
                     }}
-                    name="secondaryOption"
-                    // value={props.ticketData.division}
-                    onChange={handleSecondaryOptions}
                   >
-                    {secondaryOptionsList?.map((x, y) => (
-                      <option key={y} value={x}>
-                        {x}
-                      </option>
-                    ))}
-                  </select>
+                  </label> */}
+                        <select
+                          style={{
+                            width: 160,
+                            height: 27,
+                          }}
+                          name="secondaryOption"
+                          // value={props.ticketData.division}
+                          onChange={handleSecondaryOptions}
+                        >
+                          {secondaryOptionsList?.map((x, y) => (
+                            <option key={y} value={x}>
+                              {x}
+                            </option>
+                          ))}
+                        </select>
+                      </Item>
+                    </Grid>
+                  </Grid>
+
+
+
+
+
                   {/* <label htmlFor="contained-button-file">
                     <input
                       style={{ display: "none" }}
