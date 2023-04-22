@@ -724,8 +724,9 @@ export default function Tickets(props: any) {
   };
 
   const handleDateRangeChange = (date: any) => {
+    console.log("data5 ", date)
     // console.log(date, "date")
-    // getTickets(date[0], date[1]);
+    getTickets(date[0], date[1]);
     setDefaultDateTime(date);
   };
 
@@ -1004,6 +1005,7 @@ export default function Tickets(props: any) {
             localStorage.getItem("role") === "superAdmin") && (
               <>
                 {/* <Grid>
+                  <label> Complaint Date</label>
                   <CustomRangePicker handleDateRangeChange={handleDateRangeChange} />
                 </Grid> */}
                 <Grid
