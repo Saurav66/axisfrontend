@@ -1,5 +1,5 @@
 import { Box, FormLabel, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -127,6 +127,8 @@ export default function EditTicket(props: any) {
     setData({ ...data, [event.target.name]: event.target.value });
   };
 
+  useEffect(() => { calculateComplaintAttendHours() }, [])
+
   const handleSubmit = (e: any) => {
     console.log("data1", data)
     e.preventDefault();
@@ -251,6 +253,43 @@ export default function EditTicket(props: any) {
       engineerAssignedDateTime: moment().format("YYYY-MM-DDTHH:mm"),
     });
   };
+
+  const calculateComplaintAttendHours = () => {
+    let response = 0.0;
+    if (data.complaintAttemptsThirdDateAndTime !== null) {
+      response = moment(data.complaintAttemptsThirdDateAndTime).diff(
+        moment(data.complaintDatetime),
+        "hours", true
+      )
+    } else if (data.complaintAttemptsSecondDateAndTime !== null) {
+      response = moment(data.complaintAttemptsSecondDateAndTime).diff(
+        moment(data.complaintDatetime),
+        "hours"
+      )
+    } else if (data.complaintAttemptsFirstDateAndTime !== null) {
+      response = (moment(data.complaintAttemptsFirstDateAndTime).diff(
+        moment(data.complaintDatetime),
+        "hours", true
+      ))
+    } else {
+      response = 0
+    }
+    console.log(typeof response, "type 4")
+    setData({
+      ...data,
+      complaintAttendHours: response.toFixed(2),
+      complaintCompletionInHour: data.complaintCompletionDatetime &&
+        moment(data.complaintCompletionDatetime).diff(
+          moment(data.complaintDatetime),
+          "hours", true
+        ).toFixed(2),
+      complaintCompletionInDays: data.complaintCompletionDatetime &&
+        moment(data.complaintCompletionDatetime).diff(
+          moment(data.complaintDatetime),
+          "days"
+        )
+    });
+  }
 
   return (
     <>
@@ -663,7 +702,8 @@ export default function EditTicket(props: any) {
                 size="small"
               />
               <TextField
-                disabled
+                //code2
+                disabled={role !== "superAdmin"}
                 className={classes.dateField}
                 type="datetime-local"
                 label="Complaint Closed On"
@@ -675,6 +715,57 @@ export default function EditTicket(props: any) {
                 onChange={handleChange}
                 size="small"
               />
+              <Box>
+                <TextField
+                  disabled
+                  className={classes.textField}
+                  label="Complaint  Attend Hours"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  name="complaintAttendHours"
+                  type="number"
+                  defaultValue={data?.complaintAttendHours}
+                  value={data?.complaintAttendHours}
+                  size="small"
+                />
+                <TextField
+                  disabled
+                  className={classes.textField}
+                  label="Complaint Completion in days"
+                  name="complaintCompletionInDays"
+                  //pending
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  value={
+                    data.complaintCompletionDatetime &&
+                    moment(data.complaintCompletionDatetime).diff(
+                      moment(data.complaintDatetime),
+                      "days"
+                    )
+                  }
+                  size="small"
+                />
+                <TextField
+                  disabled
+                  className={classes.textField}
+                  label="Complaint Completion in Hours"
+                  name="complaintCompletionInHour"
+                  //pendingfix
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  value={
+                    data.complaintCompletionDatetime &&
+                    moment(data.complaintCompletionDatetime).diff(
+                      moment(data.complaintDatetime),
+                      "hours", true
+                    ).toFixed(2)
+                  }
+                  size="small"
+                />
+              </Box>
               <Box>
                 <TextField
                   disabled
@@ -691,6 +782,17 @@ export default function EditTicket(props: any) {
                       "hours"
                     )
                   }
+                  // value={
+                  //   data.engineerAssignedDateTime &&
+                  //     moment(data.engineerAssignedDateTime).diff(
+                  //       moment(data.complaintDatetime),
+                  //       "hours"
+                  //     ) > 0 ? data.engineerAssignedDateTime &&
+                  //   moment(data.engineerAssignedDateTime).diff(
+                  //     moment(data.complaintDatetime),
+                  //     "hours"
+                  //   ) : 0
+                  // }
                   size="small"
                 />
                 <TextField
@@ -701,7 +803,7 @@ export default function EditTicket(props: any) {
                     shrink: true,
                   }}
                   value={
-                    data.complaintCompletionDatetime &&
+                    data.complaintCompletionDatetime && data.engineerAssignedDateTime &&
                     moment(data.complaintCompletionDatetime).diff(
                       moment(data.engineerAssignedDateTime),
                       "hours"

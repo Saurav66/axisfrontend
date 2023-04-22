@@ -62,7 +62,7 @@ export default function AddEmployee(props: any) {
   const [citiOptions, setCitiOptions] = useState([]);
   const [zoneOptions, setZoneOptions] = useState([]);
   const [edit, setEdit] = useState(props.history.location.state?.data);
-  const [personName, setPersonName] = React.useState<string[]>(edit ? JSON.parse(edit.city) : []);
+  const [personName, setPersonName] = React.useState<string[]>(edit ? JSON.parse(edit?.city) : []);
   const [employeeData, setEmployeeData] = useState({
     id: edit?.id ?? "",
     name: edit?.name ?? "",
