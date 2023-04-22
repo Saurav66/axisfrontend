@@ -17,13 +17,24 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { UrlConstants } from "../../../global/UrlConstants";
 import { useEffect, useState } from "react";
+import { Step, StepContent, StepLabel, Stepper } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    button: {
+      marginTop: theme.spacing(1),
+      marginRight: theme.spacing(1),
+    },
+    actionsContainer: {
+      marginBottom: theme.spacing(2),
+    },
+    resetContainer: {
+      padding: theme.spacing(3),
+    },
     Typography: {
       color: "black",
       paddingTop: "0.3rem",
-      paddingLeft: "2rem",
+      paddingLeft: "0.5rem",
       textAlign: "left",
     },
     input: {
@@ -38,7 +49,7 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: "#f2f1ed",
     },
     root: {
-      width: 360,
+      width: 400,
     },
   })
 );
@@ -54,6 +65,11 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+
+function getSteps() {
+  return [<b style={{ color: 'black' }}>Personal Details</b>,
+  <b style={{ color: 'black' }}>Location Details</b>];
+}
 
 export default function AddTicket(props: any) {
   const classes = useStyles();
@@ -77,6 +93,20 @@ export default function AddTicket(props: any) {
   const [machineMakeOptions, setMachineMakeOptions] = useState<string[]>([]);
   const [problemTypeOptions, setProblemTypeOptions] = useState<string[]>([]);
   const [complaintNo, setComplaintNo] = useState("");
+  const [activeStep, setActiveStep] = useState(0);
+  const steps = getSteps();
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+  };
 
   const handleClose = () => {
     setOpen(false);
@@ -87,7 +117,7 @@ export default function AddTicket(props: any) {
     document.title = "Create Ticket";
   }, []);
 
-  const handleValidation = () => {
+  const handlePersonalDetailsValidation = () => {
     if (!ticketData.complainantName) {
       toast.error("Please Enter your name!", {
         position: "top-right",
@@ -140,8 +170,12 @@ export default function AddTicket(props: any) {
       });
       return false;
     }
+    return true;
+  };
+
+  const handleLocationValidation = () => {
     if (!ticketData.circle && !ticketData.division) {
-      toast.error("Please Select Circle or Division!", {
+      toast.error("Please Select Circle!", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -171,49 +205,55 @@ export default function AddTicket(props: any) {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    if (handleValidation()) {
-      axios
-        .post(`${UrlConstants.baseUrl}/createTicket`, ticketData)
-        .then(function (response) {
-          setComplaintNo(response.data);
-          toast.success("Successfully Updated!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
+    if (activeStep === steps.length - 1) {
+      if (handleLocationValidation()) {
+        axios
+          .post(`${UrlConstants.baseUrl}/createTicket`, ticketData)
+          .then(function (response) {
+            setComplaintNo(response.data);
+            toast.success("Successfully Updated!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+            setTicketData({
+              complainantName: "",
+              complainantContactNo: "",
+              complainantDesignation: "",
+              projectName: "",
+              product: "",
+              machineMake: "",
+              problemType: "",
+              circle: "",
+              division: "",
+              substation: "",
+              landmark: "",
+              pinCode: "",
+            });
+            setOpen(true);
+          })
+          .catch(function (error) {
+            toast.error("Error while Adding Ticket!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
           });
-          setTicketData({
-            complainantName: "",
-            complainantContactNo: "",
-            complainantDesignation: "",
-            projectName: "",
-            product: "",
-            machineMake: "",
-            problemType: "",
-            circle: "",
-            division: "",
-            substation: "",
-            landmark: "",
-            pinCode: "",
-          });
-          setOpen(true);
-        })
-        .catch(function (error) {
-          toast.error("Error while Adding Ticket!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        });
+      }
+    } else {
+      if (handlePersonalDetailsValidation()) {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      }
     }
   };
 
@@ -287,6 +327,161 @@ export default function AddTicket(props: any) {
     }
   };
 
+
+  const getStepContent = (step: number) => {
+    switch (step) {
+      case 0:
+        return (
+          <><Typography className={classes.Typography}>* Name</Typography>
+            <Grid item xs>
+              <Box>
+                <input
+                  required
+                  className={classes.input}
+                  autoComplete="new-password"
+                  name="complainantName"
+                  onChange={handleInputChange}
+                />
+              </Box>
+            </Grid>
+            <Grid className={classes.input} item xs>
+              <Typography className={classes.Typography}>*Phone</Typography>
+              <Box>
+                <input
+                  required
+                  onKeyPress={(event) => {
+                    if (!/[0-9]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
+                  max="5"
+                  className={classes.input}
+                  autoComplete="new-password"
+                  name="complainantContactNo"
+                  type="tel"
+                  onChange={handleInputChange}
+                />
+              </Box>
+            </Grid>
+            <Grid className={classes.input} item xs>
+              <Typography className={classes.Typography}>Designation</Typography>
+              <Box>
+                <input
+                  className={classes.input}
+                  autoComplete="new-password"
+                  name="complainantDesignation"
+                  type="tel"
+                  onChange={handleInputChange}
+                />
+              </Box>
+            </Grid>
+            <Grid item xs>
+              <Typography className={classes.Typography}>
+                * Project Name
+              </Typography>
+              <select
+                required
+                className={classes.select}
+                id="projectName"
+                name="projectName"
+                value={ticketData.projectName}
+                onChange={handleInputChange}
+              >
+                <option value="">Please Select</option>
+                <option value="PVVNL">PVVNL</option>
+                <option value="DVVNL" disabled>
+                  DVVNL
+                </option>
+                <option value="MVVNL" disabled>
+                  MVVNL
+                </option>
+                <option value="PUVVNL" disabled>
+                  PUVVNL
+                </option>
+                <option value="KESCO" disabled>
+                  KESCO
+                </option>
+                <option value="DMRC" disabled>
+                  DMRC
+                </option>
+              </select>
+            </Grid>
+            <Grid item xs>
+              <Typography className={classes.Typography}>
+                Product & Services
+              </Typography>
+              <select
+                className={classes.select}
+                id="product"
+                name="product"
+                value={ticketData.product}
+                onChange={handleInputChange}
+              >
+                <option value="">Please Select</option>
+                <option value="Desktop">Desktop</option>
+                <option value="UPS Offline">UPS Offline</option>
+                <option value="UPS Online">UPS Online</option>
+              </select>
+            </Grid>
+            <Grid item xs>
+              <Typography className={classes.Typography}>Machine Make</Typography>
+              <select
+                className={classes.select}
+                id="machineMake"
+                name="machineMake"
+                value={ticketData.machineMake}
+                onChange={handleInputChange}
+              >
+                {machineMakeOptions.map((x, y) => (
+                  <option key={y} value={x}>
+                    {x}
+                  </option>
+                ))}
+              </select>
+            </Grid>
+            <Grid item xs>
+              <Typography className={classes.Typography}>Problem Type</Typography>
+              <select
+                className={classes.select}
+                id="problemType"
+                name="problemType"
+                value={ticketData.problemType}
+                onChange={handleInputChange}
+              >
+                {problemTypeOptions.map((x, y) => (
+                  <option key={y} value={x}>
+                    {x}
+                  </option>
+                ))}
+              </select>
+            </Grid>
+            <Grid className={classes.input} item xs>
+              <Typography className={classes.Typography}>
+                Machine Serial No.
+              </Typography>
+              <Box>
+                <input
+                  className={classes.input}
+                  autoComplete="new-password"
+                  name="uxb1jsi364g4453780"
+                  type="tel"
+                  onChange={handleInputChange}
+                />
+              </Box>
+            </Grid></>
+        );
+      case 1:
+        return (
+          <AddressComponent
+            ticketData={ticketData}
+            setTicketData={setTicketData}
+          />
+        );
+      default:
+        return 'Unknown step';
+    }
+  }
+
   return (
     <div
       style={{
@@ -315,148 +510,46 @@ export default function AddTicket(props: any) {
           >
             Create Ticket
           </Typography>
-          <Typography className={classes.Typography}>* Name</Typography>
-          <Grid item xs>
-            <Box>
-              <input
-                required
-                className={classes.input}
-                autoComplete="new-password"
-                name="complainantName"
-                onChange={handleInputChange}
-              />
-            </Box>
-          </Grid>
-          <Grid className={classes.input} item xs>
-            <Typography className={classes.Typography}>*Phone</Typography>
-            <Box>
-              <input
-                required
-                onKeyPress={(event) => {
-                  if (!/[0-9]/.test(event.key)) {
-                    event.preventDefault();
-                  }
-                }}
-                max="5"
-                className={classes.input}
-                autoComplete="new-password"
-                name="complainantContactNo"
-                type="tel"
-                onChange={handleInputChange}
-              />
-            </Box>
-          </Grid>
-          <Grid className={classes.input} item xs>
-            <Typography className={classes.Typography}>Designation</Typography>
-            <Box>
-              <input
-                className={classes.input}
-                autoComplete="new-password"
-                name="complainantDesignation"
-                type="tel"
-                onChange={handleInputChange}
-              />
-            </Box>
-          </Grid>
-          <Grid item xs>
-            <Typography className={classes.Typography}>
-              * Project Name
-            </Typography>
-            <select
-              required
-              className={classes.select}
-              id="projectName"
-              name="projectName"
-              value={ticketData.projectName}
-              onChange={handleInputChange}
-            >
-              <option value="">Please Select</option>
-              <option value="PVVNL">PVVNL</option>
-              <option value="DVVNL" disabled>
-                DVVNL
-              </option>
-              <option value="MVVNL" disabled>
-                MVVNL
-              </option>
-              <option value="PUVVNL" disabled>
-                PUVVNL
-              </option>
-              <option value="KESCO" disabled>
-                KESCO
-              </option>
-              <option value="DMRC" disabled>
-                DMRC
-              </option>
-            </select>
-          </Grid>
-          <Grid item xs>
-            <Typography className={classes.Typography}>
-              Product & Services
-            </Typography>
-            <select
-              className={classes.select}
-              id="product"
-              name="product"
-              value={ticketData.product}
-              onChange={handleInputChange}
-            >
-              <option value="">Please Select</option>
-              <option value="Desktop">Desktop</option>
-              <option value="UPS Offline">UPS Offline</option>
-              <option value="UPS Online">UPS Online</option>
-            </select>
-          </Grid>
-          <Grid item xs>
-            <Typography className={classes.Typography}>Machine Make</Typography>
-            <select
-              className={classes.select}
-              id="machineMake"
-              name="machineMake"
-              value={ticketData.machineMake}
-              onChange={handleInputChange}
-            >
-              {machineMakeOptions.map((x, y) => (
-                <option key={y} value={x}>
-                  {x}
-                </option>
-              ))}
-            </select>
-          </Grid>
-          <Grid item xs>
-            <Typography className={classes.Typography}>Problem Type</Typography>
-            <select
-              className={classes.select}
-              id="problemType"
-              name="problemType"
-              value={ticketData.problemType}
-              onChange={handleInputChange}
-            >
-              {problemTypeOptions.map((x, y) => (
-                <option key={y} value={x}>
-                  {x}
-                </option>
-              ))}
-            </select>
-          </Grid>
-          <Grid className={classes.input} item xs>
-            <Typography className={classes.Typography}>
-              Machine Serial No.
-            </Typography>
-            <Box>
-              <input
-                className={classes.input}
-                autoComplete="new-password"
-                name="uxb1jsi364g4453780"
-                type="tel"
-                onChange={handleInputChange}
-              />
-            </Box>
-          </Grid>
-          <AddressComponent
-            ticketData={ticketData}
-            setTicketData={setTicketData}
-          />
-          <Button
+          <Stepper activeStep={activeStep} orientation="vertical">
+            {steps.map((label, index) => (
+              // <Step key={label}>
+              <Step >
+                <StepLabel>{label}</StepLabel>
+                <StepContent>
+                  <Typography>{getStepContent(index)}</Typography>
+                  <div className={classes.actionsContainer}>
+                    <div>
+                      <Button
+                        disabled={activeStep === 0}
+                        onClick={handleBack}
+                        className={classes.button}
+                      >
+                        Back
+                      </Button>
+                      <Button
+                        style={{
+                          color: "white",
+                          backgroundColor: "#f44336",
+                          marginTop: 20,
+                          marginBottom: 28,
+                          minWidth: 110,
+                        }}
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        // onClick={handleNext}
+                        className={classes.button}
+                      >
+                        {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                      </Button>
+                    </div>
+                  </div>
+                </StepContent>
+              </Step>
+            ))}
+          </Stepper>
+
+          {/* <Button
             style={{
               color: "white",
               backgroundColor: "#f44336",
@@ -467,7 +560,7 @@ export default function AddTicket(props: any) {
             type="submit"
           >
             Submit
-          </Button>
+          </Button> */}
         </Paper>
       </Box>
       <Modal

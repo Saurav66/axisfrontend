@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
     Typography: {
       color: "black",
       paddingTop: "0.3rem",
-      paddingLeft: "2rem",
+      paddingLeft: "0.5rem",
       textAlign: "left",
     },
     input: {
@@ -114,14 +114,14 @@ export default function AddressComponent(props: any) {
 
   return (
     <>
-      <Box sx={{ fontWeight: "bold" }}>
+      {/* <Box sx={{ fontWeight: "bold" }}>
         <Typography
           style={{ fontWeight: 800 }}
           className={classes.TypographyHeading}
         >
           Location Details:
         </Typography>
-      </Box>
+      </Box> */}
       <Grid className={classes.input} item xs>
         <Typography className={classes.Typography}>
           Village/Substation
