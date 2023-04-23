@@ -370,7 +370,6 @@ export default function AddTicket(props: any) {
                   className={classes.input}
                   autoComplete="new-password"
                   name="complainantDesignation"
-                  type="tel"
                   onChange={handleInputChange}
                 />
               </Box>
@@ -464,7 +463,6 @@ export default function AddTicket(props: any) {
                   className={classes.input}
                   autoComplete="new-password"
                   name="uxb1jsi364g4453780"
-                  type="tel"
                   onChange={handleInputChange}
                 />
               </Box>
