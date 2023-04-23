@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-web-server
+  name: frontend-web-server
 spec:
   replicas: 1
   strategy:
     type: Recreate
   selector:
      matchLabels:
-         app: frontend-server
+         app: frontend-web-server
   template:
     metadata:
       labels:
