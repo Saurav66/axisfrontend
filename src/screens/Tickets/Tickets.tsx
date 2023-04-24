@@ -331,14 +331,14 @@ export default function Tickets(props: any) {
       {
         accessorKey: "serialNo",
         header: "S/no.",
-        size: 80,
+        size: 120,
       },
       {
         accessorKey: "complaintNo",
         header: "Complaint No",
         // minSize: 200,
         // maxSize: 200,
-        size: 120,
+        size: 150,
         muiTableHeadCellProps: {
           align: "left",
         },
