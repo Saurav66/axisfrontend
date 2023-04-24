@@ -32,6 +32,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { CardHeader } from '@mui/material';
+import moment from "moment";
 
 // const rawRows = [...ticketData];
 
@@ -158,6 +159,8 @@ export default function Tickets(props: any) {
         accessorKey: "complaintDatetime",
         header: "Complaint Date & Time",
         size: 200,
+        enableSorting: false,
+        Cell: (cell: GridRenderCellParams) => (moment(cell.row.original.complaintDatetime).format("YYYY-MM-DD hh:mm A")),
       },
       {
         accessorKey: "complainantName",
@@ -205,7 +208,9 @@ export default function Tickets(props: any) {
       {
         accessorKey: "complaintDatetime",
         header: "Complaint Date & Time",
-        size: 150,
+        size: 200,
+        enableSorting: false,
+        Cell: (cell: GridRenderCellParams) => (moment(cell.row.original.complaintDatetime).format("YYYY-MM-DD hh:mm A")),
       },
       {
         accessorKey: "complainantName",
@@ -343,20 +348,7 @@ export default function Tickets(props: any) {
         header: "Complaint Date & Time",
         size: 200,
         enableSorting: false,
-        Cell: (cell: GridRenderCellParams) => (
-          <TextField
-            variant="standard"
-            disabled={true}
-            type="datetime-local"
-            style={{ width: 200 }}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            name="complaintDatetime"
-            defaultValue={cell.row.original.complaintDatetime}
-            size="small"
-          />
-        ),
+        Cell: (cell: GridRenderCellParams) => (moment(cell.row.original.complaintDatetime).format("YYYY-MM-DD hh:mm A")),
       },
       {
         accessorKey: "circle",
@@ -487,20 +479,7 @@ export default function Tickets(props: any) {
         header: "Complaint Date & Time",
         size: 200,
         enableSorting: false,
-        Cell: (cell: GridRenderCellParams) => (
-          <TextField
-            variant="standard"
-            disabled={true}
-            type="datetime-local"
-            style={{ width: 200 }}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            name="complaintDatetime"
-            defaultValue={cell.row.original.complaintDatetime}
-            size="small"
-          />
-        ),
+        Cell: (cell: GridRenderCellParams) => (moment(cell.row.original.complaintDatetime).format("YYYY-MM-DD hh:mm A")),
       },
       {
         accessorKey: "circle",
