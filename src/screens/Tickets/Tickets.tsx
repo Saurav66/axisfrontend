@@ -160,7 +160,8 @@ export default function Tickets(props: any) {
         header: "Complaint Date & Time",
         size: 200,
         enableSorting: false,
-        Cell: (cell: GridRenderCellParams) => (moment(cell.row.original.complaintDatetime).format("YYYY-MM-DD hh:mm A")),
+        // Cell: (cell: GridRenderCellParams) => (moment(cell.row.original.complaintDatetime).format("YYYY-MM-DD hh:mm A")),
+        Cell: (cell: GridRenderCellParams) => (moment(cell.row.original.complaintDatetime).format("YYYY-MM-DD HH:mm")),
       },
       {
         accessorKey: "complainantName",
@@ -210,7 +211,8 @@ export default function Tickets(props: any) {
         header: "Complaint Date & Time",
         size: 200,
         enableSorting: false,
-        Cell: (cell: GridRenderCellParams) => (moment(cell.row.original.complaintDatetime).format("YYYY-MM-DD hh:mm A")),
+        // Cell: (cell: GridRenderCellParams) => (moment(cell.row.original.complaintDatetime).format("YYYY-MM-DD hh:mm A")),
+        Cell: (cell: GridRenderCellParams) => (moment(cell.row.original.complaintDatetime).format("YYYY-MM-DD HH:mm")),
       },
       {
         accessorKey: "complainantName",
@@ -348,7 +350,8 @@ export default function Tickets(props: any) {
         header: "Complaint Date & Time",
         size: 200,
         enableSorting: false,
-        Cell: (cell: GridRenderCellParams) => (moment(cell.row.original.complaintDatetime).format("YYYY-MM-DD hh:mm A")),
+        // Cell: (cell: GridRenderCellParams) => (moment(cell.row.original.complaintDatetime).format("YYYY-MM-DD hh:mm A")),
+        Cell: (cell: GridRenderCellParams) => (moment(cell.row.original.complaintDatetime).format("YYYY-MM-DD HH:mm")),
       },
       {
         accessorKey: "circle",
@@ -479,7 +482,8 @@ export default function Tickets(props: any) {
         header: "Complaint Date & Time",
         size: 200,
         enableSorting: false,
-        Cell: (cell: GridRenderCellParams) => (moment(cell.row.original.complaintDatetime).format("YYYY-MM-DD hh:mm A")),
+        // Cell: (cell: GridRenderCellParams) => (moment(cell.row.original.complaintDatetime).format("YYYY-MM-DD hh:mm A")),
+        Cell: (cell: GridRenderCellParams) => (moment(cell.row.original.complaintDatetime).format("YYYY-MM-DD HH:mm")),
       },
       {
         accessorKey: "circle",

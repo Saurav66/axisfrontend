@@ -17,15 +17,10 @@ import {
   Typography,
 } from "@material-ui/core";
 import {
-  Apps,
   Menu,
-  ContactMail,
-  AssignmentInd,
-  Home,
 } from "@material-ui/icons";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { Redirect, useHistory } from "react-router-dom";
-import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import { useHistory } from "react-router-dom";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import GroupIcon from "@mui/icons-material/Group";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
@@ -35,7 +30,6 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 const useStyles = makeStyles((theme) => ({
   menuSliderContainer: {
     width: 250,
-    // background: "#1c2e4a", --blue
     background: "#FFFFFF",
     height: "100%",
   },
@@ -61,11 +55,6 @@ const listItems = [
     listText: "Tickets",
     url: "/tickets",
   },
-  // {
-  //   listIcon: <AssignmentInd />,
-  //   listText: "Locations",
-  //   url: "/locations",
-  // },
   {
     listIcon: <AnalyticsIcon />,
     listText: "Survey List",
@@ -158,7 +147,6 @@ export default function SideBar() {
     localStorage.setItem("userPhoneNo", "");
     localStorage.setItem("id", "");
     window.location.replace("https://axisinfoline.com");
-    // history.push("s/");
   };
 
   return (
@@ -176,8 +164,6 @@ export default function SideBar() {
         <AppBar
           position="static"
           style={{
-            // height: 60,
-            // color: "#e76668"
             backgroundColor: "#e03a3c",
           }}
         >
