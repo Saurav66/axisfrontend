@@ -36,7 +36,6 @@ export default function AddAiet(props: any) {
     const classes = useStyles();
     const history = useHistory();
     const [circleOptions, setCircleOptions] = useState([]);
-    const [selectedCircle, setSelectedCircle] = useState<String>();
     const [edit, setEdit] = useState(props.history.location.state?.data);
     const [employeeData, setEmployeeData] = useState({
         id: edit?.id ?? "",
@@ -78,19 +77,6 @@ export default function AddAiet(props: any) {
     const handleValidation = () => {
         if (!employeeData.name) {
             toast.error("Please Enter your name!", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
-            return false;
-        }
-        if (!employeeData.phone) {
-            toast.error("Please Enter Phone Number!", {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -151,7 +137,7 @@ export default function AddAiet(props: any) {
                         setTimeout(() => history.push("/aeit"), 700);
                     })
                     .catch(function (error) {
-                        toast.error(`User Already Exists for circle! ${selectedCircle}`, {
+                        toast.error(`User Already Exists for: ${employeeData.phone}`, {
                             position: "top-right",
                             autoClose: 5000,
                             hideProgressBar: false,
@@ -181,7 +167,7 @@ export default function AddAiet(props: any) {
                         history.push("/aeit");
                     })
                     .catch(function (error) {
-                        toast.error(`User Already Exists for circle! ${selectedCircle}`, {
+                        toast.error(`User Already Exists for: ${employeeData.phone}`, {
                             position: "top-right",
                             autoClose: 5000,
                             hideProgressBar: false,
@@ -201,9 +187,8 @@ export default function AddAiet(props: any) {
             setEmployeeData({
                 ...employeeData,
                 circle: event.target.value,
-                phone: `AEIT_${event.target.value}`,
+                phone: `AEIT_${event.target.value}`?.replaceAll(' ', '-'),
             });
-            setSelectedCircle(event.target.value)
         } else {
             setEmployeeData({
                 ...employeeData,
@@ -276,7 +261,7 @@ export default function AddAiet(props: any) {
                                 autoComplete="new-password"
                                 name="phone"
                                 // value={employeeData.phone}
-                                value={edit ? employeeData.phone : selectedCircle?.replaceAll(' ', '-')}
+                                value={employeeData?.phone}
                                 type="tel"
                                 onChange={handleInputChange}
                             />
