@@ -54,6 +54,7 @@ export default function SignInSide() {
       localStorage.setItem("userName", response.name);
       localStorage.setItem("phone", response.phone);
       localStorage.setItem("circle", response.circle);
+      localStorage.setItem("city", response.city);
       localStorage.setItem("id", response.id);
       if (response) {
         if (response.role === "Admin" || response.role === "superAdmin") {

@@ -173,7 +173,7 @@ export default function SideBar() {
                 <Menu style={{ fill: "#FFFFFF" }} />
               </IconButton>
             )}
-            <Typography>{isAdmin ? `${localStorage.getItem("userName")}` : `${localStorage.getItem("userName")} ( ${localStorage.getItem("circle")} )`}</Typography>
+            <Typography>{isAdmin ? `${localStorage.getItem("userName")}` : role === "Engineer" ? `${localStorage.getItem("userName")} ( ${localStorage.getItem("city")} )` : `${localStorage.getItem("userName")} ( ${localStorage.getItem("circle")} )`}</Typography>
             <Drawer open={open} anchor="left" onClose={toggleSlider}>
               {sideList()}
             </Drawer>
