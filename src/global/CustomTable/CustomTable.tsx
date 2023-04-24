@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import MaterialReactTable, { MRT_Row } from "material-react-table";
 import { createTheme, Grid, ThemeProvider, useTheme } from "@mui/material";
 import { Box, Button } from "@material-ui/core";
@@ -68,8 +68,26 @@ const CustomTable = (props: any) => {
             rowsPerPageOptions: [20, 50, 100, 1000],
             showFirstButton: false,
             showLastButton: false,
-          }}
-          // enableColumnFilters={false}
+            sx: {
+              '.MuiPaper-root': {
+                backgroundColor: 'rosybrown',
+                color: 'black',
+              },
+              '.MuiTablePagination-menuItem': {
+                ':hover': {
+                  backgroundColor: 'turquoise',
+                },
+                backgroundColor: 'yellow',
+              },
+              '.MuiTablePagination-menuItem.Mui-selected': {
+                ':hover': {
+                  backgroundColor: 'blue',
+                },
+                backgroundColor: 'purple',
+              },
+            },
+          }
+          }
           muiTableProps={{
             sx: {
               tableLayout: "fixed",

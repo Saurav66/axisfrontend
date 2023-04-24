@@ -187,7 +187,7 @@ export default function AddAiet(props: any) {
             setEmployeeData({
                 ...employeeData,
                 circle: event.target.value,
-                phone: `AEIT_${event.target.value}`?.replaceAll(' ', '-'),
+                phone: `AEIT-${event.target.value}`?.replaceAll(' ', '-'),
             });
         } else {
             setEmployeeData({
