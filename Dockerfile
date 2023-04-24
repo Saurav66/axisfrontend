@@ -2,6 +2,7 @@ FROM node:16.3.0-alpine
 WORKDIR /app
 RUN apk add -U tzdata
 RUN ln -fs /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
+RUN echo "Asia/Kolkata" >  /etc/timezone
 COPY package.json ./
 COPY package-lock.json ./
 COPY ./ ./
