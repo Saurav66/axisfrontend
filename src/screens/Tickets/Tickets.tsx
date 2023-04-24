@@ -78,6 +78,7 @@ export default function Tickets(props: any) {
   const loginUserName = localStorage.getItem("userName");
   const isAdmin = localStorage.getItem("role") === "Admin";
   const isSuperAdmin = localStorage.getItem("role") === "superAdmin";
+  const isAdminSuperAdmin = (isAdmin || isSuperAdmin) ? true : false;
   const isAEIT = localStorage.getItem("role") === "aeit";
   const userCircle = localStorage.getItem("circle");
   const loggedInUserPhone = localStorage.getItem("phone");
@@ -934,7 +935,7 @@ export default function Tickets(props: any) {
   }
 
   const complaintDatetimeRangePicker = () => {
-    return <CustomRangePicker label="Range " handleDateRangeChange={handleDateRangeChange} />
+    return isAdminSuperAdmin && < CustomRangePicker label="Range " handleDateRangeChange={handleDateRangeChange} />
   }
 
   const selectFilterComponent = () => {
