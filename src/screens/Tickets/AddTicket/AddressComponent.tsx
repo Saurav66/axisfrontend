@@ -202,6 +202,12 @@ export default function AddressComponent(props: any) {
             autoComplete="off"
             id="pinCode"
             name="pinCode"
+            onKeyPress={(event) => {
+              if (!/[0-9]/.test(event.key)) {
+                event.preventDefault();
+              }
+            }}
+            maxLength={6}
             onChange={handleLocationChange}
           />
         </Box>

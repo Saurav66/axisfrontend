@@ -337,6 +337,7 @@ export default function AddTicket(props: any) {
               <Box>
                 <input
                   required
+                  maxLength={36}
                   className={classes.input}
                   autoComplete="new-password"
                   name="complainantName"
@@ -354,7 +355,7 @@ export default function AddTicket(props: any) {
                       event.preventDefault();
                     }
                   }}
-                  max="5"
+                  maxLength={13}
                   className={classes.input}
                   autoComplete="new-password"
                   name="complainantContactNo"
@@ -367,6 +368,7 @@ export default function AddTicket(props: any) {
               <Typography className={classes.Typography}>Designation</Typography>
               <Box>
                 <input
+                  maxLength={36}
                   className={classes.input}
                   autoComplete="new-password"
                   name="complainantDesignation"
@@ -460,6 +462,7 @@ export default function AddTicket(props: any) {
               </Typography>
               <Box>
                 <input
+                  maxLength={36}
                   className={classes.input}
                   autoComplete="new-password"
                   name="uxb1jsi364g4453780"
