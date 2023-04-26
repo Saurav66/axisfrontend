@@ -205,7 +205,7 @@ export default function Tickets(props: any) {
 
   const columnsForAEIT = useMemo(
     () => [
-      { accessorKey: "serialNo", header: "S/no.", size: 80 },
+      { accessorKey: "serialNo", header: "S/no.", size: 120 },
       { accessorKey: "complaintNo", header: "Complaint No", size: 90 },
       {
         accessorKey: "complaintDatetime",
@@ -463,7 +463,7 @@ export default function Tickets(props: any) {
       {
         accessorKey: "serialNo",
         header: "S/no.",
-        size: 80,
+        size: 120,
       },
       {
         accessorKey: "complaintNo",

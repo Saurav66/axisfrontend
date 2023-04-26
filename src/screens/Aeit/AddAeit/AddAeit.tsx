@@ -1,11 +1,34 @@
 import { Box, Button, Grid, Paper, Typography } from "@mui/material";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import { makeStyles, createStyles, Theme, useTheme } from "@material-ui/core/styles";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UrlConstants } from "../../../global/UrlConstants";
+import { Chip, InputLabel, MenuItem, OutlinedInput } from "@material-ui/core";
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+    PaperProps: {
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            width: 250,
+        },
+    },
+};
+
+function getStyles(name: string, personName: readonly string[], theme: Theme) {
+    return {
+        fontWeight:
+            personName.indexOf(name) === -1
+                ? theme.typography.fontWeightRegular
+                : theme.typography.fontWeightMedium,
+    };
+}
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -35,13 +58,16 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function AddAiet(props: any) {
     const classes = useStyles();
     const history = useHistory();
+    const theme = useTheme();
     const [circleOptions, setCircleOptions] = useState([]);
+    const [citiOptions, setCitiOptions] = useState([]);
     const [edit, setEdit] = useState(props.history.location.state?.data);
     const [employeeData, setEmployeeData] = useState({
         id: edit?.id ?? "",
         name: edit?.name ?? "",
         phone: edit?.phone ?? "",
         circle: edit?.circle ?? "",
+        city: edit?.city ?? "",
         password: edit?.password ?? "",
         role: edit?.role ?? "aeit",
         status: edit?.status ?? "Active",
@@ -52,7 +78,20 @@ export default function AddAiet(props: any) {
         if (circleOptions.length === 0) {
             getCircles();
         }
+        if (citiOptions.length === 0) {
+            getAllCitiFromSurvey();
+        }
     }, []);
+
+    const getAllCitiFromSurvey = async () => {
+        const response = await axios
+            .get(`${UrlConstants.baseUrl}/getAllCitiFromSurvey`)
+            .then((response: any) => {
+                return response.data;
+            })
+            .catch((error) => { });
+        setCitiOptions(response);
+    };
 
     const getCircles = async () => {
         const response = await axios
@@ -90,6 +129,19 @@ export default function AddAiet(props: any) {
         }
         if (!employeeData.circle) {
             toast.error("Please Enter Circle!", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            return false;
+        }
+        if (!employeeData.city) {
+            toast.error("Please Enter City!", {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -265,6 +317,35 @@ export default function AddAiet(props: any) {
                                 type="tel"
                                 onChange={handleInputChange}
                             />
+                        </Box>
+                    </Grid>
+                    <Grid item xs>
+                        <Typography className={classes.Typography}>
+                            * City / Town (For Survey)
+                        </Typography>
+                        <Box>
+                            <FormControl sx={{ m: 1, width: 300 }}>
+                                <Select
+                                    labelId="demo-multiple-chip-label"
+                                    id="demo-multiple-chip"
+                                    name="city"
+                                    size="small"
+                                    label="City"
+                                    value={employeeData?.city}
+                                    // onChange={handleInputChange}
+                                    onChange={handleInputChange}
+                                >
+                                    {citiOptions.map((name) => (
+                                        <MenuItem
+                                            key={name}
+                                            value={name}
+                                        // style={getStyles(name, personName, theme)}
+                                        >
+                                            {name}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
                         </Box>
                     </Grid>
                     {!edit && (

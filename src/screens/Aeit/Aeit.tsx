@@ -63,6 +63,7 @@ export default function Aiet() {
             { accessorKey: "name", header: "AEIT Name", width: 320 },
             { accessorKey: "phone", header: "AEIT Username", width: 320 },
             { accessorKey: "circle", header: "Circle", width: 320 },
+            { accessorKey: "city", header: "City/Town", width: 320 },
             { accessorKey: "status", header: "Status", width: 420 },
             {
                 accessorKey: "edit",

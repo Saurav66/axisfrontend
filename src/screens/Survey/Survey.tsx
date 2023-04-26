@@ -46,7 +46,7 @@ export default function Survey() {
   let history = useHistory();
   const isSuperAdmin = localStorage.getItem("role") === "superAdmin";
   const isAEIT = localStorage.getItem("role") === "aeit";
-  const loggedInUserCircle = localStorage.getItem("circle");
+  const loggedInUserCity = localStorage.getItem("city");
   const [selectedCity, setSelectedCity] = useState("Saharanpur");
   const [cityOptions, setCityOptions] = useState([]);
   const [rows, setRows] = useState([]);
@@ -277,7 +277,7 @@ export default function Survey() {
     const response = await axios
       .get(
         isAEIT
-          ? `${UrlConstants.baseUrl}/getSurveyByCircle/${loggedInUserCircle}`
+          ? `${UrlConstants.baseUrl}/getSurveyByCity/${loggedInUserCity}`
           : `${UrlConstants.baseUrl}/getSurveyByCity/${city}`
       )
       .then((response: any) => {
