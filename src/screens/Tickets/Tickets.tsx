@@ -634,11 +634,13 @@ export default function Tickets(props: any) {
   };
 
   const editRow = async (event: any) => {
+    console.log("jjjj", event)
     if (isAdminSuperAdmin) {
       const response = await getEngineersByStatus("Active");
-      history.push("/edit", { data: event, engineersList: response });
+      history.push("/edit", { data: event.id, engineersList: response });
+    } else {
+      history.push("/edit", { data: event.id });
     }
-    history.push("/edit", { data: event });
   };
 
   const deleteRow = (complaintNumber: string) => {

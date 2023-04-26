@@ -107,7 +107,47 @@ export default function EditTicket(props: any) {
   const classes = useStyles();
   const history = useHistory();
   const role = localStorage.getItem("role");
-  const [data, setData] = useState(props.history.location.state?.data);
+  // const [data, setData] = useState(props.history.location.state?.data);
+  const [data, setData] = useState({
+    id: "",
+    serialNo: null,
+    complaintNo: "",
+    complaintDatetime: null,
+    circle: "",
+    division: "",
+    complainantName: "",
+    complainantDesignation: "",
+    complainantContactNo: "",
+    defectiveItemName: null,
+    uxb1jsi364g4453780: "",
+    engineerAssigned: "",
+    engineerAssignedDateTime: "",
+    engineerContactNo: "",
+    complaintAttemptsFirstDateAndTime: null,
+    complaintAttemptsSecondDateAndTime: null,
+    complaintAttemptsThirdDateAndTime: null,
+    locationCode: null,
+    complaintCompletionDatetime: null,
+    status: null,
+    actionTakenAndSpareUsed: null,
+    oldSerialNoMbHddTft: null,
+    newSerialNoMbHddTft: null,
+    remarks: null,
+    projectName: "",
+    product: "",
+    machineMake: "",
+    problemType: "",
+    substation: "",
+    landmark: "",
+    pinCode: "",
+    docPath: "",
+    aeitStatus: null,
+    approverName: null,
+    approverPhone: null,
+    complaintAttendHours: "",
+    complaintCompletionInDays: null,
+    complaintCompletionInHour: null
+  });
   const [engineersList, setEngineersList] = useState(props.history.location.state?.engineersList);
   const disableEdit =
     localStorage.getItem("role") === "superAdmin" ||
@@ -127,7 +167,20 @@ export default function EditTicket(props: any) {
     setData({ ...data, [event.target.name]: event.target.value });
   };
 
-  useEffect(() => { calculateComplaintAttendHours() }, [])
+  useEffect(() => {
+    getTicketById(props.history.location.state?.data);
+    calculateComplaintAttendHours()
+  }, [])
+
+  const getTicketById = async (id: string) => {
+    const response = await axios
+      .get(`${UrlConstants.baseUrl}/getTicketById/${id}/loggedInUserId/${localStorage.getItem("id")}`)
+      .then((response: any) => {
+        return response.data;
+      })
+      .catch((error) => { });
+    setData(response);
+  }
 
   const handleSubmit = (e: any) => {
     console.log("data1", data)
@@ -194,48 +247,48 @@ export default function EditTicket(props: any) {
   };
 
   const onFileDropped = (files: any) => {
-    if ((role === "Engineer" || role === "superAdmin")) {
-      if (files[0]?.name) {
-        axios
-          .post(
-            `${UrlConstants.baseUrl}/document`,
-            {
-              userId: data.complaintNo,
-              documentFile: files[0],
+    //if (!disableEdit) {
+    if (files[0]?.name) {
+      axios
+        .post(
+          `${UrlConstants.baseUrl}/document`,
+          {
+            userId: data.complaintNo,
+            documentFile: files[0],
+          },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
             },
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            }
-          )
-          .then(function (response) {
-            console.log(response);
-            setData({ ...data, docPath: response.data.data.name });
-            toast.success("Successfully Updated!", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-          })
-          .catch(function (error) {
-            toast.error("Error while Uploading Document!", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
+          }
+        )
+        .then(function (response) {
+          console.log(response);
+          setData({ ...data, docPath: response.data.data.name });
+          toast.success("Successfully Updated!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
           });
-      }
+        })
+        .catch(function (error) {
+          toast.error("Error while Uploading Document!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        });
+      // }
     }
   };
 
@@ -328,7 +381,8 @@ export default function EditTicket(props: any) {
               shrink: true,
             }}
             name="complaintDatetime"
-            defaultValue={data.complaintDatetime}
+            // defaultValue={data.complaintDatetime}
+            value={data.complaintDatetime}
             onChange={handleChange}
             size="small"
           />
@@ -416,7 +470,8 @@ export default function EditTicket(props: any) {
               shrink: true,
             }}
             name="engineerAssignedDateTime"
-            defaultValue={data.engineerAssignedDateTime}
+            // defaultValue={data.engineerAssignedDateTime}
+            value={data.engineerAssignedDateTime}
             onChange={handleChange}
             size="small"
           />
@@ -671,7 +726,8 @@ export default function EditTicket(props: any) {
                   shrink: true,
                 }}
                 name="complaintAttemptsFirstDateAndTime"
-                defaultValue={data.complaintAttemptsFirstDateAndTime}
+                // defaultValue={data.complaintAttemptsFirstDateAndTime}
+                value={data.complaintAttemptsFirstDateAndTime}
                 onChange={handleChange}
                 size="small"
               />
@@ -684,7 +740,8 @@ export default function EditTicket(props: any) {
                   shrink: true,
                 }}
                 name="complaintAttemptsSecondDateAndTime"
-                defaultValue={data.complaintAttemptsSecondDateAndTime}
+                // defaultValue={data.complaintAttemptsSecondDateAndTime}
+                value={data.complaintAttemptsSecondDateAndTime}
                 onChange={handleChange}
                 size="small"
               />
@@ -697,12 +754,14 @@ export default function EditTicket(props: any) {
                   shrink: true,
                 }}
                 name="complaintAttemptsThirdDateAndTime"
-                defaultValue={data.complaintAttemptsThirdDateAndTime}
+                // defaultValue={data.complaintAttemptsThirdDateAndTime}
+                value={data.complaintAttemptsThirdDateAndTime}
                 onChange={handleChange}
                 size="small"
               />
               <TextField
-                disabled={(role === "superAdmin" || role === "Engineer") ? false : true}
+                //code2
+                disabled={role !== "superAdmin"}
                 className={classes.dateField}
                 type="datetime-local"
                 label="Complaint Closed On"
@@ -906,7 +965,8 @@ export default function EditTicket(props: any) {
                 name="status"
                 className={classes.textField}
                 style={{ marginLeft: "2rem" }}
-                defaultValue={data.status}
+                // defaultValue={data.status}
+                value={data.status}
                 onChange={handleChange}
               >
                 <FormControlLabel
