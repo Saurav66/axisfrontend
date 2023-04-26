@@ -304,7 +304,7 @@ export default function AddAiet(props: any) {
                     </Grid>
                     <Grid className={classes.input} item xs>
                         <Typography className={classes.Typography}>
-                            * AEIT Phone Number  / Username
+                            * AEIT Username (For Tickets)
                         </Typography>
                         <Box>
                             <input
