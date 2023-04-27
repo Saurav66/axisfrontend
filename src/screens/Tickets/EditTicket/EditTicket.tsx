@@ -152,7 +152,7 @@ export default function EditTicket(props: any) {
   const disableEdit =
     localStorage.getItem("role") === "superAdmin" ||
       (localStorage.getItem("role") === "Engineer" &&
-        props.history.location.state?.data?.status === "OPEN")
+        data.status === "OPEN")
       ? false
       : true;
 
