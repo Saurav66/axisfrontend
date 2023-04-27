@@ -193,9 +193,11 @@ export default function EditTicket(props: any) {
     if (!calCulation.complaintAttendHours) {
       calculateComplaintAttendHours()
     }
-    getTicketById(props.history.location.state?.data);
-
-  }, [calCulation])
+    if (!data.id) {
+      getTicketById(props.history.location.state?.data);
+    }
+    console.log("ddd", data.id)
+  }, [data.id])
 
   const getTicketById = async (id: string) => {
     const response = await axios
