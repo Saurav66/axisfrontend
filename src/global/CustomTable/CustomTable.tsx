@@ -2,10 +2,13 @@ import { useMemo } from "react";
 import MaterialReactTable from "material-react-table";
 import { createTheme, Grid, ThemeProvider, useTheme } from "@mui/material";
 import { Box, Button } from "@material-ui/core";
+import { useEffect } from "react";
 
 const CustomTable = (props: any) => {
   const globalTheme = useTheme();
   const isAdmin = localStorage.getItem("role") === "superAdmin" || localStorage.getItem("role") === "Admin" ? true : false;
+
+  // useEffect(() => { }, [props])
 
   const tableTheme = useMemo(
     () =>
@@ -53,10 +56,8 @@ const CustomTable = (props: any) => {
     props.handleExportData(rows);
   };
 
-  return (
-
-    // <div style={{ height: 500 }}>
-    <div style={{ height: "auto" }}>
+  const table = () => {
+    return <div style={{ height: "auto" }}>
       <ThemeProvider theme={tableTheme}>
         <MaterialReactTable
           columns={props.columns}
@@ -159,6 +160,10 @@ const CustomTable = (props: any) => {
         />
       </ThemeProvider>
     </div >
+  }
+
+  return (
+    table()
   );
 };
 export default CustomTable;
