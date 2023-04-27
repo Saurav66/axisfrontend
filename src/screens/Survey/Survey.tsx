@@ -107,7 +107,7 @@ export default function Survey() {
       },
       { accessorKey: "machineMake", header: "Machine Make", size: 120 },
       { accessorKey: "model", header: "Model", size: 120 },
-      { accessorKey: "serialNo", header: "Serial No", size: 120 },
+      { accessorKey: "serialNo", header: "Serial No", size: 250 },
       {
         accessorKey: "upsBatteryStatus",
         header: "Ups Battery status",
@@ -177,7 +177,7 @@ export default function Survey() {
       },
       { accessorKey: "machineMake", header: "Machine Make", size: 120 },
       { accessorKey: "model", header: "Model", size: 120 },
-      { accessorKey: "serialNo", header: "Serial No", size: 120 },
+      { accessorKey: "serialNo", header: "Serial No", size: 250 },
       {
         accessorKey: "upsBatteryStatus",
         header: "Ups Battery status",

@@ -1,8 +1,7 @@
 import { useMemo } from "react";
-import MaterialReactTable, { MRT_Row } from "material-react-table";
+import MaterialReactTable from "material-react-table";
 import { createTheme, Grid, ThemeProvider, useTheme } from "@mui/material";
 import { Box, Button } from "@material-ui/core";
-import FileDownloadIcon from "@mui/icons-material/FileDownload";
 
 const CustomTable = (props: any) => {
   const globalTheme = useTheme();
@@ -60,6 +59,8 @@ const CustomTable = (props: any) => {
     <div style={{ height: "auto" }}>
       <ThemeProvider theme={tableTheme}>
         <MaterialReactTable
+          columns={props.columns}
+          data={props.data}
           enableRowNumbers={true}
           enableHiding={false}
           enableSorting={false}
@@ -102,8 +103,6 @@ const CustomTable = (props: any) => {
           enableDensityToggle={false}
           initialState={{ density: "compact", showColumnFilters: true, pagination: { pageSize: 20, pageIndex: 0 }, showGlobalFilter: true }}
           enableRowSelection={false}
-          columns={props.columns}
-          data={props.data}
           muiSelectCheckboxProps={{
             color: "secondary", //makes all checkboxes use the secondary color
           }}

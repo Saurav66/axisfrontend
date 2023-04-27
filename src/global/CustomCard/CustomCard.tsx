@@ -1,5 +1,4 @@
-import { Card, Icon, Typography } from "@mui/material";
-import React from "react";
+import { Card, Typography } from "@mui/material";
 
 interface CustomProps {
   cardColor?: string;
@@ -33,8 +32,6 @@ export default function CustomCard(props: CustomProps) {
           },
         }}
       >
-        {/* <Icon>{props?.icon}</Icon> */}
-        {/* <img src={props?.icon} alt={props.title} width={50} height={50} /> */}
         <Typography variant="h4">{props.title}</Typography>
         <Typography variant="h4" style={{ paddingTop: "1rem" }}>{props.count}</Typography>
       </Card>

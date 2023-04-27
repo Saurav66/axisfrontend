@@ -925,7 +925,7 @@ export default function Tickets(props: any) {
       aria-label="secondary tabs example"
     >
       <Tab value="OPEN" label="OPEN TICKETS" />
-      <Tab value="CLOSED" label="CLOSED TICKETS" />
+      <Tab style={{ marginLeft: "0.5rem" }} value="CLOSED" label="CLOSED TICKETS" />
     </Tabs>
   }
 
