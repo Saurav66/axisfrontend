@@ -1,14 +1,14 @@
 import { Box, Button, Grid, Paper, Typography } from "@mui/material";
 import { makeStyles, createStyles, Theme, useTheme } from "@material-ui/core/styles";
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UrlConstants } from "../../../global/UrlConstants";
-import { Chip, InputLabel, MenuItem, OutlinedInput } from "@material-ui/core";
+import { MenuItem } from "@material-ui/core";
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -102,16 +102,6 @@ export default function AddAiet(props: any) {
             .catch((error) => { });
         setCircleOptions(response);
     };
-
-    // const getSurveyCirclesToAddSurveyor = async () => {
-    //     const response = await axios
-    //         .get(`${UrlConstants.baseUrl}/getSurveyCirclesToAddSurveyor`)
-    //         .then((response: any) => {
-    //             return response.data;
-    //         })
-    //         .catch((error) => { });
-    //     setCircleOptions(response);
-    // };
 
     const handleValidation = () => {
         if (!employeeData.name) {
@@ -337,14 +327,12 @@ export default function AddAiet(props: any) {
                                     size="small"
                                     label="City"
                                     value={employeeData?.city}
-                                    // onChange={handleInputChange}
                                     onChange={handleInputChange}
                                 >
                                     {citiOptions.map((name) => (
                                         <MenuItem
                                             key={name}
                                             value={name}
-                                        // style={getStyles(name, personName, theme)}
                                         >
                                             {name}
                                         </MenuItem>

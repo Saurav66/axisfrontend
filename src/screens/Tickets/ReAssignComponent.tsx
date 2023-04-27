@@ -100,12 +100,6 @@ export default function SimpleDialog(props: SimpleDialogProps) {
         Assign Engineer
       </Typography>
       <select
-        //  style={{
-        //   // color: "black",
-        //   paddingTop: "0.3rem",
-        //   paddingLeft: "2rem",
-        //   textAlign: "left",
-        // }}
         style={{
           width: 240,
           height: 27,
@@ -115,7 +109,6 @@ export default function SimpleDialog(props: SimpleDialogProps) {
         }}
         id="engineer"
         name="engineer"
-        // value={ticketData.circle}
         onChange={handleAssignedEngChange}
       >
         <option value="pleaseSelect">Please Select</option>
@@ -152,7 +145,6 @@ export default function SimpleDialog(props: SimpleDialogProps) {
       >
         Cancel
       </Button>
-      {/* onClick={() => handleListItemClick(email)} */}
       <ToastContainer />
     </Dialog>
   );

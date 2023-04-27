@@ -8,7 +8,6 @@ import AddressComponent from "./AddressComponent";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import moment from "moment";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -517,7 +516,6 @@ export default function AddTicket(props: any) {
           </Typography>
           <Stepper activeStep={activeStep} orientation="vertical">
             {steps.map((label, index) => (
-              // <Step key={label}>
               <Step >
                 <StepLabel>{label}</StepLabel>
                 <StepContent>
@@ -530,7 +528,6 @@ export default function AddTicket(props: any) {
                           marginBottom: 28,
                           minWidth: 110,
                         }}
-                        // disabled={activeStep === 0}
                         onClick={handleBack}
                         className={classes.button}
                       >
@@ -547,7 +544,6 @@ export default function AddTicket(props: any) {
                         variant="contained"
                         color="primary"
                         type="submit"
-                        // onClick={handleNext}
                         className={classes.button}
                       >
                         {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
@@ -558,19 +554,6 @@ export default function AddTicket(props: any) {
               </Step>
             ))}
           </Stepper>
-
-          {/* <Button
-            style={{
-              color: "white",
-              backgroundColor: "#f44336",
-              marginTop: 20,
-              marginBottom: 28,
-              minWidth: 120,
-            }}
-            type="submit"
-          >
-            Submit
-          </Button> */}
         </Paper>
       </Box>
       <Modal

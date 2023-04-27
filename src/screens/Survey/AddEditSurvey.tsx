@@ -1,7 +1,7 @@
 import { Box, Button, Grid, Paper, Typography } from "@mui/material";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -35,10 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function AddEditSurvey(props: any) {
   const classes = useStyles();
   const history = useHistory();
-  const role = localStorage.getItem("role");
   const [circleOptions, setCircleOptions] = useState([]);
-  const [divisionOptions, setDivisionOptions] = useState([]);
-  const [subDivisionOptions, setSubDivisionOptions] = useState([]);
   const [edit, setEdit] = useState(props.history.location.state?.data);
   const [surveyObj, setSurveyObj] = useState({
     id: edit?.id ?? "",
@@ -119,8 +116,6 @@ export default function AddEditSurvey(props: any) {
   };
 
   const handleSubmit = () => {
-    // console.log("surveyObj", surveyObj);
-    // e.preventDefault();
     if (handleValidation()) {
       if (edit) {
         axios
@@ -138,7 +133,6 @@ export default function AddEditSurvey(props: any) {
               theme: "light",
             });
             history.push("/survey")
-            // setTimeout(() => history.push("/survey"), 300);
           })
           .catch(function (error) {
             toast.error("Error while updating!", {
@@ -169,7 +163,6 @@ export default function AddEditSurvey(props: any) {
               theme: "light",
             });
             history.push("/survey")
-            // setTimeout(() => history.push("/survey"), 300);
           })
           .catch(function (error) {
             console.log(error);
@@ -210,7 +203,6 @@ export default function AddEditSurvey(props: any) {
           return response.data;
         })
         .catch((error) => { });
-      // setDivisionOptions(response);
     }
     if (event.target.name === "division") {
       const response = await axios
@@ -221,7 +213,6 @@ export default function AddEditSurvey(props: any) {
           return response.data;
         })
         .catch((error) => { });
-      // setSubDivisionOptions(response);
     }
   };
 
@@ -235,11 +226,6 @@ export default function AddEditSurvey(props: any) {
       }}
     >
       <Box
-      // component="form"
-      // onSubmit={handleSubmit}
-      // noValidate
-      // autoComplete="off"
-      // className={classes.mainBox}
       >
         <Paper className={classes.root} elevation={16}>
           <Typography
@@ -428,19 +414,6 @@ export default function AddEditSurvey(props: any) {
               />
             </Box>
           </Grid>
-          {/* <Grid item xs>
-            <Typography className={classes.Typography}>Status</Typography>
-            <select
-              className={classes.select}
-              id="product"
-              name="status"
-              value={surveyObj.status}
-              onChange={handleInputChange}
-            >
-              <option value="Active">Active</option>
-              <option value="Inactive">Inactive</option>
-            </select>
-          </Grid> */}
           <Button
             style={{
               color: "white",
@@ -450,7 +423,6 @@ export default function AddEditSurvey(props: any) {
               marginBottom: 20,
               minWidth: 120,
             }}
-            // type="submit"
             onClick={() => history.goBack()}
           >
             Cancel
@@ -464,7 +436,6 @@ export default function AddEditSurvey(props: any) {
               marginBottom: 20,
               minWidth: 120,
             }}
-            // type="submit"
             onClick={handleSubmit}
           >
             Submit

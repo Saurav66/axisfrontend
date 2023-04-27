@@ -1,14 +1,7 @@
-import React, { Fragment } from "react";
-
 import {
   Button,
   Grid,
   IconButton,
-  Input,
-  Stack,
-  Tab,
-  Tabs,
-  Typography,
 } from "@mui/material";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
@@ -21,9 +14,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UrlConstants } from "../../global/UrlConstants";
 import axios from "axios";
-import FileUploadIcon from "@mui/icons-material/FileUpload";
-import { Box, CardHeader } from "@material-ui/core";
-// import * as xlsx from "xlsx";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,12 +21,6 @@ const useStyles = makeStyles((theme: Theme) =>
       position: "relative",
       width: "100%",
       height: "10px",
-      // minHeight: "100px",
-      // backgroundColor: "#F0F0F0",
-      // border: "dashed",
-      // borderColor: "#C8C8C8",
-      // cursor: "pointer",
-      // boxSizing: "border-box",
     },
   })
 );
@@ -52,7 +36,6 @@ export default function Survey() {
   const [rows, setRows] = useState([]);
 
   const deleteRow = (row: any) => {
-    console.log("row", row);
     const confirmBox = window.confirm(
       `Do you want to delete Survey of ${row.city} [ ${row.nameOfUtilityContactPerson} - ${row.phoneNoOfUtilityContactPerson} ]`
     );
@@ -328,7 +311,7 @@ export default function Survey() {
         document.body.appendChild(link);
         link.click();
       })
-      .catch((error) => console.log(error));
+      .catch((error) => { });
   };
 
   const onFileDropped = (event: any) => {
@@ -359,7 +342,6 @@ export default function Survey() {
           window.location.reload();
         })
         .catch(function (error) {
-          console.log(error);
           toast.error(error.message, {
             position: "top-right",
             autoClose: 5000,
@@ -386,10 +368,9 @@ export default function Survey() {
     axios
       .post(`${UrlConstants.baseUrl}/exportSurveyById`, payload, {
         method: "GET",
-        responseType: "blob", // important
+        responseType: "blob",
       })
       .then((response) => {
-        console.log("response", response.data);
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
@@ -397,7 +378,7 @@ export default function Survey() {
         document.body.appendChild(link);
         link.click();
       })
-      .catch((error) => console.log(error));
+      .catch((error) => { });
   };
 
   return (

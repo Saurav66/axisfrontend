@@ -7,13 +7,11 @@ import { GridRenderCellParams } from "@mui/x-data-grid";
 import EditIcon from "@material-ui/icons/Edit";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Chip, MenuItem, Typography } from "@material-ui/core";
+import { Chip, Typography } from "@material-ui/core";
 import ResetPassword from "./ResetPassword";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import { UrlConstants } from "../../global/UrlConstants";
-
-// const rows = [...employeesData];
 
 export default function Employees() {
   let history = useHistory();
@@ -217,10 +215,7 @@ export default function Employees() {
                 color: "white",
                 backgroundColor: "#f44336",
                 marginTop: 5,
-                // marginRight: 4,
-                // marginBottom: 20,
                 minWidth: 120,
-                // padding: 5,
               }}
               variant="outlined"
               onClick={handleOnClick}

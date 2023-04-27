@@ -3,7 +3,6 @@ import Tickets from "../Tickets/Tickets";
 import SideBar from "../../global/SideBar/SideBar";
 import EditTicket from "../Tickets/EditTicket/EditTicket";
 import Employees from "../Employee/Employees";
-import EmployeeTicket from "../Tickets/EmployeeTicket";
 import LocationList from "../Location/LocationList";
 import AddEmployee from "../Employee/AddEmployee/AddEmployee";
 import { useEffect } from "react";
@@ -45,7 +44,6 @@ export default function Layout() {
     return (
       <Switch>
         <Route exact path={"/tickets"} component={Tickets} />
-        <Route exact path={"/assignedTickets"} component={EmployeeTicket} />
         <Route exact path={"/edit"} component={EditTicket} />
         <Route exact path={"/employees"} component={Employees} />
         <Route exact path={"/addEmployee"} component={AddEmployee} />

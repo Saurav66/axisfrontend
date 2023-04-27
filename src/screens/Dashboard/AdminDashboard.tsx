@@ -57,15 +57,12 @@ const renderCustomizedLabel = ({
       textAnchor={x > cx ? "start" : "end"}
       dominantBaseline="central"
     >
-      {/* {`${(percent * 100).toFixed(0)}%`} */}
       {`${name}: ${value?.toFixed(0) ?? 0}`}
     </text>
   );
 };
 
 const Item = styled(Paper)(({ theme }) => ({
-  // backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  // backgroundColor: '#f0fcf2',
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
@@ -114,12 +111,10 @@ export default function AdminDashboard() {
 
   return (
     <Box style={{ backgroundColor: "#ffffff" }}>
-      {/* <CardHeader title="Dashboard" /> */}
       <Grid container spacing={2} style={{ marginTop: 10, backgroundColor: "#ffffff" }}>
         <Grid item xs={12} sm={12} md={6} lg={3} xl={3}>
           <CustomCard
             title="Total Tickets"
-            // icon={ConfirmationNumberIcon}
             cardColor="#fcffde"
             count={(ticketCount?.OPEN ?? 0) + (ticketCount?.CLOSED ?? 0)}
             onClick={() => history.push("/tickets")}
@@ -183,20 +178,16 @@ export default function AdminDashboard() {
         <Grid item xs={12} sm={12} md={6} lg={6} xl={9} style={{ paddingTop: 105 }}>
           <Item>
             <CustomCard
-              // title="Total Ticket Created this Month"
               title="All Ticket in Month"
               color="#141414"
               cardColor="#ffeade"
-              // cardWidth="100vw"
               count={ticketCount.currentMonthCreatedTicket}
               onClick={() => history.push("/tickets")}
             ></CustomCard>
           </Item>
           <Item>
             <CustomCard
-              // title="Total Ticket Closed this Month"
               title="Closed Ticket in Month"
-              // cardWidth="100vw"
               cardColor="#e8ffde"
               count={ticketCount.currentMonthClosedTicket}
               onClick={() => history.push("/tickets", { tabValue: "CLOSED" })}

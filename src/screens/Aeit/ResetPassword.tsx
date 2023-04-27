@@ -1,5 +1,4 @@
 import { Box, Grid } from "@material-ui/core";
-import React from "react";
 import { Button, Dialog, DialogTitle, Typography } from "@material-ui/core";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -65,16 +64,9 @@ export default function ResetPassword(props: SimpleDialogProps) {
     <Dialog
       onClose={handleClose}
       open={open}
-    // style={{
-    //   // color: "black",
-    //   paddingTop: "0.3rem",
-    //   paddingLeft: "2rem",
-    //   textAlign: "left",
-    // }}
     >
       <DialogTitle>
         {props?.selectedEmployee?.name}
-        {/* {selectedValue.complaintNo} */}
       </DialogTitle>
       <Typography
         style={{
@@ -110,7 +102,6 @@ export default function ResetPassword(props: SimpleDialogProps) {
         direction="row"
         alignItems="center"
         justifyContent="center"
-      // style={{ minHeight: "100vh" }}
       >
         <Button
           variant="outlined"
@@ -136,8 +127,6 @@ export default function ResetPassword(props: SimpleDialogProps) {
           Submit
         </Button>
       </Grid>
-
-      {/* onClick={() => handleListItemClick(email)} */}
       <ToastContainer />
     </Dialog>
   );

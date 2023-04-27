@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useEffect, useState, useMemo, useLayoutEffect } from "react";
+import { useEffect, useState, useMemo } from "react";
 import CustomTable from "../../global/CustomTable/CustomTable";
 import { useHistory } from "react-router-dom";
 import { GridRenderCellParams } from "@mui/x-data-grid";
@@ -30,8 +30,6 @@ import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import moment from "moment";
-
-// const rawRows = [...ticketData];
 
 const emails = ["username@gmail.com", "user02@gmail.com"];
 
@@ -59,11 +57,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Item = styled(Paper)(({ theme }) => ({
-  // backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  // backgroundColor: '#f0fcf2',
   ...theme.typography.body2,
   padding: theme.spacing(1),
-  // height: 65,
   textAlign: 'center',
   color: theme.palette.text.secondary,
 }));
@@ -84,21 +79,15 @@ export default function Tickets(props: any) {
     props.history.location.state?.tabValue ?? !isAEIT ? "OPEN" : "CLOSED"
   );
   const [OPEN, setOPEN] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState();
   const [engineersList, setengineersList] = useState([]);
-  const [selectedEngineer, setSelectedEngineer] = useState("Saharanpur");
 
-  const [assignedEngineerContactNoList, setAssignedEngineerContactNoList] = useState([]);
   const [selectedPrimaryOption, setSelectedPrimaryOption] = useState("All");
   const [secondaryOptionsList, setSecondaryOptionsList] = useState([]);
-  const [selectedSecondaryOption, setSelectedSecondaryOption] = useState("All");
   const [defaultDateTime, setDefaultDateTime] = useState(['1700-12-12', '9999-12-12']);
 
   useEffect(() => {
     document.title = "Tickets";
-    // window.location.reload();
-
     getTickets(defaultDateTime[0], defaultDateTime[1]);
   }, [tabValue]);
 
@@ -301,23 +290,11 @@ export default function Tickets(props: any) {
                   marginBottom: 20,
                   minWidth: 120,
                 }}
-                // type="submit"
                 onClick={() => handleRejectButton(cell.row.original)
                 }
               >
                 {"Reject"}
               </Button>)}
-
-            {/* <IconButton
-              size="small"
-              style={{ marginLeft: 2, color: "#0000FF" }}
-              tabIndex={cell.hasFocus ? 0 : -1}
-              onClick={() => {
-                editRow(cell.row.original);
-              }}
-            >
-              <EditIcon fontSize="small" />
-            </IconButton> */}
           </>
         ),
       },
@@ -335,8 +312,6 @@ export default function Tickets(props: any) {
       {
         accessorKey: "complaintNo",
         header: "Complaint No",
-        // minSize: 200,
-        // maxSize: 200,
         size: 220,
         muiTableHeadCellProps: {
           align: "left",
@@ -503,9 +478,6 @@ export default function Tickets(props: any) {
       {
         accessorKey: "engineerContactNo",
         header: "Engineer Contact Number",
-        // filterVariant: 'select',
-        // filterSelectOptions: ticketData?.map((ticket: any) => ticket?.engineerContactNo),
-        // filterSelectOptions: rows?.map((ticket: any) => ticket?.engineerContactNo),
         size: 310,
       },
       {
@@ -617,12 +589,7 @@ export default function Tickets(props: any) {
     []
   );
 
-  const assignTask = (event: any) => {
-    history.push("/edit", { data: event });
-  };
-
   const editRow = async (event: any) => {
-    console.log("jjjj", event)
     if (isAdminSuperAdmin) {
       const response = await getEngineersByStatus("Active");
       history.push("/edit", { data: event.id, engineersList: response });
@@ -665,13 +632,10 @@ export default function Tickets(props: any) {
   };
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
-    console.log(newValue);
     setSelectedPrimaryOption("All")
     setSecondaryOptionsList([])
     setTabValue(newValue);
     if (newValue === "OPEN") {
-      // setRows(rawRows);
-      //code8
     } else {
       setRows([]);
     }
@@ -689,8 +653,6 @@ export default function Tickets(props: any) {
   };
 
   const handleDateRangeChange = (date: any) => {
-    console.log("data5 ", date)
-    // console.log(date, "date")
     getTickets(date[0], date[1]);
     setDefaultDateTime(date);
   };
@@ -813,7 +775,6 @@ export default function Tickets(props: any) {
   };
 
   const onFileDropped = (event: any) => {
-    console.log("jjj")
     if (event.target.files[0]?.name) {
       axios
         .post(
@@ -841,7 +802,6 @@ export default function Tickets(props: any) {
           window.location.reload();
         })
         .catch(function (error) {
-          console.log(error);
           toast.error(error.message, {
             position: "top-right",
             autoClose: 5000,
@@ -856,23 +816,7 @@ export default function Tickets(props: any) {
     }
   };
 
-  const handlleExportTicket = () => {
-    // axios
-    //   .get(`${UrlConstants.baseUrl}/exportSurvey/${selectedCity}`)
-    //   .then((response) => {
-    //     const url = window.URL.createObjectURL(new Blob([response.data]));
-    //     const link = document.createElement("a");
-    //     link.href = url;
-    //     link.setAttribute("download", `${selectedCity} - Survey.xlsx`);
-    //     document.body.appendChild(link);
-    //     link.click();
-    //   })
-    //   .catch((error) => console.log(error));
-  };
-
   const handleExportData = (rows: any[]) => {
-    //write code to export
-    // console.log(rows.map((row) => row.original.complaintNo))
     const payload = rows.map((row) => row.original.complaintNo);
     axios
       .post(`${UrlConstants.baseUrl}/exportTicketByComplaintNo`, payload, {
@@ -880,7 +824,6 @@ export default function Tickets(props: any) {
         responseType: 'blob', // important
       })
       .then((response) => {
-        console.log("response", response.data);
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
@@ -888,13 +831,11 @@ export default function Tickets(props: any) {
         document.body.appendChild(link);
         link.click();
       })
-      .catch((error) => console.log(error));
+      .catch((error) => { });
   };
 
   const handlePrimaryOptions = async (event: any) => {
-    //code
     setSelectedPrimaryOption(event.target.value);
-    console.log("Tabbb ", tabValue)
     const response = await axios
       .get(`${UrlConstants.baseUrl}/getDistinctValueByColumn/${event.target.value}/${tabValue}/loggedInUserId/${localStorage.getItem("id")}`)
       .then((response: any) => {
@@ -902,11 +843,10 @@ export default function Tickets(props: any) {
       })
       .catch((error) => { });
     console.log("respooo", response)
-    setSecondaryOptionsList(response) //code3
+    setSecondaryOptionsList(response)
   };
 
   const handleSecondaryOptions = async (event: any) => {
-    //code1
     const response = await axios
       .get(`${UrlConstants.baseUrl}/getTicketBy/${selectedPrimaryOption}/${event.target.value}/${tabValue}/loggedInUserId/${localStorage.getItem("id")}`)
       .then((response: any) => {

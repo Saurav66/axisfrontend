@@ -1,4 +1,4 @@
-import { Box, FormLabel, TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
@@ -6,13 +6,10 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import {
   Button,
-  CircularProgress,
-  Divider,
   FormControl,
   FormControlLabel,
   InputLabel,
   MenuItem,
-  OutlinedInput,
   Radio,
   RadioGroup,
   Select,
@@ -55,13 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: "#FFFFFF",
     },
     AddTicketInput: {
-      // alignContent: "left",
       marginRight: "0.8rem",
-      // padding: theme.spacing(0.4),
-      // color: theme.palette.text.secondary,
-      // textAlign: "center",
-      // marginLeft: "7.2rem",
-      // padding: "15px 15px",
       minWidth: 290,
       minHeight: 30,
     },
@@ -89,7 +80,7 @@ const useStyles = makeStyles((theme: Theme) =>
         marginBottom: "0.7rem",
         marginRight: "0.6rem",
       },
-      backgroundColor: "#FFFFFF", //set text field color
+      backgroundColor: "#FFFFFF",
     },
     dateField: {
       "&&": {
@@ -98,7 +89,7 @@ const useStyles = makeStyles((theme: Theme) =>
         marginRight: "0.6rem",
         width: 220,
       },
-      backgroundColor: "#FFFFFF", //set text field color
+      backgroundColor: "#FFFFFF",
     },
   })
 );
@@ -107,7 +98,6 @@ export default function EditTicket(props: any) {
   const classes = useStyles();
   const history = useHistory();
   const role = localStorage.getItem("role");
-  // const [data, setData] = useState(props.history.location.state?.data);
   const [data, setData] = useState({
     id: "",
     serialNo: null,
@@ -183,7 +173,6 @@ export default function EditTicket(props: any) {
   }
 
   const handleSubmit = (e: any) => {
-    console.log("data1", data)
     e.preventDefault();
     let subUrl = localStorage.getItem("role") === "superAdmin" ? `admin/updateTicket/loggedInUserId/${localStorage.getItem("id")}` : `engineer/updateTicket`
     axios
@@ -226,21 +215,16 @@ export default function EditTicket(props: any) {
 
   const handleDownloadDocument = (e: any) => {
     axios({
-      url: `${UrlConstants.baseUrl}/document/download/${data.docPath}`, //your url
+      url: `${UrlConstants.baseUrl}/document/download/${data.docPath}`,
       method: "GET",
-      responseType: "blob", // important
+      responseType: "blob",
     }).then((response) => {
-      // create file link in browser's memory
       const href = URL.createObjectURL(response.data);
-
-      // create "a" HTML element with href to file & click
       const link = document.createElement("a");
       link.href = href;
-      link.setAttribute("download", data.docPath); //or any other extension
+      link.setAttribute("download", data.docPath);
       document.body.appendChild(link);
       link.click();
-
-      // clean up "a" element & remove ObjectURL
       document.body.removeChild(link);
       URL.revokeObjectURL(href);
     });
@@ -263,7 +247,6 @@ export default function EditTicket(props: any) {
           }
         )
         .then(function (response) {
-          console.log(response);
           setData({ ...data, docPath: response.data.data.name });
           toast.success("Successfully Updated!", {
             position: "top-right",
@@ -293,8 +276,6 @@ export default function EditTicket(props: any) {
   };
 
   const handleAssignedEngChange = (event: any) => {
-    //code1
-    // let value = event?.target.value.split(",");
     let value = event?.target.value;
     let id = value[0];
     let name = value[1];
@@ -327,7 +308,6 @@ export default function EditTicket(props: any) {
     } else {
       response = 0
     }
-    console.log(typeof response, "type 4")
     setData({
       ...data,
       complaintAttendHours: response.toFixed(2),
@@ -381,57 +361,14 @@ export default function EditTicket(props: any) {
               shrink: true,
             }}
             name="complaintDatetime"
-            // defaultValue={data.complaintDatetime}
             value={data.complaintDatetime}
             onChange={handleChange}
             size="small"
           />
-          {/* <TextField
-            disabled
-            className={classes.textField}
-            label="Engineer Assigned"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            name="engineerAssigned"
-            value={data.engineerAssigned}
-            onChange={handleChange}
-            size="small"
-          /> */}
-          {/* <select
-            //  style={{
-            //   // color: "black",
-            //   paddingTop: "0.3rem",
-            //   paddingLeft: "2rem",
-            //   textAlign: "left",
-            // }}
-            disabled={role === "Engineer"}
-            style={{
-              width: 240,
-              height: 27,
-              marginLeft: "2rem",
-              marginRight: "2rem",
-              marginBottom: "2rem",
-            }}
-            name="engineerAssigned"
-            value={data.engineerAssigned}
-            onChange={handleAssignedEngChange}
-
-          >
-            <option value="pleaseSelect">Please Select</option>
-            {engineersList?.map((x: any, y: any) => (
-              <option key={y} value={[x.id, x.name, x.phone]}>
-                {x.name}
-              </option>
-            ))}
-          </select> */}
           <FormControl >
             <InputLabel id="demo-simple-select-label">Engineer Assigned</InputLabel>
             <Select
               className={classes.select}
-              // size="small"
-              // style={{ minWidth: 120 }}
-              //code5
               disabled={role !== "superAdmin"}
               variant='outlined'
               label="Engineer Assigned"
@@ -446,7 +383,6 @@ export default function EditTicket(props: any) {
                   {x.name}
                 </MenuItem>
               ))}
-              {/* <MenuItem value={"pleaseSelect"}>Please Select</MenuItem> */}
             </Select>
           </FormControl>
           <TextField
@@ -470,7 +406,6 @@ export default function EditTicket(props: any) {
               shrink: true,
             }}
             name="engineerAssignedDateTime"
-            // defaultValue={data.engineerAssignedDateTime}
             value={data.engineerAssignedDateTime}
             onChange={handleChange}
             size="small"
@@ -726,7 +661,6 @@ export default function EditTicket(props: any) {
                   shrink: true,
                 }}
                 name="complaintAttemptsFirstDateAndTime"
-                // defaultValue={data.complaintAttemptsFirstDateAndTime}
                 value={data.complaintAttemptsFirstDateAndTime}
                 onChange={handleChange}
                 size="small"
@@ -740,7 +674,6 @@ export default function EditTicket(props: any) {
                   shrink: true,
                 }}
                 name="complaintAttemptsSecondDateAndTime"
-                // defaultValue={data.complaintAttemptsSecondDateAndTime}
                 value={data.complaintAttemptsSecondDateAndTime}
                 onChange={handleChange}
                 size="small"
@@ -754,7 +687,6 @@ export default function EditTicket(props: any) {
                   shrink: true,
                 }}
                 name="complaintAttemptsThirdDateAndTime"
-                // defaultValue={data.complaintAttemptsThirdDateAndTime}
                 value={data.complaintAttemptsThirdDateAndTime}
                 onChange={handleChange}
                 size="small"
@@ -792,7 +724,6 @@ export default function EditTicket(props: any) {
                   className={classes.textField}
                   label="Complaint Completion in days"
                   name="complaintCompletionInDays"
-                  //pending
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -832,7 +763,6 @@ export default function EditTicket(props: any) {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  // name="responseTime"
                   value={
                     data.engineerAssignedDateTime &&
                     moment(data.engineerAssignedDateTime).diff(
@@ -840,17 +770,6 @@ export default function EditTicket(props: any) {
                       "hours"
                     )
                   }
-                  // value={
-                  //   data.engineerAssignedDateTime &&
-                  //     moment(data.engineerAssignedDateTime).diff(
-                  //       moment(data.complaintDatetime),
-                  //       "hours"
-                  //     ) > 0 ? data.engineerAssignedDateTime &&
-                  //   moment(data.engineerAssignedDateTime).diff(
-                  //     moment(data.complaintDatetime),
-                  //     "hours"
-                  //   ) : 0
-                  // }
                   size="small"
                 />
                 <TextField
@@ -898,7 +817,6 @@ export default function EditTicket(props: any) {
                         ? "Replace Image"
                         : "Drag and drop an image here or click"
                     }
-                    // onChange={(files) => console.log("Files:", files)}
                     onChange={(files) => onFileDropped(files)}
                   ></DropzoneArea>
                 </Box>
@@ -946,7 +864,6 @@ export default function EditTicket(props: any) {
             }}
           >
             <TextField
-              // disabled={role === "aeit"}
               className={classes.textField}
               label="Remarks"
               InputLabelProps={{
@@ -965,7 +882,6 @@ export default function EditTicket(props: any) {
                 name="status"
                 className={classes.textField}
                 style={{ marginLeft: "2rem" }}
-                // defaultValue={data.status}
                 value={data.status}
                 onChange={handleChange}
               >

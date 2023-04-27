@@ -3,7 +3,6 @@ import {
   createStyles,
   Grid,
   makeStyles,
-  TextField,
   Theme,
   Typography,
 } from "@material-ui/core";
@@ -19,7 +18,6 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingBottom: "0.7rem",
       paddingLeft: "2rem",
       textAlign: "left",
-      // color: "red",
     },
     Typography: {
       color: "black",
@@ -74,16 +72,6 @@ export default function AddressComponent(props: any) {
     setCircleOptions(response);
   };
 
-  // const getSurveyCirclesToAddSurveyor = async () => {
-  //   const response = await axios
-  //     .get(`${UrlConstants.baseUrl}/getSurveyCirclesToAddSurveyor`)
-  //     .then((response: any) => {
-  //       return response.data;
-  //     })
-  //     .catch((error) => { });
-  //   setCircleOptions(response);
-  // };
-
   const getDivisions = async () => {
     const response = await axios
       .get(`${UrlConstants.baseUrl}/getAllCitiFromSurvey`)
@@ -114,14 +102,6 @@ export default function AddressComponent(props: any) {
 
   return (
     <>
-      {/* <Box sx={{ fontWeight: "bold" }}>
-        <Typography
-          style={{ fontWeight: 800 }}
-          className={classes.TypographyHeading}
-        >
-          Location Details:
-        </Typography>
-      </Box> */}
       <Grid className={classes.input} item xs>
         <Typography className={classes.Typography}>
           Village/Substation
@@ -177,23 +157,6 @@ export default function AddressComponent(props: any) {
           />
         </Box>
       </Grid>
-      {/* <Grid item xs>
-        <Typography className={classes.Typography}>City/Division</Typography>
-        <select
-          className={classes.select}
-          id="division"
-          name="division"
-          value={props.ticketData.division}
-          onChange={handleLocationChange}
-        >
-          <option value="pleaseSelect">Please Select</option>
-          {cityOptions.map((x, y) => (
-            <option key={y} value={x}>
-              {x}
-            </option>
-          ))}
-        </select>
-      </Grid> */}
       <Grid item xs>
         <Typography className={classes.Typography}>Pincode</Typography>
         <Box>
