@@ -74,7 +74,30 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: "center",
       color: theme.palette.text.secondary,
     },
+    paper1: {
+      padding: theme.spacing(1.5),
+      marginTop: 20,
+      textAlign: "center",
+      maxWidth: 950,
+      minHeight: 450,
+      color: theme.palette.text.secondary,
+    },
+    paper2: {
+      padding: theme.spacing(1.5),
+      textAlign: "center",
+      maxWidth: 1300,
+      color: theme.palette.text.secondary,
+    },
     textField: {
+      "&&": {
+        marginTop: "0.7rem",
+        marginBottom: "0.7rem",
+        marginRight: "0.6rem",
+      },
+      backgroundColor: "#FFFFFF",
+    },
+    textFieldForCal: {
+      width: 250,
       "&&": {
         marginTop: "0.7rem",
         marginBottom: "0.7rem",
@@ -134,11 +157,20 @@ export default function EditTicket(props: any) {
     aeitStatus: null,
     approverName: null,
     approverPhone: null,
-    complaintAttendHours: "",
+    // complaintAttendHours: 0,
+    // complaintCompletionInDays: null,
+    // complaintCompletionInHour: 0
+  });
+  const [calCulation, setCalculation] = useState({
+    complaintAttendHours: 0,
     complaintCompletionInDays: null,
-    complaintCompletionInHour: null
+    complaintCompletionInHour: 0,
+    engineerResponseTime: 0,
+    adminResponseTime: 0,
+    totalResponseTime: 0,
   });
   const [engineersList, setEngineersList] = useState(props.history.location.state?.engineersList);
+  const [complaintCompletionInHour, setComplaintCompletionInHour] = useState(0);
   const disableEdit =
     localStorage.getItem("role") === "superAdmin" ||
       (localStorage.getItem("role") === "Engineer" &&
@@ -158,9 +190,12 @@ export default function EditTicket(props: any) {
   };
 
   useEffect(() => {
+    if (!calCulation.complaintAttendHours) {
+      calculateComplaintAttendHours()
+    }
     getTicketById(props.history.location.state?.data);
-    calculateComplaintAttendHours()
-  }, [])
+
+  }, [calCulation])
 
   const getTicketById = async (id: string) => {
     const response = await axios
@@ -288,41 +323,33 @@ export default function EditTicket(props: any) {
     });
   };
 
-  const calculateComplaintAttendHours = () => {
-    let response = 0.0;
+  const calculateComplaintAttendHours = async () => {
+    //code
+    let response = 0;
     if (data.complaintAttemptsThirdDateAndTime !== null) {
-      response = moment(data.complaintAttemptsThirdDateAndTime).diff(
-        moment(data.complaintDatetime),
-        "hours", true
-      )
+      response = +(Math.floor(moment.duration(moment.duration(moment(data.complaintAttemptsThirdDateAndTime).diff(moment(data.complaintDatetime))).asMilliseconds().toFixed(), 'milliseconds').asHours()) + "." + (Math.floor(moment.duration(moment.duration(moment(data.complaintAttemptsThirdDateAndTime).diff(moment(data.complaintDatetime))).asMilliseconds().toFixed(), 'milliseconds').asMinutes()) - Math.floor(moment.duration(moment.duration(moment(data.complaintAttemptsThirdDateAndTime).diff(moment(data.complaintDatetime))).asMilliseconds().toFixed(), 'milliseconds').asHours()) * 60))
     } else if (data.complaintAttemptsSecondDateAndTime !== null) {
-      response = moment(data.complaintAttemptsSecondDateAndTime).diff(
-        moment(data.complaintDatetime),
-        "hours"
-      )
+      response = +(Math.floor(moment.duration(moment.duration(moment(data.complaintAttemptsSecondDateAndTime).diff(moment(data.complaintDatetime))).asMilliseconds().toFixed(), 'milliseconds').asHours()) + "." + (Math.floor(moment.duration(moment.duration(moment(data.complaintAttemptsSecondDateAndTime).diff(moment(data.complaintDatetime))).asMilliseconds().toFixed(), 'milliseconds').asMinutes()) - Math.floor(moment.duration(moment.duration(moment(data.complaintAttemptsSecondDateAndTime).diff(moment(data.complaintDatetime))).asMilliseconds().toFixed(), 'milliseconds').asHours()) * 60))
     } else if (data.complaintAttemptsFirstDateAndTime !== null) {
-      response = (moment(data.complaintAttemptsFirstDateAndTime).diff(
-        moment(data.complaintDatetime),
-        "hours", true
-      ))
+      response = +(Math.floor(moment.duration(moment.duration(moment(data.complaintAttemptsFirstDateAndTime).diff(moment(data.complaintDatetime))).asMilliseconds().toFixed(), 'milliseconds').asHours()) + "." + (Math.floor(moment.duration(moment.duration(moment(data.complaintAttemptsFirstDateAndTime).diff(moment(data.complaintDatetime))).asMilliseconds().toFixed(), 'milliseconds').asMinutes()) - Math.floor(moment.duration(moment.duration(moment(data.complaintAttemptsFirstDateAndTime).diff(moment(data.complaintDatetime))).asMilliseconds().toFixed(), 'milliseconds').asHours()) * 60))
     } else {
       response = 0
     }
-    setData({
-      ...data,
-      complaintAttendHours: response.toFixed(2),
-      complaintCompletionInHour: data.complaintCompletionDatetime &&
-        moment(data.complaintCompletionDatetime).diff(
-          moment(data.complaintDatetime),
-          "hours", true
-        ).toFixed(2),
+    setCalculation({
+      ...calCulation,
+      complaintAttendHours: response,
+      complaintCompletionInHour: +(Math.floor(moment.duration(moment.duration(moment(data.complaintCompletionDatetime).diff(moment(data.complaintDatetime))).asMilliseconds().toFixed(), 'milliseconds').asHours()) + "." + (Math.floor(moment.duration(moment.duration(moment(data.complaintCompletionDatetime).diff(moment(data.complaintDatetime))).asMilliseconds().toFixed(), 'milliseconds').asMinutes()) - Math.floor(moment.duration(moment.duration(moment(data.complaintCompletionDatetime).diff(moment(data.complaintDatetime))).asMilliseconds().toFixed(), 'milliseconds').asHours()) * 60)),
       complaintCompletionInDays: data.complaintCompletionDatetime &&
         moment(data.complaintCompletionDatetime).diff(
           moment(data.complaintDatetime),
           "days"
-        )
-    });
+        ),
+      engineerResponseTime: +(Math.floor(moment.duration(moment.duration(moment(data.complaintCompletionDatetime).diff(moment(data.engineerAssignedDateTime))).asMilliseconds().toFixed(), 'milliseconds').asHours()) + "." + (Math.floor(moment.duration(moment.duration(moment(data.complaintCompletionDatetime).diff(moment(data.engineerAssignedDateTime))).asMilliseconds().toFixed(), 'milliseconds').asMinutes()) - Math.floor(moment.duration(moment.duration(moment(data.complaintCompletionDatetime).diff(moment(data.engineerAssignedDateTime))).asMilliseconds().toFixed(), 'milliseconds').asHours()) * 60)),
+      adminResponseTime: +(Math.floor(moment.duration(moment.duration(moment(data.engineerAssignedDateTime).diff(moment(data.complaintDatetime))).asMilliseconds().toFixed(), 'milliseconds').asHours()) + "." + (Math.floor(moment.duration(moment.duration(moment(data.engineerAssignedDateTime).diff(moment(data.complaintDatetime))).asMilliseconds().toFixed(), 'milliseconds').asMinutes()) - Math.floor(moment.duration(moment.duration(moment(data.engineerAssignedDateTime).diff(moment(data.complaintDatetime))).asMilliseconds().toFixed(), 'milliseconds').asHours()) * 60)),
+      totalResponseTime: +(Math.floor(moment.duration(moment.duration(moment(data.complaintCompletionDatetime).diff(moment(data.complaintDatetime))).asMilliseconds().toFixed(), 'milliseconds').asHours()) + "." + (Math.floor(moment.duration(moment.duration(moment(data.complaintCompletionDatetime).diff(moment(data.complaintDatetime))).asMilliseconds().toFixed(), 'milliseconds').asMinutes()) - Math.floor(moment.duration(moment.duration(moment(data.complaintCompletionDatetime).diff(moment(data.complaintDatetime))).asMilliseconds().toFixed(), 'milliseconds').asHours()) * 60)),
+    })
   }
+
 
   return (
     <>
@@ -425,7 +452,7 @@ export default function EditTicket(props: any) {
         </Paper>
         <Grid container spacing={2}>
           <Grid item xs>
-            <Paper className={classes.paper}>
+            <Paper className={classes.paper1}>
               <Typography variant="h5">COMPLAIMENT DETAILS</Typography>
               <hr />
               <TextField
@@ -589,7 +616,7 @@ export default function EditTicket(props: any) {
             </Paper>
           </Grid>
           <Grid item xs>
-            <Paper className={classes.paper}>
+            <Paper className={classes.paper2}>
               <Typography variant="h5">DETAILS FILLED BY ENGINNER</Typography>
               <hr />
               <TextField
@@ -708,100 +735,76 @@ export default function EditTicket(props: any) {
               <Box>
                 <TextField
                   disabled
-                  className={classes.textField}
-                  label="Complaint  Attend Hours"
+                  className={classes.textFieldForCal}
+                  label="Complaint  Attend Hours (HH:MM)"
                   InputLabelProps={{
                     shrink: true,
                   }}
                   name="complaintAttendHours"
                   type="number"
-                  defaultValue={data?.complaintAttendHours}
-                  value={data?.complaintAttendHours}
+                  defaultValue={calCulation?.complaintAttendHours}
+                  value={calCulation?.complaintAttendHours}
                   size="small"
                 />
                 <TextField
                   disabled
-                  className={classes.textField}
+                  className={classes.textFieldForCal}
                   label="Complaint Completion in days"
                   name="complaintCompletionInDays"
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  value={
-                    data.complaintCompletionDatetime &&
-                    moment(data.complaintCompletionDatetime).diff(
-                      moment(data.complaintDatetime),
-                      "days"
-                    )
-                  }
+                  value={calCulation.complaintCompletionInDays}
                   size="small"
                 />
                 <TextField
                   disabled
-                  className={classes.textField}
-                  label="Complaint Completion in Hours"
+                  className={classes.textFieldForCal}
+                  label="Complaint Completion in Hours (HH:MM)"
                   name="complaintCompletionInHour"
-                  //pendingfix
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  value={
-                    data.complaintCompletionDatetime &&
-                    moment(data.complaintCompletionDatetime).diff(
-                      moment(data.complaintDatetime),
-                      "hours", true
-                    ).toFixed(2)
-                  }
+                  // value={
+                  //   data.complaintCompletionDatetime &&
+                  //   moment(data.complaintCompletionDatetime).diff(
+                  //     moment(data.complaintDatetime)
+                  //   )
+                  // }
+                  value={calCulation?.complaintCompletionInHour}
+                  // value={Math.floor(moment.duration(moment.duration(moment(data.complaintCompletionDatetime).diff(moment(data.complaintDatetime))).asMilliseconds().toFixed(), 'milliseconds').asHours()) + "." + (Math.floor(moment.duration(moment.duration(moment(data.complaintCompletionDatetime).diff(moment(data.complaintDatetime))).asMilliseconds().toFixed(), 'milliseconds').asMinutes()) - Math.floor(moment.duration(moment.duration(moment(data.complaintCompletionDatetime).diff(moment(data.complaintDatetime))).asMilliseconds().toFixed(), 'milliseconds').asHours()) * 60)}
                   size="small"
                 />
               </Box>
               <Box>
                 <TextField
                   disabled
-                  className={classes.textField}
-                  label="Admin Response Time ( In Hours )"
+                  className={classes.textFieldForCal}
+                  label="Admin Response Time In Hours (HH:MM)"
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  value={
-                    data.engineerAssignedDateTime &&
-                    moment(data.engineerAssignedDateTime).diff(
-                      moment(data.complaintDatetime),
-                      "hours"
-                    )
-                  }
+                  value={calCulation?.adminResponseTime}
                   size="small"
                 />
                 <TextField
                   disabled
-                  className={classes.textField}
-                  label="Engineer Response Time ( In Hours )"
+                  className={classes.textFieldForCal}
+                  label="Engineer Response Time In Hours (HH:MM)"
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  value={
-                    data.complaintCompletionDatetime && data.engineerAssignedDateTime &&
-                    moment(data.complaintCompletionDatetime).diff(
-                      moment(data.engineerAssignedDateTime),
-                      "hours"
-                    )
-                  }
+                  value={calCulation?.engineerResponseTime}
                   size="small"
                 />
                 <TextField
                   disabled
-                  className={classes.textField}
-                  label="Total Response Time ( In Hours )"
+                  className={classes.textFieldForCal}
+                  label="Total Response Time In Hours (HH:MM)"
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  value={
-                    data.complaintCompletionDatetime &&
-                    moment(data.complaintCompletionDatetime).diff(
-                      moment(data.complaintDatetime),
-                      "hours"
-                    )
-                  }
+                  value={calCulation.totalResponseTime}
                   size="small"
                 />
               </Box>
