@@ -277,7 +277,7 @@ export default function EditTicket(props: any) {
           });
         })
         .catch(function (error) {
-          toast.error("Error while Uploading Document!", {
+          toast.error("Maximum Image size should be 1MB!", {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,

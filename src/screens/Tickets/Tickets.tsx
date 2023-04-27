@@ -207,8 +207,8 @@ export default function Tickets(props: any) {
 
   const columnsForAEIT = useMemo(
     () => [
-      { accessorKey: "serialNo", header: "S/no.", size: 120 },
-      { accessorKey: "complaintNo", header: "Complaint No", size: 90 },
+      { accessorKey: "serialNo", header: "S/no.", size: 110 },
+      { accessorKey: "complaintNo", header: "Complaint No", size: 150 },
       {
         accessorKey: "complaintDatetime",
         header: "Complaint Date & Time",
@@ -333,14 +333,14 @@ export default function Tickets(props: any) {
       {
         accessorKey: "serialNo",
         header: "S/no.",
-        size: 120,
+        size: 150,
       },
       {
         accessorKey: "complaintNo",
         header: "Complaint No",
         // minSize: 200,
         // maxSize: 200,
-        size: 150,
+        size: 220,
         muiTableHeadCellProps: {
           align: "left",
         },
@@ -351,7 +351,7 @@ export default function Tickets(props: any) {
       {
         accessorKey: "complaintDatetime",
         header: "Complaint Date & Time",
-        size: 200,
+        size: 290,
         enableSorting: false,
         // Cell: (cell: GridRenderCellParams) => (moment(cell.row.original.complaintDatetime).format("YYYY-MM-DD hh:mm A")),
         Cell: (cell: GridRenderCellParams) => (moment(cell.row.original.complaintDatetime).format("YYYY-MM-DD HH:mm")),
@@ -359,27 +359,27 @@ export default function Tickets(props: any) {
       {
         accessorKey: "circle",
         header: "Circle",
-        size: 180,
+        size: 160,
       },
       {
         accessorKey: "complainantName",
         header: "Complainant Name",
-        size: 180,
+        size: 260,
       },
       {
         accessorKey: "engineerAssigned",
         header: "Engineer Assigned",
-        size: 180,
+        size: 250,
       },
       {
         accessorKey: "engineerContactNo",
         header: "Engineer Contact Number",
-        size: 220,
+        size: 310,
       },
       {
         accessorKey: "aeitStatus",
         header: "AEIT Status",
-        size: 120,
+        size: 210,
         Cell: (cell: GridRenderCellParams) => (
           <>
             {cell.row.original.aeitStatus === "Approved" ? (
@@ -393,7 +393,7 @@ export default function Tickets(props: any) {
       {
         accessorKey: "complaintCompletionDatetime",
         header: "Complaint Completion Date & Time",
-        size: 280,
+        size: 390,
         enableSorting: false,
         Cell: (cell: GridRenderCellParams) => (
           <TextField
@@ -413,7 +413,7 @@ export default function Tickets(props: any) {
       {
         accessorKey: "Re-Assign",
         header: "Re-Assign",
-        size: 120,
+        size: 210,
         muiTableHeadCellProps: {
           align: "center",
         },
@@ -434,7 +434,7 @@ export default function Tickets(props: any) {
       {
         accessorKey: "View/Edit",
         header: "View/Edit",
-        size: 120,
+        size: 190,
         muiTableHeadCellProps: {
           align: "center",
         },
@@ -465,14 +465,14 @@ export default function Tickets(props: any) {
       {
         accessorKey: "serialNo",
         header: "S/no.",
-        size: 120,
+        size: 150,
       },
       {
         accessorKey: "complaintNo",
         header: "Complaint No",
         // minSize: 200,
         // maxSize: 200,
-        size: 120,
+        size: 220,
         muiTableHeadCellProps: {
           align: "left",
         },
@@ -483,7 +483,7 @@ export default function Tickets(props: any) {
       {
         accessorKey: "complaintDatetime",
         header: "Complaint Date & Time",
-        size: 200,
+        size: 290,
         enableSorting: false,
         // Cell: (cell: GridRenderCellParams) => (moment(cell.row.original.complaintDatetime).format("YYYY-MM-DD hh:mm A")),
         Cell: (cell: GridRenderCellParams) => (moment(cell.row.original.complaintDatetime).format("YYYY-MM-DD HH:mm")),
@@ -491,26 +491,17 @@ export default function Tickets(props: any) {
       {
         accessorKey: "circle",
         header: "Circle",
-        size: 180,
+        size: 160,
       },
       {
         accessorKey: "complainantName",
         header: "Complainant Name",
-        size: 180,
+        size: 260,
       },
       {
         accessorKey: "engineerAssigned",
         header: "Engineer Assigned",
-        //code1
-        // filterVariant: 'select',
-        // filterSelectOptions: ticketData?.map((ticket: any) => ticket?.engineerAssigned),
-        // filterSelectOptions: secondaryOptionsList,
-        // filterSelectOptions: [
-        //   { text: 'Male', value: 'Male' },
-        //   { text: 'Female', value: 'Female' },
-        //   { text: 'Other', value: 'Other' },
-        // ],
-        size: 180,
+        size: 250,
       },
       {
         accessorKey: "engineerContactNo",
@@ -518,12 +509,12 @@ export default function Tickets(props: any) {
         // filterVariant: 'select',
         // filterSelectOptions: ticketData?.map((ticket: any) => ticket?.engineerContactNo),
         // filterSelectOptions: rows?.map((ticket: any) => ticket?.engineerContactNo),
-        size: 220,
+        size: 310,
       },
       {
         accessorKey: "aeitStatus",
         header: "AEIT Status",
-        size: 120,
+        size: 210,
         Cell: (cell: GridRenderCellParams) => (
           <>
             {cell.row.original.aeitStatus === "Approved" ? (
@@ -537,7 +528,7 @@ export default function Tickets(props: any) {
       {
         accessorKey: "complaintCompletionDatetime",
         header: "Complaint Completion Date & Time",
-        size: 280,
+        size: 390,
         enableSorting: false,
         Cell: (cell: GridRenderCellParams) => (
           <TextField
@@ -557,7 +548,7 @@ export default function Tickets(props: any) {
       {
         accessorKey: "Re-Assign",
         header: "Re-Assign",
-        size: 120,
+        size: 210,
         muiTableHeadCellProps: {
           align: "center",
         },
@@ -578,7 +569,7 @@ export default function Tickets(props: any) {
       {
         accessorKey: "View/Edit",
         header: "View/Edit",
-        size: 120,
+        size: 190,
         muiTableHeadCellProps: {
           align: "center",
         },
