@@ -702,8 +702,7 @@ export default function EditTicket(props: any) {
                 size="small"
               />
               <TextField
-                //code2
-                disabled={role !== "superAdmin"}
+                disabled={(role === "superAdmin" || role === "Engineer") ? false : true}
                 className={classes.dateField}
                 type="datetime-local"
                 label="Complaint Closed On"

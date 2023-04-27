@@ -100,6 +100,8 @@ export default function Tickets(props: any) {
 
   useEffect(() => {
     document.title = "Tickets";
+    // window.location.reload();
+
     getTickets(defaultDateTime[0], defaultDateTime[1]);
   }, [tabValue]);
 
@@ -632,8 +634,11 @@ export default function Tickets(props: any) {
   };
 
   const editRow = async (event: any) => {
-    const response = await getEngineersByStatus("Active");
-    history.push("/edit", { data: event, engineersList: response });
+    if (isAdminSuperAdmin) {
+      const response = await getEngineersByStatus("Active");
+      history.push("/edit", { data: event, engineersList: response });
+    }
+    history.push("/edit", { data: event });
   };
 
   const deleteRow = (complaintNumber: string) => {
