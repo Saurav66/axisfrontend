@@ -194,7 +194,7 @@ export default function EditTicket(props: any) {
   };
 
   const onFileDropped = (files: any) => {
-    if (!disableEdit) {
+    if ((role === "Engineer" || role === "superAdmin")) {
       if (files[0]?.name) {
         axios
           .post(
