@@ -101,7 +101,11 @@ export default function AddTicket(props: any) {
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    if (activeStep === 0) {
+      window.location.replace("https://axisinfoline.com");
+    } else {
+      setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    }
   };
 
   const handleReset = () => {
@@ -521,7 +525,12 @@ export default function AddTicket(props: any) {
                   <div className={classes.actionsContainer}>
                     <div>
                       <Button
-                        disabled={activeStep === 0}
+                        style={{
+                          marginTop: 20,
+                          marginBottom: 28,
+                          minWidth: 110,
+                        }}
+                        // disabled={activeStep === 0}
                         onClick={handleBack}
                         className={classes.button}
                       >

@@ -249,6 +249,11 @@ export default function AddAiet(props: any) {
         }
     };
 
+    const handleCancel = (e: any) => {
+        e.preventDefault();
+        history.goBack();
+    };
+
     return (
         <div
             style={{
@@ -378,12 +383,26 @@ export default function AddAiet(props: any) {
                         </select>
                     </Grid>
                     <Button
+                        variant="outlined"
+                        style={{
+                            color: "white",
+                            backgroundColor: "#900080",
+                            marginTop: 20,
+                            marginRight: 4,
+                            marginBottom: 20,
+                            minWidth: 100,
+                        }}
+                        onClick={handleCancel}
+                    >
+                        Cancel
+                    </Button>
+                    <Button
                         style={{
                             color: "white",
                             backgroundColor: "#f44336",
                             marginTop: 20,
                             marginBottom: 28,
-                            minWidth: 120,
+                            minWidth: 100,
                         }}
                         type="submit"
                     >

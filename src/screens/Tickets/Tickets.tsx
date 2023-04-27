@@ -26,12 +26,9 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UrlConstants } from "../../global/UrlConstants";
-import LinearProgress from '@mui/material/LinearProgress';
 import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import { CardHeader } from '@mui/material';
 import moment from "moment";
 
 // const rawRows = [...ticketData];
