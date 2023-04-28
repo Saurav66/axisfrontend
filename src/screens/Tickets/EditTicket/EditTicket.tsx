@@ -180,8 +180,7 @@ export default function EditTicket(props: any) {
 
   const disableStatusChange =
     localStorage.getItem("role") === "superAdmin" || localStorage.getItem("role") === "Admin" ||
-      (localStorage.getItem("role") === "Engineer" &&
-        props.history.location.state?.data?.status === "OPEN")
+      (localStorage.getItem("role") === "Engineer")
       ? false
       : true;
 
