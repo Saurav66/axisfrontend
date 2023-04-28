@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import "./styles.css";
 import {
   AppBar,
   Toolbar,
@@ -15,6 +14,7 @@ import {
   CssBaseline,
   Drawer,
   Typography,
+  Chip,
 } from "@material-ui/core";
 import {
   Menu,
@@ -88,8 +88,13 @@ const listItemsForAEIT = [
 export default function SideBar() {
   const classes = useStyles();
   let history = useHistory();
-  const role = localStorage.getItem("role");
-  const isAdmin = localStorage.getItem("role") === "superAdmin" || localStorage.getItem("role") === 'Admin' ? true : false;
+  const userRole = localStorage.getItem("role");
+  const userName = localStorage.getItem("userName");
+  const isEngineer = userRole === "Engineer";
+  const isAdmin = userRole === "Admin";
+  const isSuperAdmin = userRole === "superAdmin";
+  const isAeit = userRole === "aeit";
+  const isAdminAndSuperAdmin = localStorage.getItem("role") === "superAdmin" || localStorage.getItem("role") === 'Admin' ? true : false;
   const [open, setOpen] = useState(false);
 
   const toggleSlider = () => {
@@ -110,7 +115,7 @@ export default function SideBar() {
       />
       <Divider />
       <List>
-        {role === "aeit"
+        {isAeit
           ? listItemsForAEIT.map((listItem, index) => (
             <ListItem
               onClick={() => redirectToComponent(listItem.url)}
@@ -149,6 +154,25 @@ export default function SideBar() {
     window.location.replace("https://axisinfoline.com");
   };
 
+  const topLeftLabel = () => {
+    let label;
+    if (isAdminAndSuperAdmin) {
+      label = userName;
+    } else if (isEngineer) {
+      const cities = [...JSON.parse(localStorage.getItem("city") ?? "")].map((name: string) => (
+        <Chip variant="outlined" style={{ color: "white" }} label={name} />
+      ))
+      label = <><label>
+        {userName} {cities}
+
+      </label>
+      </>
+    } else {
+      label = `${userName} ( ${localStorage.getItem("circle")} )`
+    }
+    return label;
+  }
+
   return (
     <>
       <CssBaseline />
@@ -156,7 +180,7 @@ export default function SideBar() {
         <Box style={{ position: "absolute", right: 20, top: 5, zIndex: 10 }}>
           <IconButton onClick={logOutButton}>
             <Typography style={{ color: "#FFFFFF", marginRight: "0.8rem" }}>
-              {role}
+              {userRole}
             </Typography>
             <LogoutIcon style={{ fill: "#FFFFFF" }} />
           </IconButton>
@@ -168,12 +192,12 @@ export default function SideBar() {
           }}
         >
           <Toolbar>
-            {(role === "Admin" || role === "superAdmin" || role === "aeit") && (
+            {(isAdmin || isSuperAdmin || isAeit) && (
               <IconButton onClick={toggleSlider}>
                 <Menu style={{ fill: "#FFFFFF" }} />
               </IconButton>
             )}
-            <Typography>{isAdmin ? `${localStorage.getItem("userName")}` : role === "Engineer" ? `${localStorage.getItem("userName")} ( ${localStorage.getItem("city")} )` : `${localStorage.getItem("userName")} ( ${localStorage.getItem("circle")} )`}</Typography>
+            <Typography>{topLeftLabel()}</Typography>
             <Drawer open={open} anchor="left" onClose={toggleSlider}>
               {sideList()}
             </Drawer>
